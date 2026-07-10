@@ -12,8 +12,8 @@ npm run dev
 ## Walidacja
 
 ```bash
-npm run lint
-npm run build
+npm run validate
+npm run build:pages
 ```
 
 ## GitHub Pages
@@ -45,3 +45,5 @@ src/config/companyConfig.ts
 ```
 
 Widget rezerwacji jest przygotowany jako osobna integracja do podłączenia po wyborze dostawcy systemu medycznego. Dokumenty prawne powinny przejść finalny review przed publikacją.
+
+Aktualna konfiguracja nie przyjmuje zgłoszeń przez stronę i nie ładuje widgetu zewnętrznego. `allowSearchIndexing` pozostaje wyłączone do czasu weryfikacji danych placówki. Przed aktywacją integracji Medlife/Medfile należy potwierdzić nazwę dostawcy, specyfikację API/widgetu, model autoryzacji i zasady przetwarzania danych.

@@ -1,4 +1,8 @@
 export const companyConfig = {
+  // Keep search indexing disabled until the controller verifies every public value below.
+  publicDataVerified: false,
+  allowSearchIndexing: false,
+  websiteUrl: "https://kpastuszak1506-tech.github.io/klinika-warszawa-pages",
   companyName: "Klinika Warszawa",
   shortName: "Klinika Warszawa",
   legalForm: "podmiot leczniczy",
@@ -11,19 +15,28 @@ export const companyConfig = {
   phone: "+48 22 123 45 67",
   email: "kontakt@klinikawarszawa.pl",
   privacyEmail: "rodo@klinikawarszawa.pl",
-  bookingUrl: "https://rezerwacje.klinikawarszawa.pl",
   firstVisitPrice: "300",
   followUpVisitPrice: "200",
   bookingWidget: {
     enabled: false,
-    provider: "custom" as "docplanner" | "medfile" | "booksy" | "custom",
-    providerName: "DO_UZUPEŁNIENIA_SYSTEM_REZERWACJI",
-    mode: "placeholder" as "placeholder" | "externalUrl" | "iframe" | "api",
-    externalUrl: "DO_UZUPEŁNIENIA_LINK_DO_REZERWACJI",
+    provider: "medlife" as
+      | "medlife"
+      | "medfile"
+      | "docplanner"
+      | "booksy"
+      | "custom",
+    providerName: "Medlife",
+    mode: "api" as "placeholder" | "externalUrl" | "iframe" | "api",
+    externalUrl: "",
     iframeSrc: "",
     apiEndpoint: "",
     allowedOrigin: "",
+    requiresSecureProxy: true,
   },
 };
 
 export type CompanyConfig = typeof companyConfig;
+
+// Two explicit confirmations prevent an accidental SEO launch with sample data.
+export const isPublicReleaseReady =
+  companyConfig.publicDataVerified && companyConfig.allowSearchIndexing;

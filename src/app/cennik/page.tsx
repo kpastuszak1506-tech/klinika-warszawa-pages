@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { PriceTable } from "@/components/PriceTable";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Cennik",
   description:
     "Cennik stacjonarnych konsultacji lekarskich w Warszawie.",
-};
+  path: "/cennik",
+});
 
 export default function PricingPage() {
   return (

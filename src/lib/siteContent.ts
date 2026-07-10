@@ -27,10 +27,7 @@ export const shortComplianceText =
   "Decyzję podejmuje lekarz po osobistym badaniu. Rezerwacja wizyty nie gwarantuje otrzymania recepty.";
 
 export const formMedicalDataNotice =
-  "Formularz służy wyłącznie do kontaktu i rezerwacji wizyty. Nie należy wpisywać w nim informacji o stanie zdrowia, rozpoznaniach, przyjmowanych lekach ani wynikach badań. Informacje medyczne są omawiane wyłącznie podczas wizyty z lekarzem lub przekazywane przez zabezpieczony system dokumentacji medycznej.";
-
-export const formSuccessMessage =
-  "Dziękujemy za wiadomość. Skontaktujemy się w sprawie rezerwacji terminu. Prosimy nie przesyłać danych medycznych przez zwykłą korespondencję e-mail. Dokumentacja medyczna jest omawiana podczas wizyty lub przekazywana przez zabezpieczony system.";
+  "Strona i przyszły widget rezerwacji służą wyłącznie do kontaktu organizacyjnego i rezerwacji wizyty. Nie należy wpisywać w nich informacji o stanie zdrowia, rozpoznaniach, przyjmowanych lekach ani wynikach badań. Informacje medyczne są omawiane wyłącznie podczas wizyty z lekarzem lub przekazywane przez zabezpieczony system dokumentacji medycznej.";
 
 export const processSteps = [
   {
@@ -89,7 +86,7 @@ export const faqItems = [
   {
     question: "Czy mogę opisać stan zdrowia w formularzu?",
     answer:
-      "Nie. Formularz służy tylko do kontaktu i rezerwacji terminu. Dane medyczne należy omawiać podczas wizyty albo przekazywać przez zabezpieczony system dokumentacji medycznej.",
+      "Nie. Kontakt przez stronę służy wyłącznie sprawom organizacyjnym. Dane medyczne należy omawiać podczas wizyty albo przekazywać przez zabezpieczony system dokumentacji medycznej.",
   },
 ];
 
@@ -101,11 +98,11 @@ export const patientPreparationItems = [
 ];
 
 export const noMedicalFormFields = [
-  "Formularz nie zawiera pola opisu sprawy.",
-  "Formularz nie zawiera pola załączników.",
-  "Formularz nie służy do przekazywania dokumentacji medycznej.",
-  "Formularz nie służy do oceny stanu zdrowia przed wizytą.",
+  "Obecna strona nie udostępnia pola opisu sprawy ani załączników.",
+  "Nie przesyłaj przez stronę dokumentacji medycznej ani wyników badań.",
+  "Przyszły widget rezerwacji nie będzie służył do oceny stanu zdrowia przed wizytą.",
+  "Informacje medyczne omawiaj podczas wizyty lub przekaż wyłącznie wskazanym, zabezpieczonym kanałem.",
 ];
 
 export const legalReviewNotice =
-  "Treść dokumentu powinna zostać potwierdzona przez prawnika przed publikacją produkcyjną oraz dostosowana do faktycznych procesów organizacyjnych podmiotu leczniczego.";
+  "To jest wersja robocza dokumentu. Przed uruchomieniem rezerwacji online, włączeniem indeksowania lub publikacją produkcyjną prawnik powinien potwierdzić dane administratora, proces rezerwacji, retencję, odbiorców danych i warunki współpracy z dostawcą systemu.";

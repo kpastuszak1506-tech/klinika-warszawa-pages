@@ -1,20 +1,29 @@
-import type { Metadata } from "next";
 import { CompanyDetails } from "@/components/CompanyDetails";
 import { LegalPageLayout } from "@/components/LegalPageLayout";
 import { companyConfig } from "@/config/companyConfig";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Polityka prywatności",
   description:
     "Polityka prywatności strony dla stacjonarnych konsultacji lekarskich.",
-};
+  path: "/polityka-prywatnosci",
+});
 
 export default function PrivacyPolicyPage() {
   return (
     <LegalPageLayout
-      description="Poniższa treść opisuje podstawowe zasady przetwarzania danych osobowych w związku ze stroną informacyjną i formularzem kontaktowym."
+      description="Poniższa wersja opisuje aktualne działanie statycznej strony oraz warunki, które muszą zostać uzupełnione przed uruchomieniem rezerwacji online."
       title="Polityka prywatności"
     >
+      <h2>Aktualny status rezerwacji online</h2>
+      <p>
+        Aktualna wersja strony nie przesyła zgłoszeń kontaktowych ani danych
+        rezerwacyjnych do własnego serwera lub zewnętrznego systemu. Rezerwacja
+        online zostanie uruchomiona wyłącznie po wdrożeniu zatwierdzonego
+        widgetu dostawcy i aktualizacji dokumentów wymaganych dla tego procesu.
+      </p>
+
       <h2>Administrator danych</h2>
       <p>
         Administratorem danych osobowych jest {companyConfig.companyName},{" "}
@@ -23,86 +32,67 @@ export default function PrivacyPolicyPage() {
       </p>
       <p>
         Kontakt w sprawach ochrony danych: {companyConfig.privacyEmail}. Dane
-        kontaktowe i rejestrowe administratora:
+        administratora wymagają potwierdzenia przed publikacją produkcyjną:
       </p>
       <CompanyDetails />
 
-      <h2>Zakres danych</h2>
+      <h2>Zakres działania strony</h2>
       <p>
-        Formularz kontaktowy zbiera wyłącznie dane potrzebne do kontaktu w
-        sprawie rezerwacji: imię, nazwisko, telefon, adres e-mail, preferowany
-        termin oraz preferowaną formę kontaktu.
+        Strona ma charakter informacyjny. Nie zawiera pola opisu sprawy,
+        załączników, rozpoznań, leków, wyników badań ani innych pól służących do
+        przekazywania informacji o stanie zdrowia.
       </p>
       <p>
-        Strona nie służy do przekazywania danych medycznych. Nie należy
-        przesyłać przez formularz informacji o stanie zdrowia, dokumentacji,
-        wyników badań ani informacji o leczeniu.
+        Po uruchomieniu rezerwacji online zakres danych powinien zostać
+        ograniczony do danych kontaktowych i organizacyjnych niezbędnych do
+        wyboru oraz potwierdzenia terminu. Zakres, podstawa prawna i proces
+        ustala się przed uruchomieniem integracji z dostawcą.
       </p>
 
-      <h2>Cele i podstawy prawne</h2>
-      <ul>
-        <li>
-          Obsługa zapytania i kontakt w sprawie terminu wizyty - prawnie
-          uzasadniony interes administratora lub działania przed zawarciem
-          umowy, zależnie od kontekstu.
-        </li>
-        <li>
-          Organizacja rezerwacji wizyty - działania na żądanie osoby, której
-          dane dotyczą.
-        </li>
-        <li>
-          Obsługa obowiązków prawnych podmiotu leczniczego - obowiązek prawny,
-          jeżeli znajdzie zastosowanie.
-        </li>
-        <li>
-          Ustalenie, dochodzenie lub obrona roszczeń - prawnie uzasadniony
-          interes administratora.
-        </li>
-        <li>
-          Zapamiętanie ustawień cookies - zgoda lub prawnie uzasadniony interes
-          w zakresie plików niezbędnych.
-        </li>
-      </ul>
-
-      <h2>Odbiorcy danych</h2>
+      <h2>Preferencje prywatności</h2>
       <p>
-        Dane mogą być przekazywane dostawcom hostingu, poczty elektronicznej,
-        usług IT, usług księgowych, prawnych oraz docelowego systemu rezerwacji,
-        jeżeli zostanie wdrożony. Zakres odbiorców powinien zostać uzupełniony
-        po wyborze faktycznych dostawców.
+        Strona zapisuje lokalnie na urządzeniu użytkownika wybór dotyczący
+        kategorii cookies pod kluczem <code>klinika-cookie-consent-v2</code>.
+        Zapis nie jest przekazywany przez stronę do systemu rezerwacji i służy
+        wyłącznie do zapamiętania wyboru. Użytkownik może go zmienić przyciskiem
+        ustawień cookies lub usunąć w ustawieniach przeglądarki.
+      </p>
+
+      <h2>Odbiorcy i transfery</h2>
+      <p>
+        Techniczne udostępnianie statycznej strony odbywa się za pośrednictwem
+        GitHub Pages. Przed uruchomieniem systemu rezerwacji administrator
+        powinien ustalić faktycznych odbiorców danych, role stron, umowy
+        powierzenia oraz ewentualne transfery poza Europejski Obszar Gospodarczy
+        i uzupełnić je w finalnej informacji dla pacjenta.
       </p>
 
       <h2>Retencja</h2>
       <p>
-        Dane kontaktowe są przechowywane przez okres potrzebny do obsługi
-        zapytania i rezerwacji, a następnie przez okres wymagany przepisami lub
-        potrzebny do zabezpieczenia ewentualnych roszczeń. Konkretny harmonogram
-        retencji wymaga uzupełnienia po ustaleniu procesu operacyjnego.
+        W aktualnej wersji strona nie przechowuje po swojej stronie zgłoszeń
+        rezerwacyjnych. Lokalny zapis preferencji prywatności pozostaje na
+        urządzeniu użytkownika do czasu zmiany wyboru albo usunięcia danych
+        strony w przeglądarce. Harmonogram retencji danych rezerwacyjnych musi
+        zostać określony przed uruchomieniem widgetu.
       </p>
 
       <h2>Prawa osoby, której dane dotyczą</h2>
       <p>
-        Osobie, której dane dotyczą, przysługuje prawo dostępu do danych,
-        sprostowania, usunięcia, ograniczenia przetwarzania, sprzeciwu,
-        przenoszenia danych, cofnięcia zgody w zakresie opartym na zgodzie oraz
-        wniesienia skargi do Prezesa Urzędu Ochrony Danych Osobowych.
+        W przypadku przetwarzania danych osobowych osoba, której dane dotyczą,
+        może żądać dostępu do danych, ich sprostowania, usunięcia, ograniczenia
+        przetwarzania, przeniesienia danych lub wnieść sprzeciw, gdy jest to
+        właściwe dla przyjętej podstawy prawnej. Może również złożyć skargę do
+        Prezesa Urzędu Ochrony Danych Osobowych. Konkretna realizacja tych praw
+        dla rezerwacji online zostanie opisana po wdrożeniu systemu.
       </p>
 
       <h2>Przypadkowo przesłane dane medyczne</h2>
       <p>
-        Jeżeli pacjent przypadkowo prześle dane medyczne przez zwykły formularz
-        albo zwykłą korespondencję e-mail, administrator powinien ograniczyć ich
-        przetwarzanie do minimum, usunąć je albo skierować pacjenta do
-        właściwego zabezpieczonego kanału, zgodnie z procedurą przyjętą po
-        review prawnym.
-      </p>
-
-      <h2>Profilowanie i transfery</h2>
-      <p>
-        Strona nie prowadzi profilowania, nie podejmuje automatycznych
-        decyzji i nie przekazuje danych do narzędzi reklamowych. Informacje o
-        ewentualnych transferach poza Europejski Obszar Gospodarczy wymagają
-        uzupełnienia po wyborze faktycznych dostawców.
+        Nie należy przesyłać danych medycznych przez zwykłą korespondencję
+        e-mail ani przez stronę. Przed uruchomieniem rezerwacji administrator
+        powinien wdrożyć procedurę dla osoby obsługującej kontakt, która
+        ograniczy takie przetwarzanie i wskaże pacjentowi właściwy, zabezpieczony
+        kanał dokumentacji medycznej.
       </p>
     </LegalPageLayout>
   );

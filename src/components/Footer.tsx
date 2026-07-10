@@ -2,6 +2,8 @@ import Link from "next/link";
 import { companyConfig } from "@/config/companyConfig";
 import { legalNavItems, navItems } from "@/lib/siteContent";
 
+const phoneHref = `tel:${companyConfig.phone.replace(/[^+\d]/g, "")}`;
+
 export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-white">
@@ -19,8 +21,18 @@ export function Footer() {
           <h2 className="text-sm font-semibold text-navy-950">Kontakt</h2>
           <address className="mt-3 not-italic text-sm leading-6 text-slate-600">
             <span className="block">{companyConfig.medicalOfficeAddress}</span>
-            <span className="block">{companyConfig.phone}</span>
-            <span className="block">{companyConfig.email}</span>
+            <a
+              className="block rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+              href={phoneHref}
+            >
+              {companyConfig.phone}
+            </a>
+            <a
+              className="block rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+              href={`mailto:${companyConfig.email}`}
+            >
+              {companyConfig.email}
+            </a>
           </address>
         </div>
         <div>
@@ -28,7 +40,10 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm text-slate-600">
             {navItems.map((item) => (
               <li key={item.href}>
-                <Link className="hover:text-medical-green-dark" href={item.href}>
+                <Link
+                  className="rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+                  href={item.href}
+                >
                   {item.label}
                 </Link>
               </li>
@@ -42,7 +57,10 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm text-slate-600">
             {legalNavItems.map((item) => (
               <li key={item.href}>
-                <Link className="hover:text-medical-green-dark" href={item.href}>
+                <Link
+                  className="rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+                  href={item.href}
+                >
                   {item.label}
                 </Link>
               </li>

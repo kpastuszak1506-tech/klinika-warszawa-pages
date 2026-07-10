@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeading } from "@/components/SectionHeading";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Konsultacja lekarska",
   description:
     "Informacje o stacjonarnej konsultacji lekarskiej w zakresie kwalifikacji do terapii kannabinoidowej w Warszawie.",
-};
+  path: "/konsultacja",
+});
 
 export default function ConsultationPage() {
   return (

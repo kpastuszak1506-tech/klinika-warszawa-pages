@@ -6,6 +6,12 @@ Zbudować statyczną stronę w języku polskim dla małego prywatnego podmiotu l
 
 Strona ma informować, umożliwiać kontakt w sprawie rezerwacji, prezentować cennik konsultacji i udostępniać dokumenty prawne do finalnego review prawnika. Strona nie jest systemem medycznym, nie prowadzi dokumentacji medycznej i nie zbiera danych o stanie zdrowia przez formularz.
 
+## Audyt finalny 2026-07-10
+
+Szczegółowy backlog audytu znajduje się w `AUDIT_BACKLOG.md`. Obejmuje on poprawki UX, SEO, dostępności i prywatności oraz oddziela zmiany możliwe do wykonania w kodzie od bramek zależnych od potwierdzonych danych placówki, wyboru dostawcy rezerwacji i review prawnika.
+
+W wyniku audytu wdrożono bezpieczny fallback rezerwacji, przygotowanie pod API, warstwę SEO, mobilną nawigację, kontrolę cookies, skan compliance w CI i iterację wizualną. Indeksowanie pozostaje wyłączone przez konfigurację do czasu weryfikacji danych publicznych.
+
 ## Role projektowe
 
 | Rola | Zakres |

@@ -16,7 +16,7 @@
   --color-medical-green-dark: #0a513d;
   --color-medical-green-soft: #eef8f4;
   --color-mist: #f4f8f7;
-  --font-sans: Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, ui-monospace, monospace;
 }
 
@@ -28,13 +28,37 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, ui-sans-serif, system-ui, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
 ::selection {
   background: #d7efe6;
   color: #071d3a;
+}
+
+:focus-visible {
+  outline: 2px solid #0f6b4f;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  left: 1rem;
+  position: fixed;
+  top: 1rem;
+  transform: translateY(-180%);
+  z-index: 100;
+  border-radius: 0.375rem;
+  background: #071d3a;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .prose-legal {
@@ -79,26 +103,72 @@ body {
 }
 
 .display-heading {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: "Iowan Old Style", "Baskerville", Georgia, "Times New Roman", serif;
   letter-spacing: 0;
 }
 
+.eyebrow {
+  color: #0f6b4f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+}
+
 .ambient-grid {
+  background-color: #f7faf9;
   background-image:
-    linear-gradient(rgba(15, 107, 79, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 107, 79, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 78% 18%, rgba(15, 107, 79, 0.1), transparent 34%),
-    linear-gradient(115deg, #ffffff 0%, #ffffff 48%, #f4f8f7 48%, #eef8f4 100%);
+    linear-gradient(rgba(15, 107, 79, 0.065) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 107, 79, 0.065) 1px, transparent 1px),
+    linear-gradient(118deg, #ffffff 0%, #ffffff 45%, #f1f8f5 45%, #eaf5f0 100%);
   background-size:
     72px 72px,
     72px 72px,
-    auto,
-    auto;
+    100% 100%;
 }
 
-.media-edge-fade {
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 100%);
+.hero-hairline {
+  border-top: 1px solid rgba(15, 107, 79, 0.15);
+}
+
+.hero-media {
+  isolation: isolate;
+}
+
+.hero-media::after {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.38), transparent 42%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.booking-surface {
+  position: relative;
+}
+
+.booking-surface::before {
+  background: #0f6b4f;
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: 0.82;
+  position: absolute;
+  top: 0;
+  width: 3px;
+}
+
+.section-wash {
+  background: linear-gradient(180deg, #f5f9f7 0%, #ffffff 100%);
+}
+
+.contact-panel {
+  border: 1px solid #dce8e3;
+  border-top: 3px solid #0f6b4f;
+  box-shadow: 0 28px 80px rgba(15, 39, 72, 0.1);
 }
 
 .reveal-up {
@@ -121,20 +191,23 @@ body {
   }
 }
 
+@media (min-width: 1024px) {
+  .hero-media {
+    clip-path: polygon(7% 0, 100% 0, 100% 100%, 0 100%, 0 11%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  .reveal-up,
-  .reveal-up-delay {
-    animation: none;
-  }
-}
-
-@media (max-width: 1023px) {
-  .media-edge-fade {
-    -webkit-mask-image: none;
-    mask-image: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

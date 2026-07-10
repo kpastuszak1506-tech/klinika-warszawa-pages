@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { CTAButton } from "@/components/CTAButton";
 import { RiskNotice } from "@/components/RiskNotice";
 import { SectionHeading } from "@/components/SectionHeading";
+import { createPageMetadata } from "@/lib/seo";
 import { noMedicalFormFields, patientPreparationItems } from "@/lib/siteContent";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Informacja dla pacjenta",
   description:
     "Informacje organizacyjne przed stacjonarną konsultacją lekarską w Warszawie.",
-};
+  path: "/informacja-dla-pacjenta",
+});
 
 export default function PatientInfoPage() {
   return (
@@ -39,7 +40,7 @@ export default function PatientInfoPage() {
             </ul>
           </div>
           <div>
-            <SectionHeading title="Czego nie przekazywać formularzem" />
+            <SectionHeading title="Czego nie przekazywać przez stronę" />
             <ul className="space-y-3">
               {noMedicalFormFields.map((item) => (
                 <li

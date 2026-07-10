@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type ConsentPreferences = {
@@ -8,13 +9,39 @@ type ConsentPreferences = {
   marketing: boolean;
 };
 
-const storageKey = "klinika-cookie-consent-v1";
+const storageKey = "klinika-cookie-consent-v2";
 
 const defaultPreferences: ConsentPreferences = {
   necessary: true,
   analytics: false,
   marketing: false,
 };
+
+function parsePreferences(value: string | null): ConsentPreferences | null {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(value) as Partial<ConsentPreferences>;
+
+    if (
+      parsed.necessary === true &&
+      typeof parsed.analytics === "boolean" &&
+      typeof parsed.marketing === "boolean"
+    ) {
+      return {
+        necessary: true,
+        analytics: parsed.analytics,
+        marketing: parsed.marketing,
+      };
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
 
 export function CookieConsent() {
   const [preferences, setPreferences] =
@@ -25,18 +52,16 @@ export function CookieConsent() {
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      const saved = window.localStorage.getItem(storageKey);
-      if (!saved) {
+      const savedPreferences = parsePreferences(
+        window.localStorage.getItem(storageKey),
+      );
+
+      if (savedPreferences) {
+        setPreferences(savedPreferences);
+      } else {
         setIsVisible(true);
-        setIsReady(true);
-        return;
       }
 
-      try {
-        setPreferences(JSON.parse(saved) as ConsentPreferences);
-      } catch {
-        setIsVisible(true);
-      }
       setIsReady(true);
     }, 0);
 
@@ -57,7 +82,8 @@ export function CookieConsent() {
   if (!isVisible) {
     return (
       <button
-        className="fixed bottom-4 left-4 z-50 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-navy-900 shadow-sm transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+        aria-label="Otwórz ustawienia cookies"
+        className="fixed bottom-4 left-4 z-50 min-h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-navy-900 shadow-sm transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
         onClick={() => setIsVisible(true)}
         type="button"
       >
@@ -69,27 +95,33 @@ export function CookieConsent() {
   return (
     <section
       aria-label="Ustawienia cookies"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white shadow-2xl"
+      aria-live="polite"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/98 shadow-[0_-18px_60px_rgba(15,39,72,0.12)] backdrop-blur-xl"
     >
-      <div className="mx-auto grid max-w-7xl gap-5 px-5 py-5 md:grid-cols-[1fr_auto] md:items-end">
+      <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-5">
         <div>
           <h2 className="text-base font-semibold text-navy-950">
             Ustawienia prywatności
           </h2>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-            Używamy plików niezbędnych do działania strony. Kategorie
-            analityczne i marketingowe są domyślnie wyłączone. Strona nie
-            ładuje pikseli ani skryptów reklamowych.
+          <p className="mt-1.5 max-w-3xl text-sm leading-5 text-slate-600">
+            Niezbędne mechanizmy są aktywne. Analityka i marketing pozostają
+            wyłączone do czasu Twojej zgody. {" "}
+            <Link
+              className="font-semibold text-medical-green underline underline-offset-2"
+              href="/polityka-cookies"
+            >
+              Polityka cookies
+            </Link>
           </p>
           {showSettings ? (
-            <div className="mt-4 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 md:grid-cols-3">
+            <div className="mt-4 grid gap-3 border-t border-slate-200 pt-4 text-sm text-slate-700 md:grid-cols-3">
               <label className="flex items-start gap-3">
                 <input checked disabled type="checkbox" />
                 <span>
                   <span className="block font-semibold text-navy-950">
                     Niezbędne
                   </span>
-                  Wymagane do działania strony i zapamiętania wyboru.
+                  Utrzymują działanie strony i zapis wyboru prywatności.
                 </span>
               </label>
               <label className="flex items-start gap-3">
@@ -107,7 +139,7 @@ export function CookieConsent() {
                   <span className="block font-semibold text-navy-950">
                     Analityczne
                   </span>
-                  Opcjonalna anonimowa analityka po zgodzie.
+                  Opcjonalne. W obecnej wersji nie są używane.
                 </span>
               </label>
               <label className="flex items-start gap-3">
@@ -125,16 +157,15 @@ export function CookieConsent() {
                   <span className="block font-semibold text-navy-950">
                     Marketingowe
                   </span>
-                  Kategoria informacyjna. Strona nie ładuje narzędzi
-                  reklamowych.
+                  Opcjonalne. Strona nie ładuje narzędzi reklamowych.
                 </span>
               </label>
             </div>
           ) : null}
         </div>
-        <div className="grid gap-2 sm:grid-cols-3 md:min-w-[520px]">
+        <div className="grid grid-cols-3 gap-2 lg:min-w-[500px]">
           <button
-            className="rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+            className="min-h-12 rounded-md border border-slate-300 bg-white px-2 py-2 text-[11px] font-semibold leading-4 text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
             onClick={() =>
               save({ necessary: true, analytics: true, marketing: true })
             }
@@ -143,7 +174,7 @@ export function CookieConsent() {
             Akceptuję wszystkie
           </button>
           <button
-            className="rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+            className="min-h-12 rounded-md border border-slate-300 bg-white px-2 py-2 text-[11px] font-semibold leading-4 text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
             onClick={() => save(defaultPreferences)}
             type="button"
           >
@@ -151,7 +182,7 @@ export function CookieConsent() {
           </button>
           {showSettings ? (
             <button
-              className="rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+              className="min-h-12 rounded-md border border-medical-green bg-medical-green px-2 py-2 text-[11px] font-semibold leading-4 text-white transition hover:bg-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
               onClick={() => save(preferences)}
               type="button"
             >
@@ -159,7 +190,7 @@ export function CookieConsent() {
             </button>
           ) : (
             <button
-              className="rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+              className="min-h-12 rounded-md border border-slate-300 bg-white px-2 py-2 text-[11px] font-semibold leading-4 text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
               onClick={() => setShowSettings(true)}
               type="button"
             >

@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionHeading } from "@/components/SectionHeading";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Jak wygląda wizyta",
   description:
     "Opis przebiegu stacjonarnej wizyty lekarskiej w gabinecie w Warszawie.",
-};
+  path: "/jak-wyglada-wizyta",
+});
 
 export default function VisitFlowPage() {
   return (

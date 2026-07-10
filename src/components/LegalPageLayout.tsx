@@ -26,7 +26,9 @@ export function LegalPageLayout({
           {description}
         </p>
       </header>
-      <RiskNotice title="Nota prawna">{legalReviewNotice}</RiskNotice>
+      <RiskNotice title="Wersja robocza - wymagane review prawne">
+        {legalReviewNotice}
+      </RiskNotice>
       <div className="prose-legal mt-10">{children}</div>
     </article>
   );

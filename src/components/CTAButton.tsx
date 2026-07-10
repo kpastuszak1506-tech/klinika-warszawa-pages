@@ -31,9 +31,17 @@ export function CTAButton({
     .filter(Boolean)
     .join(" ");
 
-  if (href.startsWith("http")) {
+  const opensNewTab = href.startsWith("http://") || href.startsWith("https://");
+  const isExternal = opensNewTab || href.startsWith("tel:") || href.startsWith("mailto:");
+
+  if (isExternal) {
     return (
-      <a className={classes} href={href} rel="noreferrer" target="_blank">
+      <a
+        className={classes}
+        href={href}
+        rel={opensNewTab ? "noreferrer" : undefined}
+        target={opensNewTab ? "_blank" : undefined}
+      >
         <span>{children}</span>
         <span aria-hidden="true" className="transition group-hover:translate-x-1">
           →

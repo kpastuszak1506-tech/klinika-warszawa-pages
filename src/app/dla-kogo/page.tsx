@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
 import { CTAButton } from "@/components/CTAButton";
 import { SectionHeading } from "@/components/SectionHeading";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Dla kogo jest konsultacja",
   description:
     "Neutralne informacje o tym, kiedy pacjent może rozważyć rozmowę z lekarzem o kwalifikacji do terapii kannabinoidowej.",
-};
+  path: "/dla-kogo",
+});
 
 export default function AudiencePage() {
   return (
