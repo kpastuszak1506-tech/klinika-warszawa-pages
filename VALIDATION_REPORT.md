@@ -1,6 +1,6 @@
 # Raport walidacyjny
 
-Data walidacji: 2026-07-09
+Data walidacji: 2026-07-10
 
 ## Podsumowanie
 
@@ -18,6 +18,7 @@ Data walidacji: 2026-07-09
 | Iteracja wizualna | PASS | Przebudowano pierwszy ekran w kierunku editorial healthcare inspirowanym selekcją Awwwards: floating header, wielka typografia, warstwowy hero image, kontrolowany bridge-overlap widgetu, ambient grid i motion/reveal z obsługą `prefers-reduced-motion`. |
 | Przygotowanie widgetu rezerwacji | PASS | Dodano provider-neutralny `BookingWidgetSlot` w pierwszym ekranie strony głównej i konfigurację `bookingWidget` bez domyślnego ładowania iframe, skryptów lub cookies stron trzecich. |
 | Dane rejestrowe | PASS | `companyConfig.ts` jest uzupełniony danymi placówki, a KRS nie jest już elementem konfiguracji ani UI. |
+| GitHub Pages | PASS | Repo `kpastuszak1506-tech/klinika-warszawa-pages` zostało opublikowane przez workflow GitHub Actions. Publiczny URL odpowiada `HTTP 200`. |
 | Dependency audit | NEEDS REVIEW | `npm audit` zgłasza 2 umiarkowane pozycje przez zagnieżdżony `postcss` w `next@16.2.10`. Automatyczna poprawka proponuje nieakceptowalny downgrade, więc zależność należy monitorować. Brak pozycji high/critical. |
 
 ## Wykonane komendy i testy
@@ -26,6 +27,9 @@ Data walidacji: 2026-07-09
 | --- | --- |
 | `npm run lint` | PASS |
 | `npm run build` | PASS |
+| `npm run build:pages` | PASS |
+| GitHub Actions: `Deploy to GitHub Pages` | PASS |
+| Smoke test `https://kpastuszak1506-tech.github.io/klinika-warszawa-pages/` | PASS, `HTTP 200` |
 | Skan fraz z briefu przez `rg` | PASS |
 | Skan identyfikatorów trackerów przez `rg` | PASS |
 | Skan formularza pod kątem pól medycznych | PASS |
