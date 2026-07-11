@@ -16,6 +16,8 @@ const requiredFiles = [
   "src/app/polityka-cookies/page.tsx",
   "src/app/regulamin-rezerwacji/page.tsx",
   "src/app/informacja-dla-pacjenta/page.tsx",
+  "src/app/wiedza/page.tsx",
+  "src/app/wiedza/[slug]/page.tsx",
   "src/app/robots.ts",
   "src/app/sitemap.ts",
   "src/components/Header.tsx",
@@ -31,7 +33,10 @@ const requiredFiles = [
   "src/components/ProcessSteps.tsx",
   "src/components/RiskNotice.tsx",
   "src/components/SectionHeading.tsx",
+  "src/components/KnowledgeCard.tsx",
+  "src/components/KnowledgeArticleLayout.tsx",
   "src/config/companyConfig.ts",
+  "src/lib/knowledge.ts",
 ];
 
 const forbiddenPhrases = [
@@ -118,6 +123,8 @@ for (const file of walk(join(root, "src")).filter((entry) => /\.(ts|tsx)$/.test(
 
 const bookingComponent = read("src/components/BookingContactForm.tsx");
 const bookingWidgetComponent = read("src/components/BookingWidgetSlot.tsx");
+const knowledgeContent = read("src/lib/knowledge.ts");
+const knowledgeLayout = read("src/components/KnowledgeArticleLayout.tsx");
 
 for (const unsafePattern of [/<textarea/i, /type=["']file/i, /\bpesel\b/i]) {
   if (unsafePattern.test(bookingComponent)) {
@@ -133,6 +140,29 @@ for (const unsafePattern of [/<form\b/i, /\bfetch\s*\(/i, /sendBeacon\s*\(/i]) {
 
 if (!bookingWidgetComponent.includes("isApprovedExternalUrl")) {
   failures.push("BookingWidgetSlot nie waliduje zatwierdzonego adresu widgetu.");
+}
+
+for (const marker of [
+  "publishedAt:",
+  "updatedAt:",
+  "reviewStatus:",
+  "sources:",
+  "relatedSlugs:",
+]) {
+  if (!knowledgeContent.includes(marker)) {
+    failures.push("Brak pola jakości artykułu wiedzy: " + marker);
+  }
+}
+
+const articleCount = (knowledgeContent.match(/^\s{4}slug:/gm) ?? []).length;
+const sourceCount = (knowledgeContent.match(/^\s{8}href:/gm) ?? []).length;
+
+if (articleCount < 4 || sourceCount < articleCount * 2) {
+  failures.push("Centrum wiedzy musi mieć co najmniej 4 artykuły i 2 źródła na artykuł.");
+}
+
+if (!knowledgeLayout.includes("<ComplianceNotice")) {
+  failures.push("Artykuły wiedzy nie zawierają noty compliance.");
 }
 
 for (const file of [

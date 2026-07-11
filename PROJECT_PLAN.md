@@ -12,6 +12,12 @@ Szczegółowy backlog audytu znajduje się w `AUDIT_BACKLOG.md`. Obejmuje on pop
 
 W wyniku audytu wdrożono bezpieczny fallback rezerwacji, przygotowanie pod API, warstwę SEO, mobilną nawigację, kontrolę cookies, skan compliance w CI i iterację wizualną. Indeksowanie pozostaje wyłączone przez konfigurację do czasu weryfikacji danych publicznych.
 
+## Implementacja SEO 2026-07-11
+
+Wdrożono nieindeksowane centrum wiedzy pod ścieżką /wiedza: cztery statyczne materiały z datą aktualizacji, źródłami, linkowaniem wewnętrznym i widocznym statusem review. Metadane Article są gotowe, a JSON-LD jest celowo emitowany dopiero po potwierdzeniu danych placówki, aktywacji indeksowania i zmianie statusu artykułu na reviewed.
+
+Dodano walidację jakości treści: wymagane są daty, źródła, status review, powiązane materiały i nota compliance. Szczegółowe zadania znajdują się w SEO_IMPLEMENTATION_BACKLOG.md.
+
 ## Role projektowe
 
 | Rola | Zakres |

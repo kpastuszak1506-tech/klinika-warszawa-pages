@@ -2,6 +2,7 @@ export const companyConfig = {
   // Keep search indexing disabled until the controller verifies every public value below.
   publicDataVerified: false,
   allowSearchIndexing: false,
+  searchConsoleVerification: "",
   websiteUrl: "https://kpastuszak1506-tech.github.io/klinika-warszawa-pages",
   companyName: "Klinika Warszawa",
   shortName: "Klinika Warszawa",

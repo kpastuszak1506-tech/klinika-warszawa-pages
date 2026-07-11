@@ -211,3 +211,43 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+.knowledge-hero {
+  background:
+    linear-gradient(120deg, rgba(15, 107, 79, 0.08), transparent 48%),
+    #f8fbfa;
+}
+
+.knowledge-prose {
+  color: #334155;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+
+.knowledge-prose section + section {
+  border-top: 1px solid #e2e8f0;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+}
+
+.knowledge-prose h2 {
+  color: #071d3a;
+  font-family: "Iowan Old Style", "Baskerville", Georgia, "Times New Roman", serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.knowledge-prose p,
+.knowledge-prose ul {
+  margin-top: 1rem;
+}
+
+.knowledge-prose ul {
+  padding-left: 1.25rem;
+}
+
+.knowledge-prose li {
+  margin-top: 0.5rem;
+}

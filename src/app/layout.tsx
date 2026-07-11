@@ -45,6 +45,9 @@ export const metadata: Metadata = {
     index: isPublicReleaseReady,
     follow: isPublicReleaseReady,
   },
+  verification: companyConfig.searchConsoleVerification
+    ? { google: companyConfig.searchConsoleVerification }
+    : undefined,
 };
 
 export const viewport: Viewport = {

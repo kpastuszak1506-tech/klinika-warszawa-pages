@@ -20,6 +20,11 @@ export const legalNavItems = [
   { href: "/informacja-dla-pacjenta", label: "Informacja dla pacjenta" },
 ];
 
+export const footerNavItems = [
+  ...navItems,
+  { href: "/wiedza", label: "Wiedza" },
+];
+
 export const complianceText =
   "Decyzję o wdrożeniu leczenia, kontynuacji terapii lub wystawieniu recepty podejmuje wyłącznie lekarz po osobistym badaniu pacjenta oraz analizie wskazań i przeciwwskazań medycznych. Sama rezerwacja wizyty nie oznacza gwarancji otrzymania recepty.";
 

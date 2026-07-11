@@ -8,6 +8,11 @@ type PageMetadataInput = {
   path: string;
 };
 
+type ArticleMetadataInput = PageMetadataInput & {
+  publishedAt: string;
+  updatedAt: string;
+};
+
 const baseUrl = companyConfig.websiteUrl.replace(/\/$/, "");
 
 export function absoluteSiteUrl(path = "/") {
@@ -55,6 +60,39 @@ export function createPageMetadata({
       title: `${title} | ${siteTitle}`,
       description,
       images: [absoluteSiteUrl("/images/medical-office-hero-soft.jpg")],
+    },
+  };
+}
+
+
+export function createArticleMetadata({
+  title,
+  description,
+  path,
+  publishedAt,
+  updatedAt,
+}: ArticleMetadataInput): Metadata {
+  const url = absoluteSiteUrl(path);
+
+  return {
+    ...createPageMetadata({ title, description, path }),
+    openGraph: {
+      type: "article",
+      locale: "pl_PL",
+      url,
+      siteName: companyConfig.shortName,
+      title: title + " | " + siteTitle,
+      description,
+      publishedTime: publishedAt,
+      modifiedTime: updatedAt,
+      images: [
+        {
+          url: absoluteSiteUrl("/images/medical-office-hero-soft.jpg"),
+          width: 1586,
+          height: 992,
+          alt: "Gabinet lekarski w Warszawie",
+        },
+      ],
     },
   };
 }

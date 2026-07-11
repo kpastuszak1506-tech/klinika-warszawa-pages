@@ -3,9 +3,11 @@ import { BookingWidgetSlot } from "@/components/BookingWidgetSlot";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { FAQ } from "@/components/FAQ";
+import { KnowledgeCard } from "@/components/KnowledgeCard";
 import { PriceTable } from "@/components/PriceTable";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionHeading } from "@/components/SectionHeading";
+import { knowledgeArticles } from "@/lib/knowledge";
 
 const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -118,6 +120,31 @@ export default function Home() {
             </CTAButton>
             <ComplianceNotice className="mt-7" compact />
           </div>
+        </div>
+      </section>
+      <section className="section-wash border-t border-slate-200 px-5 py-20 md:py-28">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+            <div>
+              <p className="eyebrow">Wiedza dla pacjenta</p>
+              <SectionHeading
+                description="Przejrzyste materiały o konsultacji, bezpieczeństwie i sposobie czytania źródeł naukowych."
+                title="Informacja oparta na źródłach"
+              />
+            </div>
+            <p className="max-w-2xl text-sm leading-6 text-slate-600 lg:justify-self-end">
+              Materiały pomagają przygotować pytania do rozmowy z lekarzem. Nie
+              zastępują osobistego badania ani indywidualnej decyzji medycznej.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {knowledgeArticles.slice(0, 3).map((article) => (
+              <KnowledgeCard article={article} key={article.slug} />
+            ))}
+          </div>
+          <CTAButton className="mt-8" href="/wiedza" variant="secondary">
+            Zobacz wszystkie materiały
+          </CTAButton>
         </div>
       </section>
     </>

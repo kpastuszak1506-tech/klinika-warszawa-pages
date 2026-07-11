@@ -9,6 +9,7 @@
 * Przygotowano konfigurację pod przyszły widget/API dostawcy, bez sekretów, iframe i requestów po stronie klienta; przyszły adres widgetu wymaga HTTPS i zgodności z zatwierdzoną domeną.
 * Dodano canonicale, Open Graph, Twitter metadata, `robots.txt`, `sitemap.xml`, jeden `h1` na trasę i walidację SEO w eksporcie GitHub Pages.
 * Dodano automatyczną walidację treści i zabezpieczeń prywatności do lokalnego workflow i GitHub Actions.
+* Dodano centrum wiedzy pod ścieżką /wiedza z czterema statycznymi materiałami, źródłami, datami aktualizacji, linkowaniem wewnętrznym i warunkowym Article JSON-LD.
 * Zmieniono hero image z PNG 1,6 MB na JPG 231 KB.
 * Zaktualizowano React oraz React DOM do `19.2.7`.
 
@@ -27,6 +28,7 @@
 * Przyszła integracja API nie może przechowywać sekretów w GitHub Pages. Wymaga widgetu dostawcy albo osobnego, bezpiecznego backendu/proxy.
 * Indeksowanie jest celowo wyłączone w `companyConfig.ts`, dopóki dane placówki nie zostaną potwierdzone. Techniczna warstwa SEO jest gotowa do aktywacji dopiero po ustawieniu dwóch niezależnych flag weryfikacyjnych.
 * Dokumenty prawne opisują rzeczywiste, obecne działanie strony i są wyraźnie oznaczone jako wymagające review prawnika.
+* Warstwa SEO centrum wiedzy jest gotowa technicznie, ale artykuły pozostają noindex oraz wymagają merytorycznego review przed zmianą statusu na reviewed.
 * Kierunek wizualny czerpie z podejścia Awwwards do typografii, warstw i ruchu, ale pozostaje profesjonalny oraz informacyjny dla podmiotu leczniczego.
 
 ## Walidacja
@@ -39,6 +41,7 @@
 | Formularz/rezerwacja | PASS | Brak fałszywego success message i brak transmisji danych. |
 | Cookies | PASS | Trzy równorzędne wybory, domyślnie tylko niezbędne; test odrzucenia przeszedł. |
 | SEO | PASS | Canonicale, Open Graph, Twitter, `robots.txt`, `sitemap.xml`, jeden `h1` na trasę. |
+| Centrum wiedzy | PASS | Cztery statyczne materiały, po dwa źródła, data aktualizacji, linkowanie kontekstowe i blokada Article JSON-LD przed review. |
 | UI/UX mobile | PASS | Kontrola 390 px: brak overflow, działające menu i wysoki moduł rezerwacji. |
 | Compliance content | PASS | Neutralny język, osobiste badanie i brak gwarancji wyniku wizyty. |
 | Dependency audit | NEEDS REVIEW | 2 moderate w zależności pośredniej Next.js/PostCSS; 0 high i 0 critical. |
@@ -63,3 +66,4 @@
 * Po potwierdzeniu danych: ustawić `publicDataVerified` i `allowSearchIndexing`, sprawdzić wygenerowany sitemap oraz wdrożyć własną domenę.
 * Po wyborze systemu: zintegrować zatwierdzony widget przez bezpieczny proxy/backend, bez przekazywania danych medycznych przez zwykły frontend.
 * Dodać testy E2E dla przyszłego widgetu, procesu zgód i wszystkich stanów błędów dostawcy.
+* Po powołaniu osoby recenzującej zmienić status zatwierdzonych artykułów na reviewed, uzupełnić autora i zaplanować cykl aktualizacji źródeł.

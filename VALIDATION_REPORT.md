@@ -1,14 +1,14 @@
 # Raport walidacyjny
 
-Data walidacji: 2026-07-10
+Data walidacji: 2026-07-11
 
 ## Podsumowanie
 
 | Obszar | Status | Komentarz |
 | --- | --- | --- |
-| Build | PASS | `npm run build` zakończył się sukcesem. Wszystkie 16 tras App Router zostało wygenerowanych statycznie. |
+| Build | PASS | `npm run build` zakończył się sukcesem. Wszystkie 21 tras App Router zostało wygenerowanych statycznie. |
 | Lint | PASS | `npm run lint` nie zwrócił błędów. |
-| Content validation | PASS | `npm run validate:content` sprawdził 27 wymaganych plików, zakazane frazy, trackery, pola wysokiego ryzyka i noty compliance na stronach krytycznych. |
+| Content validation | PASS | `npm run validate:content` sprawdził 32 wymagane pliki, zakazane frazy, trackery, pola wysokiego ryzyka i noty compliance na stronach krytycznych. |
 | GitHub Pages export | PASS | `npm run build:pages` zakończył się sukcesem z `basePath` repozytorium. |
 | Routing i semantyka | PASS | Wszystkie wymagane podstrony istnieją; każda z nich ma dokładnie jeden `h1`. |
 | Formularz/rezerwacja | PASS | Usunięto pozorną wysyłkę. Aktualna strona nie zbiera ani nie przesyła danych, a moduł API/widgetu jest wyłączony do czasu zatwierdzonej integracji; przyszłe URL-e muszą być HTTPS i zgodne z zatwierdzoną domeną. |
@@ -18,6 +18,8 @@ Data walidacji: 2026-07-10
 | SEO techniczne | PASS | Dodano canonicale, Open Graph, Twitter metadata, `robots.txt` i `sitemap.xml`. Indeksowanie jest celowo wyłączone i wymaga jednocześnie `publicDataVerified` oraz `allowSearchIndexing`. |
 | Dostępność | PASS | Dodano skip link, widoczne focus states, mobilne menu natywne oraz semantyczne linki `tel:` i `mailto:`. |
 | UI/UX | PASS | Zweryfikowano desktop 1440 px oraz mobile 390 px przez Chrome DevTools. Na mobile `scrollWidth = 390`; nie stwierdzono poziomego overflow. |
+| Centrum wiedzy | PASS | Dodano indeks wiedzy oraz cztery statyczne materiały z datą, źródłami, statusem review i linkowaniem kontekstowym. |
+| Article metadata i schema | PASS | Open Graph Article jest obecne; Article JSON-LD pozostaje wyłączone do czasu review i włączenia indeksowania. |
 | Wydajność obrazu | PASS | Hero image ma 231 KB w JPG zamiast 1,6 MB w PNG. |
 | Dependency audit | NEEDS REVIEW | `npm audit --omit=dev` zgłasza 2 umiarkowane pozycje przez zagnieżdżony `postcss` w aktualnym `next@16.2.10`; brak pozycji high/critical i brak poprawnej aktualizacji bez wymuszonego downgrade. React oraz React DOM zaktualizowano do `19.2.7`. |
 | Dane placówki i dokumenty prawne | NEEDS FIX | Dane administratora, rejestrowe, retencja, odbiorcy oraz warunki rezerwacji muszą zostać potwierdzone przez właściciela i prawnika przed uruchomieniem indeksowania lub rezerwacji online. |
@@ -35,6 +37,8 @@ Data walidacji: 2026-07-10
 | Skan trackerów reklamowych | PASS |
 | Test mobilnego menu | PASS, menu natywne otwiera się poprawnie |
 | Test odrzucenia cookies | PASS, zapis `necessary: true`, `analytics: false`, `marketing: false` |
+| Centrum wiedzy: trasy, metadane i noindex | PASS, 4 artykuły wygenerowane statycznie; metadata Article obecne, JSON-LD zablokowane przed review |
+| Kontrola mobile centrum wiedzy | PASS, scrollWidth = 390 |
 | Kontrola desktop 1440 px | PASS |
 | Kontrola mobile 390 px | PASS, `scrollWidth = 390` |
 | Kontrola canonicali i Open Graph | PASS, poprawna ścieżka GitHub Pages i brak końcowego ukośnika po pliku obrazu |
@@ -48,6 +52,7 @@ Data walidacji: 2026-07-10
 * Brak Meta Pixel, TikTok Pixel, Google Ads remarketingu, kontenerów tagów i eventów konwersji.
 * Opłata jest opisana jako opłata za konsultację, nie za wynik decyzji medycznej.
 * Strona nie ładuje widgetu, iframe ani skryptu rezerwacyjnego, dopóki dostawca nie przejdzie osobnego procesu wdrożeniowego.
+* Artykuły edukacyjne nie zawierają dawkowania ani deklaracji efektu, mają źródła i pozostają oznaczone jako wymagające review przed indeksowaniem.
 
 ## Źródła do review prawnego i operacyjnego
 
