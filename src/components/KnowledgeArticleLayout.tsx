@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { companyConfig, isPublicReleaseReady } from "@/config/companyConfig";
-import type { KnowledgeArticle } from "@/lib/knowledge";
+import { getKnowledgeTopic, type KnowledgeArticle } from "@/lib/knowledge";
 import { absoluteSiteUrl } from "@/lib/seo";
+import { Breadcrumbs } from "./Breadcrumbs";
 import { ComplianceNotice } from "./ComplianceNotice";
 import { KnowledgeCard } from "./KnowledgeCard";
 
@@ -17,6 +17,9 @@ export function KnowledgeArticleLayout({
   const canPublishArticleSchema =
     isPublicReleaseReady && article.reviewStatus === "reviewed";
   const articleUrl = absoluteSiteUrl("/wiedza/" + article.slug);
+  const articleTopics = article.topics
+    .map((topicSlug) => getKnowledgeTopic(topicSlug))
+    .filter((topic) => topic !== undefined);
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -48,15 +51,13 @@ export function KnowledgeArticleLayout({
       <article className="bg-white">
         <header className="knowledge-hero border-b border-slate-200 px-5 pb-14 pt-14 md:pb-20 md:pt-20">
           <div className="mx-auto max-w-5xl">
-            <nav aria-label="Okruszki" className="text-sm text-slate-500">
-              <Link className="hover:text-medical-green-dark" href="/">
-                Strona główna
-              </Link>
-              <span aria-hidden="true"> / </span>
-              <Link className="hover:text-medical-green-dark" href="/wiedza">
-                Wiedza
-              </Link>
-            </nav>
+            <Breadcrumbs
+              items={[
+                { label: "Strona główna", href: "/" },
+                { label: "Wiedza", href: "/wiedza" },
+                { label: article.title },
+              ]}
+            />
             <p className="eyebrow mt-8">Materiały informacyjne</p>
             <h1 className="display-heading max-w-4xl text-balance text-4xl font-semibold leading-tight text-navy-950 md:text-6xl">
               {article.title}
@@ -73,6 +74,19 @@ export function KnowledgeArticleLayout({
               </time>
               <span>{article.readingTime}</span>
             </div>
+            {articleTopics.length > 0 ? (
+              <div className="mt-5 flex flex-wrap gap-2">
+                {articleTopics.map((topic) => (
+                  <a
+                    className="rounded-full border border-medical-green/25 bg-white px-3 py-1 text-xs font-semibold text-medical-green transition hover:border-medical-green hover:text-medical-green-dark"
+                    href={"/wiedza/tematy/" + topic.slug}
+                    key={topic.slug}
+                  >
+                    {topic.label}
+                  </a>
+                ))}
+              </div>
+            ) : null}
           </div>
         </header>
 

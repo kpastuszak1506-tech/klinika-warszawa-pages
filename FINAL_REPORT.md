@@ -67,3 +67,29 @@
 * Po wyborze systemu: zintegrować zatwierdzony widget przez bezpieczny proxy/backend, bez przekazywania danych medycznych przez zwykły frontend.
 * Dodać testy E2E dla przyszłego widgetu, procesu zgód i wszystkich stanów błędów dostawcy.
 * Po powołaniu osoby recenzującej zmienić status zatwierdzonych artykułów na reviewed, uzupełnić autora i zaplanować cykl aktualizacji źródeł.
+
+## Iteracja premium 2026-07-12
+
+### SEO
+
+* Dokończono skalowalną architekturę SEO: huby tematów, nawigacja okruszkowa, kontrola jakości materiałów i przyszłe wpisy sitemap.
+* Dodano `SEO_GROWTH_SYSTEM.md` z backlogiem technicznym, lokalnym, redakcyjnym i pomiarowym oraz bramami jakości dla kolejnych materiałów.
+* Indeksowanie pozostaje celowo zablokowane do czasu potwierdzenia danych publicznych i review artykułów.
+
+### Redesign mobile-first
+
+* Hero ma teraz kolejność mobilną: opis, CTA, obraz, lekki moduł rezerwacji i osobny pas compliance.
+* Proces wizyty jest zwartą pionową osią; aktywny krok jest wykrywany przez `IntersectionObserver`.
+* Dodano Clinical Orbit: autorską scenę SVG/CSS z pierścieniami, punktami i liniami. Reaguje na scroll procesu oraz ruch kursora na desktopie; na mobile pozostaje lekka i czytelna.
+* Dodano pasek postępu przewijania, głębię hover i motion bez scroll hijackingu. Ustawienie reduced motion wyłącza ruch.
+* Cookies działają jako bottom sheet z trzema równorzędnymi decyzjami; po wyborze pozostaje dyskretny FAB 44×44 px z uwzględnieniem safe area.
+
+### Kontrola widoków
+
+* Zautomatyzowano kontrolę układu na `320×568`, `360×800`, `390×844`, `430×932`, `1024×768` i `1440×900`.
+* Każdy testowany viewport miał `scrollWidth` równy szerokości viewportu; nie wykryto overlayu błędu Next.js.
+
+### Ryzyka pozostające
+
+* Clinical Orbit jest celowo SVG/CSS, nie WebGL. To ogranicza koszt renderowania i jest fallbackiem dla urządzeń o niższej wydajności.
+* Wersja publiczna nie została w tej iteracji opublikowana, ponieważ katalog roboczy zawiera również istniejące, nieśledzone pliki użytkownika wymagające osobnego zakresu commita.

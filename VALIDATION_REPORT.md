@@ -72,3 +72,21 @@ Data walidacji: 2026-07-11
 ## Pozycje HIGH RISK
 
 Brak wysokiego ryzyka w aktualnym kodzie, ponieważ indeksowanie jest wyłączone, a rezerwacja online i transmisja danych są nieaktywne. Uruchomienie tych funkcji bez zamknięcia pozycji `NEEDS FIX` byłoby nieakceptowalne.
+
+## Iteracja SEO i redesign 2026-07-12
+
+| Obszar | Status | Komentarz |
+| --- | --- | --- |
+| Architektura SEO | PASS | Centrum wiedzy ma cztery artykuły, trzy huby tematyczne, breadcrumbs, linkowanie kontekstowe i trasy statyczne. |
+| Techniczne SEO | PASS | Canonicale, metadata, sitemap sterowany bramką publikacji i strona 404 działają w buildzie statycznym. |
+| Mobile layout | PASS | Automatyczna kontrola `320`, `360`, `390` i `430` px: `scrollWidth` jest równy szerokości viewportu. |
+| Desktop layout | PASS | Automatyczna kontrola `1024` i `1440` px: brak poziomego overflow, hero, proces i Clinical Orbit renderują się poprawnie. |
+| Proces i motion | PASS | IntersectionObserver zmienia aktywny krok, a Clinical Orbit odbiera go przez lokalne zdarzenie; brak WebGL i ciężkich modeli. |
+| Cookies | PASS | Odrzucenie zapisuje wyłącznie cookies niezbędne; po wyborze zostaje mini-FAB 44×44 px. |
+| `npm install` | PASS | Zależności są aktualne dla lockfile. |
+| `npm run lint` | PASS | Brak błędów. |
+| `npm run validate:content` | PASS | 35 plików wymaganych, brak trackerów, zakazanych fraz i pól wysokiego ryzyka. |
+| `npm run validate` | PASS | Produkcyjny build Next.js zakończony sukcesem. |
+| `npm run build:pages` | PASS | Eksport GitHub Pages zakończony sukcesem. |
+
+Pozostają wyłącznie bramki niezależne od kodu: potwierdzenie danych podmiotu, review prawne oraz review medyczne artykułów przed włączeniem indeksowania.

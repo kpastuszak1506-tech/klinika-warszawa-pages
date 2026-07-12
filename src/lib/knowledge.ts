@@ -19,10 +19,52 @@ export type KnowledgeArticle = {
   publishedAt: string;
   updatedAt: string;
   reviewStatus: "review-required" | "reviewed";
+  topics: string[];
   sections: KnowledgeSection[];
   sources: KnowledgeSource[];
   relatedSlugs: string[];
 };
+
+export type KnowledgeTopic = {
+  slug: string;
+  label: string;
+  description: string;
+  articleSlugs: string[];
+};
+
+export const knowledgeTopics: KnowledgeTopic[] = [
+  {
+    slug: "konsultacja-stacjonarna",
+    label: "Konsultacja stacjonarna",
+    description:
+      "Materiały o organizacji wizyty, jej przebiegu i przygotowaniu do rozmowy z lekarzem.",
+    articleSlugs: [
+      "jak-wyglada-konsultacja-kwalifikacyjna",
+      "przygotowanie-do-wizyty-stacjonarnej",
+    ],
+  },
+  {
+    slug: "bezpieczenstwo-i-zrodla",
+    label: "Bezpieczeństwo i źródła",
+    description:
+      "Jak rozumieć ograniczenia publikacji naukowych i dlaczego ocena lekarza jest indywidualna.",
+    articleSlugs: [
+      "jak-czytac-dowody-naukowe-o-terapii-kannabinoidowej",
+      "bezpieczenstwo-i-rozmowa-z-lekarzem",
+    ],
+  },
+  {
+    slug: "przygotowanie-i-komunikacja",
+    label: "Przygotowanie i komunikacja",
+    description:
+      "Bezpieczne zasady kontaktu organizacyjnego i przygotowania informacji do omówienia w gabinecie.",
+    articleSlugs: [
+      "jak-wyglada-konsultacja-kwalifikacyjna",
+      "bezpieczenstwo-i-rozmowa-z-lekarzem",
+      "przygotowanie-do-wizyty-stacjonarnej",
+    ],
+  },
+];
 
 export const knowledgeArticles: KnowledgeArticle[] = [
   {
@@ -36,6 +78,7 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     publishedAt: "2026-07-11",
     updatedAt: "2026-07-11",
     reviewStatus: "review-required",
+    topics: ["konsultacja-stacjonarna", "przygotowanie-i-komunikacja"],
     sections: [
       {
         heading: "Cel wizyty",
@@ -93,6 +136,7 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     publishedAt: "2026-07-11",
     updatedAt: "2026-07-11",
     reviewStatus: "review-required",
+    topics: ["bezpieczenstwo-i-zrodla"],
     sections: [
       {
         heading: "Dlaczego pojedyncza publikacja nie wystarcza",
@@ -149,6 +193,7 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     publishedAt: "2026-07-11",
     updatedAt: "2026-07-11",
     reviewStatus: "review-required",
+    topics: ["bezpieczenstwo-i-zrodla", "przygotowanie-i-komunikacja"],
     sections: [
       {
         heading: "Dlaczego ocena jest indywidualna",
@@ -204,6 +249,7 @@ export const knowledgeArticles: KnowledgeArticle[] = [
     publishedAt: "2026-07-11",
     updatedAt: "2026-07-11",
     reviewStatus: "review-required",
+    topics: ["konsultacja-stacjonarna", "przygotowanie-i-komunikacja"],
     sections: [
       {
         heading: "Przygotowanie organizacyjne",
@@ -247,4 +293,14 @@ export const knowledgeArticles: KnowledgeArticle[] = [
 
 export function getKnowledgeArticle(slug: string) {
   return knowledgeArticles.find((article) => article.slug === slug);
+}
+
+export function getKnowledgeTopic(slug: string) {
+  return knowledgeTopics.find((topic) => topic.slug === slug);
+}
+
+export function getArticlesForTopic(topic: KnowledgeTopic) {
+  return knowledgeArticles.filter((article) =>
+    topic.articleSlugs.includes(article.slug),
+  );
 }

@@ -18,6 +18,7 @@ const requiredFiles = [
   "src/app/informacja-dla-pacjenta/page.tsx",
   "src/app/wiedza/page.tsx",
   "src/app/wiedza/[slug]/page.tsx",
+  "src/app/wiedza/tematy/[slug]/page.tsx",
   "src/app/robots.ts",
   "src/app/sitemap.ts",
   "src/components/Header.tsx",
@@ -34,6 +35,8 @@ const requiredFiles = [
   "src/components/RiskNotice.tsx",
   "src/components/SectionHeading.tsx",
   "src/components/KnowledgeCard.tsx",
+  "src/components/KnowledgeTopicCard.tsx",
+  "src/components/Breadcrumbs.tsx",
   "src/components/KnowledgeArticleLayout.tsx",
   "src/config/companyConfig.ts",
   "src/lib/knowledge.ts",
@@ -148,21 +151,34 @@ for (const marker of [
   "reviewStatus:",
   "sources:",
   "relatedSlugs:",
+  "topics:",
 ]) {
   if (!knowledgeContent.includes(marker)) {
     failures.push("Brak pola jakości artykułu wiedzy: " + marker);
   }
 }
 
-const articleCount = (knowledgeContent.match(/^\s{4}slug:/gm) ?? []).length;
-const sourceCount = (knowledgeContent.match(/^\s{8}href:/gm) ?? []).length;
+const articlesData = knowledgeContent.split("export const knowledgeArticles")[1];
+const articleCount = (articlesData.match(/^\s{4}slug:/gm) ?? []).length;
+const sourceCount = (articlesData.match(/^\s{8}href:/gm) ?? []).length;
+const topicCount = (
+  knowledgeContent.split("export const knowledgeArticles")[0].match(/^\s{4}slug:/gm) ?? []
+).length;
 
 if (articleCount < 4 || sourceCount < articleCount * 2) {
   failures.push("Centrum wiedzy musi mieć co najmniej 4 artykuły i 2 źródła na artykuł.");
 }
 
+if (topicCount < 3) {
+  failures.push("Centrum wiedzy musi mieć co najmniej 3 huby tematyczne.");
+}
+
 if (!knowledgeLayout.includes("<ComplianceNotice")) {
   failures.push("Artykuły wiedzy nie zawierają noty compliance.");
+}
+
+if (!knowledgeLayout.includes("<Breadcrumbs")) {
+  failures.push("Artykuły wiedzy nie zawierają nawigacji okruszkowej.");
 }
 
 for (const file of [

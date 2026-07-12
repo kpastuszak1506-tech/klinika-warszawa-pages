@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { isPublicReleaseReady } from "@/config/companyConfig";
-import { knowledgeArticles } from "@/lib/knowledge";
+import { knowledgeArticles, knowledgeTopics } from "@/lib/knowledge";
 import { absoluteSiteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -37,6 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(article.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.65,
+    })),
+    ...knowledgeTopics.map((topic) => ({
+      url: absoluteSiteUrl("/wiedza/tematy/" + topic.slug),
+      lastModified: new Date("2026-07-11"),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }

@@ -83,7 +83,7 @@ export function CookieConsent() {
     return (
       <button
         aria-label="Otwórz ustawienia cookies"
-        className="fixed bottom-4 left-4 z-50 min-h-10 rounded-md border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-navy-900 shadow-sm transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
+        className="cookie-fab"
         onClick={() => setIsVisible(true)}
         type="button"
       >
@@ -96,9 +96,9 @@ export function CookieConsent() {
     <section
       aria-label="Ustawienia cookies"
       aria-live="polite"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/98 shadow-[0_-18px_60px_rgba(15,39,72,0.12)] backdrop-blur-xl"
+      className="cookie-sheet"
     >
-      <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:px-5">
+      <div className="cookie-sheet__content">
         <div>
           <h2 className="text-base font-semibold text-navy-950">
             Ustawienia prywatności

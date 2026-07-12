@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { companyConfig } from "@/config/companyConfig";
-import { footerNavItems, legalNavItems } from "@/lib/siteContent";
+import { legalNavItems, navItems } from "@/lib/siteContent";
 
 const phoneHref = `tel:${companyConfig.phone.replace(/[^+\d]/g, "")}`;
 
@@ -38,7 +38,7 @@ export function Footer() {
         <div>
           <h2 className="text-sm font-semibold text-navy-950">Strony</h2>
           <ul className="mt-3 space-y-2 text-sm text-slate-600">
-            {footerNavItems.map((item) => (
+            {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   className="rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
