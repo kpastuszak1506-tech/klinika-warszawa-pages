@@ -13,7 +13,7 @@ const priceRows = [
 
 export function PriceTable() {
   return (
-    <div className="overflow-hidden rounded-lg border border-white/80 bg-white shadow-[0_28px_80px_rgba(15,39,72,0.12)]">
+    <div className="price-table overflow-hidden rounded-lg border border-white/80 bg-white shadow-[0_28px_80px_rgba(15,39,72,0.12)]">
       <table className="w-full border-collapse text-left">
         <caption className="sr-only">Neutralny cennik konsultacji</caption>
         <thead className="bg-navy-950 text-white">

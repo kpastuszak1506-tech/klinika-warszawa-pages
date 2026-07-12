@@ -390,8 +390,8 @@ body {
 }
 
 .clinical-orbit {
-  margin: 2rem auto 0;
-  max-width: 22rem;
+  margin: 1rem auto 0;
+  max-width: 18rem;
   overflow: hidden;
   position: relative;
 }
@@ -645,3 +645,14 @@ body {
     padding: 0.35rem 0.2rem;
   }
 }
+
+
+@media (max-width: 639px) {
+  .price-table th, .price-table td { padding-left: 0.9rem; padding-right: 0.9rem; }
+  .price-table th, .price-table td { padding-bottom: 1rem; padding-top: 1rem; }
+  .price-table tbody th span:last-child { display: block; font-size: 0.95rem; line-height: 1.25; overflow-wrap: anywhere; }
+  .price-table tbody td { font-size: 1.15rem; white-space: nowrap; }
+  .price-table > p { font-size: 0.8rem; line-height: 1.4; padding: 0.9rem; }
+}
+
+.prose-legal, .knowledge-prose, .contact-panel, .booking-surface { overflow-wrap: anywhere; }

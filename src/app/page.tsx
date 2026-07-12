@@ -19,13 +19,13 @@ export default function Home() {
       <ScrollProgress />
       <section className="hero-shell relative -mt-20 overflow-hidden pt-28 lg:-mt-24 lg:pt-32">
         <div aria-hidden="true" className="hero-hairline absolute inset-x-0 top-28" />
-        <div className="mx-auto grid max-w-[1500px] gap-8 px-5 pb-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-5 lg:px-8 lg:pb-12">
+        <div className="mx-auto grid max-w-[1360px] gap-8 px-5 pb-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-5 lg:px-8 lg:pb-12">
           <div className="relative z-20 min-w-0 py-5 lg:py-12 lg:pr-12">
             <p className="eyebrow reveal-up">Warszawa · Wizyta stacjonarna</p>
-            <h1 className="display-heading reveal-up max-w-[10ch] text-balance text-[clamp(2.75rem,12vw,6.8rem)] font-semibold leading-[0.9] text-navy-950">
+            <h1 className="display-heading reveal-up max-w-[10ch] text-balance text-[clamp(2.75rem,7.5vw,6.8rem)] font-semibold leading-[0.9] text-navy-950">
               Konsultacje lekarskie w Warszawie
             </h1>
-            <p className="reveal-up-delay mt-6 max-w-xl text-pretty text-lg leading-8 text-slate-600 md:text-xl md:leading-9">
+            <p className="reveal-up-delay mt-5 max-w-xl text-pretty text-base leading-7 text-slate-600 md:text-xl md:leading-9">
               Kwalifikacja do terapii kannabinoidowej odbywa się podczas
               wizyty stacjonarnej w gabinecie. Strona służy do informacji
               organizacyjnych oraz kontaktu w sprawie terminu.
@@ -76,7 +76,7 @@ export default function Home() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="eyebrow">Przebieg wizyty</p>
             <SectionHeading
-              description="Proces jest prosty organizacyjnie, ale decyzja medyczna pozostaje indywidualna i należy do lekarza."
+              description="Cztery etapy organizacyjne. Decyzja medyczna pozostaje indywidualna i należy do lekarza."
               title="Od kontaktu do zaleceń"
             />
             <ClinicalOrbit />
@@ -92,7 +92,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">Przejrzyste warunki</p>
             <SectionHeading
-              description="Przejrzyste stawki za wizytę pierwszorazową i kontrolną, z jasnym zakresem konsultacji."
+              description="Stawki za pierwszą i kontrolną konsultację, z jasno opisanym zakresem wizyty."
               title="Cennik konsultacji"
             />
             <CTAButton href="/cennik" variant="secondary">
@@ -108,7 +108,7 @@ export default function Home() {
           <div>
             <p className="eyebrow">Najczęstsze pytania</p>
             <SectionHeading
-              description="Najczęstsze pytania dotyczą organizacji wizyty, zakresu formularza i zasad decyzji lekarskiej."
+              description="Odpowiedzi o organizacji wizyty, formularzu i decyzji lekarza."
               title="Ważne informacje przed kontaktem"
             />
             <FAQ limit={4} />
@@ -139,7 +139,7 @@ export default function Home() {
             <div>
               <p className="eyebrow">Wiedza dla pacjenta</p>
               <SectionHeading
-                description="Przejrzyste materiały o konsultacji, bezpieczeństwie i sposobie czytania źródeł naukowych."
+                description="Materiały o konsultacji, bezpieczeństwie i źródłach naukowych."
                 title="Informacja oparta na źródłach"
               />
             </div>

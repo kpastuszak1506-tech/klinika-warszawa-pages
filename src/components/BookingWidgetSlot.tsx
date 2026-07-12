@@ -71,11 +71,11 @@ function BookingFallback({ compact }: BookingWidgetSlotProps) {
             Rezerwacja wizyty
           </p>
           <h2 className="mt-2 text-balance text-2xl font-semibold text-navy-950">
-            Termin przez zatwierdzony system
+            {compact ? "Rezerwacja wizyty" : "Termin przez zatwierdzony system"}
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-600">
             {compact
-              ? "Moduł online zostanie uruchomiony po bezpiecznym podłączeniu systemu. Nie podawaj danych medycznych przez stronę."
+              ? "Moduł online zostanie uruchomiony po bezpiecznym podłączeniu systemu. Nie przesyłaj danych medycznych przez stronę."
               : "Moduł rezerwacji online zostanie aktywowany po bezpiecznym podłączeniu systemu. Strona nie zbiera przez niego danych medycznych."}
           </p>
         </div>
