@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import {
   companyConfig,
+  isDemoPreview,
   isPublicDataVerified,
   isPublicReleaseReady,
 } from "@/config/companyConfig";
@@ -93,6 +94,13 @@ export default function RootLayout({
           />
         ) : null}
         <Header />
+        {isDemoPreview ? (
+          <div className="demo-preview-banner" role="status">
+            <p className="demo-preview-banner__content">
+              Wersja testowa strony. Dane kontaktowe, ceny i rezerwacja służą wyłącznie do podglądu.
+            </p>
+          </div>
+        ) : null}
         <main className="flex-1" id="main-content">
           {children}
         </main>

@@ -7,7 +7,7 @@ import { PriceTable } from "@/components/PriceTable";
 import { ProcessSlider } from "@/components/ProcessSlider";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerGroup } from "@/components/motion/StaggerGroup";
-import { isLocalDemoPreview, isPublicDataVerified } from "@/config/companyConfig";
+import { isDemoPreview, isPublicDataVerified } from "@/config/companyConfig";
 import { visibleKnowledgeArticles } from "@/lib/knowledge";
 
 const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -140,7 +140,7 @@ export default function Home() {
                 <KnowledgeCard
                   article={article}
                   key={article.slug}
-                  preview={isLocalDemoPreview}
+                  preview={isDemoPreview}
                 />
               ))}
             </StaggerGroup>

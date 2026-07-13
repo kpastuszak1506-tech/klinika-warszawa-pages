@@ -3,14 +3,15 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { BookingWidgetSlot } from "@/components/BookingWidgetSlot";
-import { companyConfig, isLocalDemoPreview } from "@/config/companyConfig";
+import { companyConfig, displayCompanyData } from "@/config/companyConfig";
 import { processSteps } from "@/lib/siteContent";
 
-const openingTitle = isLocalDemoPreview
-  ? "Klinika Warszawa"
-  : companyConfig.shortName ||
-    companyConfig.companyName ||
-    "Konsultacje lekarskie w Warszawie";
+const openingTitle =
+  displayCompanyData?.shortName ||
+  displayCompanyData?.companyName ||
+  companyConfig.shortName ||
+  companyConfig.companyName ||
+  "Konsultacje lekarskie w Warszawie";
 
 type ProcessSliderProps = {
   medicalNotice: ReactNode;

@@ -42,7 +42,12 @@ const activeContentFiles = [
   ...walk(join(root, "src/components")),
   ...walk(join(root, "src/config")),
   ...walk(join(root, "src/lib")),
-].filter((file) => /\.(ts|tsx)$/.test(file) && !file.includes("/clinical-3d/"));
+].filter(
+  (file) =>
+    /\.(ts|tsx)$/.test(file) &&
+    !/ \d+\.(ts|tsx)$/.test(file) &&
+    !file.includes("/clinical-3d/"),
+);
 
 const forbiddenPhrases = [
   "kup receptę",
@@ -139,13 +144,19 @@ function loadTypeScriptModule(relativePath, stubs = {}) {
   return compiledModule.exports;
 }
 
-function loadCompanyConfigForEnvironment(nodeEnv) {
+function loadCompanyConfigForEnvironment({ nodeEnv, demoPreview = false }) {
   const previousNodeEnv = process.env.NODE_ENV;
+  const previousDemoPreview = process.env.NEXT_PUBLIC_DEMO_PREVIEW;
 
   if (nodeEnv === undefined) {
     delete process.env.NODE_ENV;
   } else {
     process.env.NODE_ENV = nodeEnv;
+  }
+  if (demoPreview) {
+    process.env.NEXT_PUBLIC_DEMO_PREVIEW = "true";
+  } else {
+    delete process.env.NEXT_PUBLIC_DEMO_PREVIEW;
   }
 
   try {
@@ -155,6 +166,11 @@ function loadCompanyConfigForEnvironment(nodeEnv) {
       delete process.env.NODE_ENV;
     } else {
       process.env.NODE_ENV = previousNodeEnv;
+    }
+    if (previousDemoPreview === undefined) {
+      delete process.env.NEXT_PUBLIC_DEMO_PREVIEW;
+    } else {
+      process.env.NEXT_PUBLIC_DEMO_PREVIEW = previousDemoPreview;
     }
   }
 }
@@ -221,16 +237,28 @@ if (!/citationIds\?\s*:\s*string\[\]/.test(knowledgeSource)) {
 
 let companyConfig;
 let knowledge;
+let demoKnowledge;
 let configModule;
+let demoConfigModule;
 let localDemoConfigModule;
 try {
-  configModule = loadTypeScriptModule("src/config/companyConfig.ts");
-  localDemoConfigModule = loadCompanyConfigForEnvironment("development");
+  configModule = loadCompanyConfigForEnvironment({ nodeEnv: "production" });
+  demoConfigModule = loadCompanyConfigForEnvironment({
+    nodeEnv: "production",
+    demoPreview: true,
+  });
+  localDemoConfigModule = loadCompanyConfigForEnvironment({ nodeEnv: "development" });
   companyConfig = configModule.companyConfig;
   knowledge = loadTypeScriptModule("src/lib/knowledge.ts", {
     "@/config/companyConfig": {
       isPublicReleaseReady: configModule.isPublicReleaseReady,
-      isLocalDemoPreview: configModule.isLocalDemoPreview,
+      isDemoPreview: configModule.isDemoPreview,
+    },
+  });
+  demoKnowledge = loadTypeScriptModule("src/lib/knowledge.ts", {
+    "@/config/companyConfig": {
+      isPublicReleaseReady: demoConfigModule.isPublicReleaseReady,
+      isDemoPreview: demoConfigModule.isDemoPreview,
     },
   });
 } catch (error) {
@@ -294,13 +322,29 @@ if (companyConfig) {
     }
   }
 
-  const expectedLocalDemoPreview =
-    companyConfig.demoMode && process.env.NODE_ENV === "development";
-  if (configModule?.isLocalDemoPreview !== expectedLocalDemoPreview) {
-    fail("isLocalDemoPreview musi zależeć wyłącznie od demoMode i NODE_ENV=development.");
+  const configSource = read("src/config/companyConfig.ts");
+  if (
+    !configSource.includes(
+      'const isDemoPreview =\n  companyConfig.demoMode &&\n  (process.env.NODE_ENV === "development" ||\n    process.env.NEXT_PUBLIC_DEMO_PREVIEW === "true")',
+    )
+  ) {
+    fail("Runtime musi używać jawnego kontraktu isDemoPreview dla development lub NEXT_PUBLIC_DEMO_PREVIEW=true.");
   }
-  if (!read("src/config/companyConfig.ts").includes('process.env.NODE_ENV === "development"')) {
-    fail("isLocalDemoPreview musi być ograniczony do NODE_ENV=development.");
+  const runtimeScenarios = [
+    [configModule, "production bez flagi", false],
+    [demoConfigModule, "production z flagą Pages", true],
+    [localDemoConfigModule, "development bez flagi", true],
+  ];
+  for (const [scenario, label, expected] of runtimeScenarios) {
+    if (scenario?.isDemoPreview !== expected) {
+      fail(`Nieprawidłowy isDemoPreview dla scenariusza ${label}.`);
+    }
+  }
+  if (configModule?.displayCompanyData !== null) {
+    fail("Standard production bez flagi nie może udostępniać danych demo.");
+  }
+  if (!demoConfigModule?.displayCompanyData) {
+    fail("Jawny tryb demo musi udostępniać dane demonstracyjne przez displayCompanyData.");
   }
 
   const localDemoData = localDemoConfigModule?.displayCompanyData;
@@ -313,11 +357,23 @@ if (companyConfig) {
         fail(`Brak demonstracyjnej wartości pola: ${field}`);
       }
     }
-    if (
-      !/demonstracyj/i.test(localDemoData.companyName) ||
-      !/\.test$/i.test(localDemoData.email) ||
-      !/\.test$/i.test(localDemoData.privacyEmail)
-    ) {
+    const localDemoSource =
+      configSource.match(/const localDemoCompanyData[\s\S]*?\n};/)?.[0] ?? "";
+    const hasDemoCompanyPlaceholder =
+      localDemoData.companyName === "Klinika Warszawa" &&
+      companyConfig.demoMode === true &&
+      localDemoSource.includes('companyName: "Klinika Warszawa"');
+    const hasDemonstrativeContactPlaceholders =
+      /demonstracyj/i.test(localDemoData.registeredOfficeAddress) &&
+      /pokazow/i.test(localDemoData.medicalOfficeAddress) &&
+      /^0[\d -]+$/.test(localDemoData.nip) &&
+      /^0+$/.test(localDemoData.regon) &&
+      /^0+$/.test(localDemoData.medicalRegon) &&
+      /^0+$/.test(localDemoData.rpwdlNumber) &&
+      /0{2,}/.test(localDemoData.phone) &&
+      /\.test$/i.test(localDemoData.email) &&
+      /\.test$/i.test(localDemoData.privacyEmail);
+    if (!hasDemoCompanyPlaceholder || !hasDemonstrativeContactPlaceholders) {
       fail("Dane lokalnego demo muszą być jednoznacznymi placeholderami.");
     }
 
@@ -326,7 +382,7 @@ if (companyConfig) {
     );
     const expectedDisplayData = companyConfig.publicDataVerified
       ? verifiedDisplayData
-      : expectedLocalDemoPreview
+      : configModule?.isDemoPreview
         ? localDemoData
         : null;
     if (
@@ -563,12 +619,12 @@ if (knowledge) {
       }
       if (!Array.isArray(visibleKnowledgeArticles) || !Array.isArray(previewKnowledgeArticles)) {
         fail("Model wiedzy nie eksportuje selektorów widocznych i preview.");
-      } else if (!configModule.isLocalDemoPreview) {
+      } else if (!configModule.isDemoPreview) {
         if (
           visibleKnowledgeArticles.length !== publicKnowledgeArticles.length ||
           previewKnowledgeArticles.length !== publicKnowledgeArticles.length
         ) {
-          fail("Poza lokalnym demo selektory widoczne muszą zwracać wyłącznie publiczne materiały.");
+          fail("Standard production selektory widoczne muszą zwracać wyłącznie publiczne materiały.");
         }
         if (
           knowledgeArticles.some(
@@ -576,7 +632,7 @@ if (knowledge) {
               !isPublicKnowledgeArticle(article) && getVisibleKnowledgeArticle(article.slug),
           )
         ) {
-          fail("Poza lokalnym demo getter widocznej wiedzy nie może zwracać szkiców.");
+          fail("Standard production getter widocznej wiedzy nie może zwracać szkiców.");
         }
       } else if (
         visibleKnowledgeArticles.length !== knowledgeArticles.length ||
@@ -585,7 +641,7 @@ if (knowledge) {
           (article) => !getVisibleKnowledgeArticle(article.slug),
         )
       ) {
-        fail("Lokalne demo musi udostępniać wszystkie materiały wyłącznie przez selektory preview.");
+        fail("Tryb demo musi udostępniać wszystkie materiały wyłącznie przez selektory preview.");
       }
     }
 
@@ -600,6 +656,32 @@ if (knowledge) {
   }
 }
 
+if (knowledge && demoKnowledge) {
+  if (knowledge.visibleKnowledgeArticles.some((article) => article.reviewStatus === "review-required")) {
+    fail("Standard production bez flagi nie może pokazywać artykułów review-required.");
+  }
+  if (demoKnowledge.visibleKnowledgeArticles.length !== 7) {
+    fail("Tryb demo Pages musi udostępniać dokładnie 7 visibleKnowledgeArticles.");
+  }
+  if (
+    demoKnowledge.publicKnowledgeArticles.some((article) => article.reviewStatus === "review-required") ||
+    demoKnowledge.publicKnowledgeTopics.some((topic) =>
+      demoKnowledge.getPublicArticlesForTopic(topic).some(
+        (article) => article.reviewStatus === "review-required",
+      ),
+    )
+  ) {
+    fail("Publiczne selektory wiedzy nie mogą zawierać materiałów review-required w trybie demo.");
+  }
+  if (
+    demoKnowledge.knowledgeArticles.some(
+      (article) => article.reviewStatus === "review-required" && demoKnowledge.isIndexableKnowledgeArticle(article),
+    )
+  ) {
+    fail("Artykuły review-required nie mogą być indeksowalne ani emitować schema Article.");
+  }
+}
+
 if (!read("src/app/wiedza/page.tsx").includes("visibleKnowledgeArticles")) {
   fail("Strona /wiedza musi korzystać z selektora widocznych materiałów.");
 }
@@ -611,6 +693,27 @@ if (!read("src/components/KnowledgeCard.tsx").includes("preview?: boolean")) {
 }
 if (!read("src/app/wiedza/tematy/[slug]/page.tsx").includes("publicKnowledgeTopics")) {
   fail("Strona tematu musi korzystać z publicKnowledgeTopics.");
+}
+const articleLayoutSource = read("src/components/KnowledgeArticleLayout.tsx");
+if (
+  !articleLayoutSource.includes("isIndexableKnowledgeArticle") ||
+  !articleLayoutSource.includes("canPublishArticleSchema &&")
+) {
+  fail("Schema Article musi być emitowane wyłącznie dla indeksowalnych artykułów.");
+}
+if (!read("src/app/wiedza/[slug]/page.tsx").includes("indexable: isDemoPreview ? false")) {
+  fail("Strona artykułu musi wymuszać noindex w trybie demo.");
+}
+const layoutSource = read("src/app/layout.tsx");
+if (!layoutSource.includes("Wersja testowa strony.")) {
+  fail("Brak subtelnego komunikatu wersji testowej w layoucie demo.");
+}
+const pagesWorkflowSource = read(".github/workflows/pages.yml");
+if (
+  !pagesWorkflowSource.includes("NEXT_PUBLIC_DEMO_PREVIEW: \"true\"") ||
+  !pagesWorkflowSource.includes("run: npm run build:pages")
+) {
+  fail("Workflow Pages musi przekazywać NEXT_PUBLIC_DEMO_PREVIEW=true do build:pages.");
 }
 
 const sitemapSource = read("src/app/sitemap.ts");

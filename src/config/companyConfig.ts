@@ -51,8 +51,10 @@ export type DisplayCompanyData = Readonly<CompanyDataFields>;
 
 export const isPublicDataVerified = companyConfig.publicDataVerified;
 
-export const isLocalDemoPreview =
-  companyConfig.demoMode && process.env.NODE_ENV === "development";
+export const isDemoPreview =
+  companyConfig.demoMode &&
+  (process.env.NODE_ENV === "development" ||
+    process.env.NEXT_PUBLIC_DEMO_PREVIEW === "true");
 
 const verifiedCompanyData: DisplayCompanyData = {
   companyName: companyConfig.companyName,
@@ -70,8 +72,8 @@ const verifiedCompanyData: DisplayCompanyData = {
 };
 
 const localDemoCompanyData: DisplayCompanyData = {
-  companyName: "Centrum Konsultacji Demonstracyjnych",
-  shortName: "Centrum Demonstracyjne",
+  companyName: "Klinika Warszawa",
+  shortName: "Klinika Warszawa",
   legalForm: "sp. z o.o.",
   registeredOfficeAddress: "ul. Demonstracyjna 12, 00-001 Warszawa",
   medicalOfficeAddress: "ul. Pokazowa 8, 00-002 Warszawa",
@@ -84,13 +86,13 @@ const localDemoCompanyData: DisplayCompanyData = {
   privacyEmail: "prywatnosc@centrum-demo.test",
 };
 
-// This is the only route by which sample company data may reach a local preview.
+// This is the only route by which sample company data may reach a demo preview.
 export function getDisplayCompanyData(): DisplayCompanyData | null {
   if (isPublicDataVerified) {
     return verifiedCompanyData;
   }
 
-  return isLocalDemoPreview ? localDemoCompanyData : null;
+  return isDemoPreview ? localDemoCompanyData : null;
 }
 
 export const displayCompanyData = getDisplayCompanyData();

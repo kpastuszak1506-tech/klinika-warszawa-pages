@@ -1,6 +1,6 @@
 import {
   companyConfig,
-  isLocalDemoPreview,
+  isDemoPreview,
   isPublicDataVerified,
 } from "@/config/companyConfig";
 
@@ -31,7 +31,7 @@ const demoPriceRows = [
 ];
 
 export function PriceTable() {
-  if (!isPublicDataVerified && !isLocalDemoPreview) {
+  if (!isPublicDataVerified && !isDemoPreview) {
     return (
       <div className="price-table">
         <div className="price-table__header">

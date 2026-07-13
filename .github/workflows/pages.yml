@@ -38,6 +38,8 @@ jobs:
         run: npm run validate:content
 
       - name: Build static export
+        env:
+          NEXT_PUBLIC_DEMO_PREVIEW: "true"
         run: npm run build:pages
 
       - name: Disable Jekyll

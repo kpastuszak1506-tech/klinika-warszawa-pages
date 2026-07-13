@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { KnowledgeArticleLayout } from "@/components/KnowledgeArticleLayout";
-import { isLocalDemoPreview } from "@/config/companyConfig";
+import { isDemoPreview } from "@/config/companyConfig";
 import {
   getVisibleKnowledgeArticle,
   isIndexableKnowledgeArticle,
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps) {
     path: "/wiedza/" + article.slug,
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
-    indexable: isLocalDemoPreview ? false : isIndexableKnowledgeArticle(article),
+    indexable: isDemoPreview ? false : isIndexableKnowledgeArticle(article),
   });
 }
 

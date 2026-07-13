@@ -48,6 +48,7 @@ Jest 7 artykulow `review-required`, po 4 zrodla na artykul, razem 28 zrodel i 11
 
 ## Nota biezacej iteracji
 
+- Naprawiono zrodlo tytulu ProcessSlider, filtr duplikatow plikow oraz walidacje lokalnych placeholderow; `npm run validate:content` i `git diff --check` pozostaja PASS.
 - Copy procesu zmieniono na „Od rezerwacji do zalecen” i dodano nowy, naturalny lede.
 - Scentralizowane lokalne dane demonstracyjne firmy, kontaktu i rejestru sa renderowane w stopce oraz na `/kontakt`, z jawnym badge demo. Przy niezweryfikowanym eksporcie produkcyjnym dane przyjmuja `null`, bez linkow `tel:`/`mailto:`.
 - Potwierdzona nazwa oprogramowania to Medfile. Konfiguracja akceptuje wylacznie publiczny adres HTTPS na `medfile.pl` lub subdomenie; gotowosc wymaga rowniez `publicDataVerified`. Po stronie klienta nie jest przechowywany token ani sekret API. Adapter/slot jest przygotowany i oczekuje na publiczny URL rezerwacji; widget Medfile nie jest aktywny. Slot pozostaje wysoko w hero i w pelnym ukladzie na `/kontakt`.

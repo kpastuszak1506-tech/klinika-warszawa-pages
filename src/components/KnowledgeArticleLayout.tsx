@@ -1,4 +1,4 @@
-import { companyConfig } from "@/config/companyConfig";
+import { companyConfig, isDemoPreview } from "@/config/companyConfig";
 import {
   getKnowledgeTopic,
   isIndexableKnowledgeArticle,
@@ -385,7 +385,11 @@ export function KnowledgeArticleLayout({
             </h2>
             <div className="mt-8 grid gap-5 md:grid-cols-2">
               {relatedArticles.map((relatedArticle) => (
-                <KnowledgeCard article={relatedArticle} key={relatedArticle.slug} />
+                <KnowledgeCard
+                  article={relatedArticle}
+                  key={relatedArticle.slug}
+                  preview={isDemoPreview}
+                />
               ))}
             </div>
           </div>

@@ -5,6 +5,7 @@ import { join, relative } from "node:path";
 const root = process.cwd();
 const outDirectory = join(root, "out");
 const failures = [];
+const isDemoPreview = process.env.NEXT_PUBLIC_DEMO_PREVIEW === "true";
 const require = createRequire(import.meta.url);
 const typescript = require("typescript");
 
@@ -52,9 +53,15 @@ function loadTypeScriptModule(relativePath, stubs = {}) {
   return compiledModule.exports;
 }
 
-function loadCompanyConfigForEnvironment(nodeEnv) {
+function loadCompanyConfigForEnvironment({ nodeEnv = "production", demoPreview = false } = {}) {
   const previousNodeEnv = process.env.NODE_ENV;
+  const previousDemoPreview = process.env.NEXT_PUBLIC_DEMO_PREVIEW;
   process.env.NODE_ENV = nodeEnv;
+  if (demoPreview) {
+    process.env.NEXT_PUBLIC_DEMO_PREVIEW = "true";
+  } else {
+    delete process.env.NEXT_PUBLIC_DEMO_PREVIEW;
+  }
 
   try {
     return loadTypeScriptModule("src/config/companyConfig.ts");
@@ -63,6 +70,11 @@ function loadCompanyConfigForEnvironment(nodeEnv) {
       delete process.env.NODE_ENV;
     } else {
       process.env.NODE_ENV = previousNodeEnv;
+    }
+    if (previousDemoPreview === undefined) {
+      delete process.env.NEXT_PUBLIC_DEMO_PREVIEW;
+    } else {
+      process.env.NEXT_PUBLIC_DEMO_PREVIEW = previousDemoPreview;
     }
   }
 }
@@ -103,6 +115,10 @@ function visibleText(markup) {
   return decodeHtml(markup.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
+function hasPrice(markup, amount) {
+  return new RegExp(`(?:^|\\D)${amount}\\s*zł(?:$|\\D)`, "i").test(visibleText(markup));
+}
+
 function exportedArticleFiles(slug) {
   return [
     join(outDirectory, "wiedza", slug, "index.html"),
@@ -133,41 +149,74 @@ function pageFileExists(pathname) {
   );
 }
 
+function countOccurrences(value, pattern) {
+  return value.match(pattern)?.length ?? 0;
+}
+
+function isExportFile(file) {
+  return !/\s\d+\.[^/]+$/.test(file);
+}
+
 if (!existsSync(outDirectory)) {
   fail("Brak katalogu out/. Uruchom najpierw build:pages.");
 } else {
-  const configModule = loadTypeScriptModule("src/config/companyConfig.ts");
+  const configModule = loadCompanyConfigForEnvironment({
+    nodeEnv: "production",
+    demoPreview: isDemoPreview,
+  });
   const config = configModule.companyConfig;
-  const localDemoConfig = loadCompanyConfigForEnvironment("development");
-  const localDemoData = localDemoConfig.displayCompanyData;
+  const demoConfig = loadCompanyConfigForEnvironment({
+    nodeEnv: "production",
+    demoPreview: true,
+  });
+  const demoData = demoConfig.displayCompanyData;
   const knowledge = loadTypeScriptModule("src/lib/knowledge.ts", {
     "@/config/companyConfig": {
       isPublicReleaseReady: configModule.isPublicReleaseReady,
-      isLocalDemoPreview: configModule.isLocalDemoPreview,
+      isDemoPreview: configModule.isDemoPreview,
     },
   });
-  if (configModule.isLocalDemoPreview) {
-    fail("Eksport statyczny nie może uruchamiać lokalnego trybu demo.");
+  if (configModule.isDemoPreview !== isDemoPreview) {
+    fail("Flaga eksportu musi odpowiadać runtime isDemoPreview.");
   }
-  const nonPublicArticles = knowledge.knowledgeArticles.filter(
+  const draftArticles = knowledge.knowledgeArticles.filter(
     (article) =>
       article.reviewStatus === "review-required" ||
       !knowledge.isPublicKnowledgeArticle(article),
   );
+  const nonPublicArticles = draftArticles;
+  if (isDemoPreview) {
+    if (knowledge.visibleKnowledgeArticles.length !== 7 || draftArticles.length !== 7) {
+      fail("Demo export musi mieć dokładnie 7 widocznych artykułów review-required.");
+    }
+  }
   const websiteUrl = new URL(config.websiteUrl);
   const basePath = websiteUrl.pathname.replace(/\/$/, "");
-  const htmlFiles = walk(outDirectory).filter((file) => file.endsWith(".html"));
-  const exportedFiles = walk(outDirectory).filter((file) => /\.(?:html|js|json|css)$/i.test(file));
+  const htmlFiles = walk(outDirectory).filter((file) => file.endsWith(".html") && isExportFile(file));
+  const exportedFiles = walk(outDirectory).filter(
+    (file) => /\.(?:html|js|json|css)$/i.test(file) && isExportFile(file),
+  );
   const forbiddenOutputPatterns = [
     /example\.com/i,
     /(?:test|kontakt|rejestracja)@/i,
     /\+?48[\s-]*22[\s-]*123[\s-]*45[\s-]*67/,
-    /\b(?:medlife|medfile|docplanner|booksy)\b/i,
+  ];
+  const forbiddenTechnicalPatterns = [
     /\b(?:iframe|api endpoint|secure proxy|allowed origin|widget rezerwacji)\b/i,
   ];
 
-  if (configModule.isLocalDemoPreview || configModule.displayCompanyData) {
-    fail("Eksport statyczny nie może uruchamiać displayCompanyData lokalnego demo.");
+  if (!isDemoPreview && configModule.displayCompanyData) {
+    fail("Standard production export nie może uruchamiać displayCompanyData demo.");
+  }
+  if (isDemoPreview) {
+    if (!configModule.displayCompanyData || !demoData) {
+      fail("Demo export musi zawierać dane demonstracyjne.");
+    }
+    if (config.demoFirstVisitPrice !== "300" || config.demoFollowUpVisitPrice !== "200") {
+      fail("Demo export musi używać cen 300 i 200.");
+    }
+  } else if (configModule.isDemoPreview) {
+    fail("Standard production export nie może uruchamiać trybu demo.");
   }
   if (!config.publicDataVerified && configModule.isMedfileBookingReady) {
     fail("Niezweryfikowane dane publiczne nie mogą aktywować rezerwacji Medfile.");
@@ -180,12 +229,25 @@ if (!existsSync(outDirectory)) {
     fail("Zweryfikowane dane z niepoprawnym publicBookingUrl nie mogą przejść eksportu.");
   }
 
+  const exportedOutput = exportedFiles
+    .map((file) => readFileSync(file, "utf8"))
+    .join("\n");
+  if (isDemoPreview && demoData) {
+    for (const value of Object.values(demoData)) {
+      if (hasText(value) && !exportedOutput.includes(value)) {
+        fail(`Demo export nie zawiera wymaganej danej demonstracyjnej: ${value}`);
+      }
+    }
+  }
+
   for (const file of exportedFiles) {
     const output = readFileSync(file, "utf8");
-    for (const value of Object.values(localDemoData ?? {})) {
-      if (hasText(value) && output.includes(value)) {
-        fail(`Dane demonstracyjne wyciekły do eksportu: ${relative(root, file)}`);
-        break;
+    if (!isDemoPreview) {
+      for (const value of Object.values(demoData ?? {})) {
+        if (hasText(value) && output.includes(value)) {
+          fail(`Dane demonstracyjne wyciekły do eksportu: ${relative(root, file)}`);
+          break;
+        }
       }
     }
   }
@@ -201,17 +263,20 @@ if (!existsSync(outDirectory)) {
       route === "/404/" ||
       route === "/_not-found/";
 
-    for (const pattern of forbiddenOutputPatterns) {
+    for (const pattern of [...(isDemoPreview ? [] : forbiddenOutputPatterns), ...forbiddenTechnicalPatterns]) {
       if (pattern.test(html)) {
         fail(`Niedozwolona dana lub opis techniczny w eksporcie: ${label} (${pattern})`);
       }
     }
-    if (!config.publicDataVerified && /(?:href=["']tel:|href=["']mailto:)/i.test(html)) {
+    if (!isDemoPreview && !config.publicDataVerified && /(?:href=["']tel:|href=["']mailto:)/i.test(html)) {
       fail(`Niezweryfikowane dane publiczne nie mogą tworzyć tel:/mailto: w ${label}`);
     }
     if (
+      !isDemoPreview &&
       config.demoMode &&
-      /(?:\b300\s*zł\b|\b200\s*zł\b|Cennik demonstracyjny wersji próbnej)/i.test(markup)
+      (hasPrice(markup, 300) ||
+        hasPrice(markup, 200) ||
+        /Cennik demonstracyjny wersji próbnej/i.test(markup))
     ) {
       fail(`Eksport nie może zawierać demonstracyjnego cennika: ${label}`);
     }
@@ -221,6 +286,22 @@ if (!existsSync(outDirectory)) {
       .map((tag) => getAttribute(tag[0], "content")?.toLowerCase() ?? "");
     if (!config.publicDataVerified && !robots.some((value) => value.includes("noindex"))) {
       fail(`Brak noindex przy niezweryfikowanych danych: ${label}`);
+    }
+    if (
+      isDemoPreview &&
+      !isSystemFallback &&
+      !robots.some((value) => value.includes("noindex") && value.includes("nofollow"))
+    ) {
+      fail(`Demo export musi mieć noindex,nofollow w ${label}`);
+    }
+    const isCompatRedirect = route === "/informacja-dla-pacjenta/";
+    if (
+      isDemoPreview &&
+      !isSystemFallback &&
+      !isCompatRedirect &&
+      !visibleText(markup).includes("Wersja testowa strony.")
+    ) {
+      fail(`Brak oznaczenia wersji testowej w ${label}`);
     }
 
     const canonicalTag = [...html.matchAll(/<link\b[^>]*>/gi)].find(
@@ -232,7 +313,7 @@ if (!existsSync(outDirectory)) {
     }
 
     const anchors = [...markup.matchAll(/<a\b[^>]*>/gi)];
-    if (!isSystemFallback) {
+    if (!isSystemFallback && !isDemoPreview) {
       const pageText = visibleText(markup);
       for (const article of nonPublicArticles) {
         if (pageText.includes(article.title.replace(/\s+/g, " ").trim())) {
@@ -258,6 +339,14 @@ if (!existsSync(outDirectory)) {
         continue;
       }
       if (url.origin !== websiteUrl.origin) {
+        if (
+          isDemoPreview &&
+          /(?:medfile|docplanner|booksy|znanylekarz|booking|rezerwacj|widget)/i.test(
+            `${url.hostname}${url.pathname}${url.search}`,
+          )
+        ) {
+          fail(`Demo export nie może zawierać zewnętrznego URL rezerwacji/widgetu w ${label}: ${href}`);
+        }
         continue;
       }
       if (basePath && url.pathname !== basePath && !url.pathname.startsWith(`${basePath}/`)) {
@@ -269,6 +358,7 @@ if (!existsSync(outDirectory)) {
         ? url.pathname.slice(basePath.length) || "/"
         : url.pathname || "/";
       if (
+        !isDemoPreview &&
         !isSystemFallback &&
         nonPublicArticles.some(
           (article) => internalPath.replace(/\/$/, "") === `/wiedza/${article.slug}`,
@@ -283,13 +373,26 @@ if (!existsSync(outDirectory)) {
   }
 
   for (const article of nonPublicArticles) {
-    for (const file of exportedArticleFiles(article.slug)) {
-      const html = readFileSync(file, "utf8");
-      const isNotFound =
-        /<html\b[^>]*\bid=["']__next_error__["']/i.test(html) ||
-        /NEXT_HTTP_ERROR_FALLBACK;404/.test(html);
-      if (!isNotFound) {
-        fail(`Niepubliczny artykuł ma wyeksportowaną stronę z treścią: ${relative(root, file)}`);
+    const articleFiles = exportedArticleFiles(article.slug);
+    if (isDemoPreview) {
+      if (articleFiles.length !== 1) {
+        fail(`Demo export musi mieć dokładnie jedną stronę artykułu: ${article.slug}`);
+      }
+      for (const file of articleFiles) {
+        const html = readFileSync(file, "utf8");
+        if (/"@type"\s*:\s*"Article"/i.test(html)) {
+          fail(`Draft nie może mieć schema Article: ${relative(root, file)}`);
+        }
+      }
+    } else {
+      for (const file of articleFiles) {
+        const html = readFileSync(file, "utf8");
+        const isNotFound =
+          /<html\b[^>]*\bid=["']__next_error__["']/i.test(html) ||
+          /NEXT_HTTP_ERROR_FALLBACK;404/.test(html);
+        if (!isNotFound) {
+          fail(`Niepubliczny artykuł ma wyeksportowaną stronę z treścią: ${relative(root, file)}`);
+        }
       }
     }
   }
@@ -302,7 +405,35 @@ if (!existsSync(outDirectory)) {
   }
 
   const knowledgeIndex = join(outDirectory, "wiedza", "index.html");
-  if (existsSync(knowledgeIndex) && knowledge.publicKnowledgeArticles.length === 0) {
+  if (isDemoPreview) {
+    const homeFile = join(outDirectory, "index.html");
+    const priceFile = join(outDirectory, "cennik", "index.html");
+    if (!existsSync(homeFile) || !existsSync(knowledgeIndex) || !existsSync(priceFile)) {
+      fail("Demo export musi zawierać home, /wiedza i /cennik.");
+    } else {
+      const homeMarkup = renderedMarkup(readFileSync(homeFile, "utf8"));
+      const knowledgeMarkup = renderedMarkup(readFileSync(knowledgeIndex, "utf8"));
+      const priceMarkup = renderedMarkup(readFileSync(priceFile, "utf8"));
+      if (countOccurrences(homeMarkup, /class=["'][^"']*\bknowledge-card\b[^"']*["']/gi) !== 7) {
+        fail("Demo export musi mieć 7 kart wiedzy na stronie głównej.");
+      }
+      if (countOccurrences(knowledgeMarkup, /class=["'][^"']*\bknowledge-card\b[^"']*["']/gi) !== 7) {
+        fail("Demo export musi mieć 7 kart wiedzy na /wiedza.");
+      }
+      if (!hasPrice(homeMarkup, 300) || !hasPrice(homeMarkup, 200)) {
+        fail("Demo export musi pokazywać ceny 300 zł i 200 zł na home.");
+      }
+      if (!hasPrice(priceMarkup, 300) || !hasPrice(priceMarkup, 200)) {
+        fail("Demo export musi pokazywać ceny 300 zł i 200 zł na /cennik.");
+      }
+    }
+    if (!/Rezerwacja online zostanie udostępniona przed rozpoczęciem przyjmowania pacjentów\./.test(exportedOutput)) {
+      fail("Demo export musi zawierać wyłącznie neutralny placeholder rezerwacji.");
+    }
+    if (configModule.isMedfileBookingReady || hasText(config.bookingWidget.publicBookingUrl)) {
+      fail("Demo export nie może mieć aktywnego Medfile ani widget URL.");
+    }
+  } else if (existsSync(knowledgeIndex) && knowledge.publicKnowledgeArticles.length === 0) {
     const markup = renderedMarkup(readFileSync(knowledgeIndex, "utf8"));
     if (!visibleText(markup).includes("Materiały dla pacjentów zostaną opublikowane przed uruchomieniem placówki.")) {
       fail("/wiedza nie ma neutralnego pustego stanu.");
@@ -312,13 +443,17 @@ if (!existsSync(outDirectory)) {
     }
   }
 
-  if (!config.publicDataVerified) {
+  if (!config.publicDataVerified || isDemoPreview) {
     const sitemapFile = join(outDirectory, "sitemap.xml");
-    if (existsSync(sitemapFile) && /<loc\b/i.test(readFileSync(sitemapFile, "utf8"))) {
+    if (!existsSync(sitemapFile)) {
+      fail("Eksport musi zawierać sitemap.xml.");
+    } else if (/<loc\b/i.test(readFileSync(sitemapFile, "utf8"))) {
       fail("Sitemap musi pozostać pusta przy niezweryfikowanych danych publicznych.");
     }
     const robotsFile = join(outDirectory, "robots.txt");
-    if (existsSync(robotsFile) && !/Disallow:\s*\//i.test(readFileSync(robotsFile, "utf8"))) {
+    if (!existsSync(robotsFile)) {
+      fail("Eksport musi zawierać robots.txt.");
+    } else if (!/Disallow:\s*\//i.test(readFileSync(robotsFile, "utf8"))) {
       fail("robots.txt musi blokować indeksację przy niezweryfikowanych danych publicznych.");
     }
   }

@@ -1,7 +1,7 @@
 import { KnowledgeCard } from "@/components/KnowledgeCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
-  isLocalDemoPreview,
+  isDemoPreview,
   isPublicReleaseReady,
 } from "@/config/companyConfig";
 import { visibleKnowledgeArticles } from "@/lib/knowledge";
@@ -41,7 +41,7 @@ export default function KnowledgePage() {
               <KnowledgeCard
                 article={article}
                 key={article.slug}
-                preview={isLocalDemoPreview}
+                preview={isDemoPreview}
               />
             ))}
           </div>

@@ -1,5 +1,5 @@
 import {
-  isLocalDemoPreview,
+  isDemoPreview,
   isPublicReleaseReady,
 } from "@/config/companyConfig";
 
@@ -1759,7 +1759,7 @@ export const publicKnowledgeArticles = knowledgeArticles.filter(
   isPublicKnowledgeArticle,
 );
 
-export const visibleKnowledgeArticles = isLocalDemoPreview
+export const visibleKnowledgeArticles = isDemoPreview
   ? knowledgeArticles
   : publicKnowledgeArticles;
 
