@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-type ConsentPreferences = {
+export type ConsentPreferences = {
   necessary: true;
   analytics: boolean;
   marketing: boolean;
 };
+
+export const cookieSettingsEvent = "klinika:open-cookie-settings";
 
 const storageKey = "klinika-cookie-consent-v2";
 
@@ -65,12 +67,28 @@ export function CookieConsent() {
       setIsReady(true);
     }, 0);
 
-    return () => window.clearTimeout(timeoutId);
+    const handleOpenSettings = () => {
+      setShowSettings(true);
+      setIsVisible(true);
+    };
+
+    window.addEventListener(cookieSettingsEvent, handleOpenSettings);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener(cookieSettingsEvent, handleOpenSettings);
+    };
   }, []);
 
   function save(nextPreferences: ConsentPreferences) {
     setPreferences(nextPreferences);
-    window.localStorage.setItem(storageKey, JSON.stringify(nextPreferences));
+
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify(nextPreferences));
+    } catch {
+      // The choice still applies for this render if storage is unavailable.
+    }
+
     setIsVisible(false);
     setShowSettings(false);
   }
@@ -80,28 +98,20 @@ export function CookieConsent() {
   }
 
   if (!isVisible) {
-    return (
-      <button
-        aria-label="Otwórz ustawienia cookies"
-        className="cookie-fab"
-        onClick={() => setIsVisible(true)}
-        type="button"
-      >
-        Ustawienia cookies
-      </button>
-    );
+    return null;
   }
 
   return (
     <section
-      aria-label="Ustawienia cookies"
-      aria-live="polite"
+      aria-labelledby="cookie-sheet-title"
       className="cookie-sheet"
+      role="dialog"
     >
       <div className="cookie-sheet__content">
-        <div>
-          <h2 className="text-base font-semibold text-navy-950">
-            Ustawienia prywatności
+        <div className="cookie-sheet__copy">
+          <p className="cookie-sheet__kicker">Prywatność</p>
+          <h2 className="text-base font-semibold text-navy-950" id="cookie-sheet-title">
+            Ustawienia cookies
           </h2>
           <p className="mt-1.5 max-w-3xl text-sm leading-5 text-slate-600">
             Niezbędne mechanizmy są aktywne. Analityka i marketing pozostają
@@ -114,17 +124,15 @@ export function CookieConsent() {
             </Link>
           </p>
           {showSettings ? (
-            <div className="mt-4 grid gap-3 border-t border-slate-200 pt-4 text-sm text-slate-700 md:grid-cols-3">
-              <label className="flex items-start gap-3">
+            <div className="cookie-preferences" role="group" aria-label="Kategorie cookies">
+              <label className="cookie-preference">
                 <input checked disabled type="checkbox" />
                 <span>
-                  <span className="block font-semibold text-navy-950">
-                    Niezbędne
-                  </span>
+                  <strong>Niezbędne</strong>
                   Utrzymują działanie strony i zapis wyboru prywatności.
                 </span>
               </label>
-              <label className="flex items-start gap-3">
+              <label className="cookie-preference">
                 <input
                   checked={preferences.analytics}
                   onChange={(event) =>
@@ -136,13 +144,11 @@ export function CookieConsent() {
                   type="checkbox"
                 />
                 <span>
-                  <span className="block font-semibold text-navy-950">
-                    Analityczne
-                  </span>
+                  <strong>Analityczne</strong>
                   Opcjonalne. W obecnej wersji nie są używane.
                 </span>
               </label>
-              <label className="flex items-start gap-3">
+              <label className="cookie-preference">
                 <input
                   checked={preferences.marketing}
                   onChange={(event) =>
@@ -154,18 +160,16 @@ export function CookieConsent() {
                   type="checkbox"
                 />
                 <span>
-                  <span className="block font-semibold text-navy-950">
-                    Marketingowe
-                  </span>
+                  <strong>Marketingowe</strong>
                   Opcjonalne. Strona nie ładuje narzędzi reklamowych.
                 </span>
               </label>
             </div>
           ) : null}
         </div>
-        <div className="grid grid-cols-3 gap-2 lg:min-w-[500px]">
+        <div className="cookie-sheet__actions">
           <button
-            className="min-h-12 rounded-md border border-slate-300 bg-white px-2 py-2 text-[11px] font-semibold leading-4 text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
+            className="cookie-action"
             onClick={() =>
               save({ necessary: true, analytics: true, marketing: true })
             }
@@ -174,7 +178,7 @@ export function CookieConsent() {
             Akceptuję wszystkie
           </button>
           <button
-            className="min-h-12 rounded-md border border-slate-300 bg-white px-2 py-2 text-[11px] font-semibold leading-4 text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
+            className="cookie-action"
             onClick={() => save(defaultPreferences)}
             type="button"
           >
@@ -182,7 +186,7 @@ export function CookieConsent() {
           </button>
           {showSettings ? (
             <button
-              className="min-h-12 rounded-md border border-medical-green bg-medical-green px-2 py-2 text-[11px] font-semibold leading-4 text-white transition hover:bg-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
+              className="cookie-action cookie-action--accent"
               onClick={() => save(preferences)}
               type="button"
             >
@@ -190,7 +194,7 @@ export function CookieConsent() {
             </button>
           ) : (
             <button
-              className="min-h-12 rounded-md border border-slate-300 bg-white px-2 py-2 text-[11px] font-semibold leading-4 text-navy-900 transition hover:border-medical-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green sm:px-4 sm:text-sm"
+              className="cookie-action"
               onClick={() => setShowSettings(true)}
               type="button"
             >

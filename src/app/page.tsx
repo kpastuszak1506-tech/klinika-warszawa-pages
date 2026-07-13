@@ -1,163 +1,217 @@
 import Image from "next/image";
 import { BookingWidgetSlot } from "@/components/BookingWidgetSlot";
-import { ClinicalOrbit } from "@/components/ClinicalOrbit";
+import { ClinicalPathway } from "@/components/clinical-3d/ClinicalPathway";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { FAQ } from "@/components/FAQ";
 import { KnowledgeCard } from "@/components/KnowledgeCard";
 import { PriceTable } from "@/components/PriceTable";
 import { ProcessSteps } from "@/components/ProcessSteps";
-import { SectionHeading } from "@/components/SectionHeading";
-import { ScrollProgress } from "@/components/ScrollProgress";
+import { Reveal } from "@/components/motion/Reveal";
+import { StaggerGroup } from "@/components/motion/StaggerGroup";
+import { companyConfig } from "@/config/companyConfig";
 import { knowledgeArticles } from "@/lib/knowledge";
 
 const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const phoneHref = `tel:${companyConfig.phone.replace(/[^+\d]/g, "")}`;
 
 export default function Home() {
   return (
-    <>
-      <ScrollProgress />
-      <section className="hero-shell relative -mt-20 overflow-hidden pt-28 lg:-mt-24 lg:pt-32">
-        <div aria-hidden="true" className="hero-hairline absolute inset-x-0 top-28" />
-        <div className="mx-auto grid max-w-[1360px] gap-8 px-5 pb-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-center lg:gap-5 lg:px-8 lg:pb-12">
-          <div className="relative z-20 min-w-0 py-5 lg:py-12 lg:pr-12">
-            <p className="eyebrow reveal-up">Warszawa · Wizyta stacjonarna</p>
-            <h1 className="display-heading reveal-up max-w-[10ch] text-balance text-[clamp(2.75rem,7.5vw,6.8rem)] font-semibold leading-[0.9] text-navy-950">
-              Konsultacje lekarskie w Warszawie
-            </h1>
-            <p className="reveal-up-delay mt-5 max-w-xl text-pretty text-base leading-7 text-slate-600 md:text-xl md:leading-9">
-              Kwalifikacja do terapii kannabinoidowej odbywa się podczas
-              wizyty stacjonarnej w gabinecie. Strona służy do informacji
-              organizacyjnych oraz kontaktu w sprawie terminu.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+    <div className="home-page">
+      <section className="hero-shell" id="hero">
+        <div aria-hidden="true" className="hero-shell__hairline" />
+        <div className="site-shell hero-shell__grid">
+          <div className="hero-copy">
+            <Reveal delay={60}>
+              <p className="eyebrow">Warszawa · Wizyta stacjonarna</p>
+            </Reveal>
+            <Reveal delay={120}>
+              <h1 className="display-heading hero-title">
+                Konsultacje lekarskie w Warszawie
+              </h1>
+            </Reveal>
+            <Reveal delay={190}>
+              <p className="hero-lede">
+                Kwalifikacja do terapii kannabinoidowej odbywa się podczas
+                wizyty stacjonarnej w gabinecie. Tu znajdują się informacje
+                organizacyjne i możliwość kontaktu w sprawie terminu.
+              </p>
+            </Reveal>
+            <StaggerGroup className="hero-actions" step={90}>
               <CTAButton href="/kontakt">Zarezerwuj wizytę stacjonarną</CTAButton>
               <CTAButton href="/jak-wyglada-wizyta" variant="secondary">
                 Jak wygląda wizyta
               </CTAButton>
-            </div>
+            </StaggerGroup>
+            <Reveal delay={360}>
+              <p className="hero-quiet-note">
+                <span aria-hidden="true" className="hero-quiet-note__mark" />
+                Decyzję medyczną podejmuje lekarz po osobistym badaniu.
+              </p>
+            </Reveal>
           </div>
 
-          <div className="relative min-h-[320px] sm:min-h-[500px] lg:min-h-[660px]">
-            <div className="hero-media absolute inset-0 overflow-hidden bg-white shadow-[0_30px_120px_rgba(15,39,72,0.16)]">
-              <Image
-                alt="Jasny gabinet lekarski przygotowany do konsultacji stacjonarnej"
-                className="object-cover"
-                fill
-                priority
-                sizes="(min-width: 1024px) 58vw, 100vw"
-                src={`${publicBasePath}/images/medical-office-hero-soft.jpg`}
-              />
+          <Reveal className="hero-visual-column" delay={240} distance={12}>
+            <div className="hero-visual-frame">
+              <div className="hero-media">
+                <Image
+                  alt="Jasny gabinet lekarski przygotowany do konsultacji stacjonarnej"
+                  className="object-cover"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  src={`${publicBasePath}/images/medical-office-hero-soft.jpg`}
+                />
+                <div className="hero-media__veil" />
+                <div className="hero-media__label">
+                  <span>Gabinet</span>
+                  Konsultacja na miejscu
+                </div>
+                <div aria-hidden="true" className="hero-pathway">
+                  <ClinicalPathway variant="hero" />
+                </div>
+                <p className="hero-media__caption">
+                  Przestrzeń przygotowana do spokojnej rozmowy z lekarzem
+                </p>
+              </div>
+              <div className="hero-booking">
+                <BookingWidgetSlot compact />
+              </div>
             </div>
-
-            <div className="absolute right-5 top-5 hidden border border-white/70 bg-white/82 px-4 py-3 text-right text-xs font-semibold uppercase tracking-[0.15em] text-navy-900 shadow-sm backdrop-blur-xl xl:block">
-              <span className="block text-medical-green">Gabinet</span>
-              Konsultacja na miejscu
-            </div>
-
-            <div className="absolute bottom-6 left-6 right-6 z-10 hidden max-w-[440px] lg:block">
-              <BookingWidgetSlot compact />
-            </div>
-          </div>
-        </div>
-        <div className="mx-auto px-5 lg:hidden">
-          <BookingWidgetSlot compact />
+          </Reveal>
         </div>
       </section>
 
-      <div className="compliance-strip border-b border-slate-200 bg-white px-5 py-5 md:py-6">
-        <div className="mx-auto max-w-7xl">
-          <ComplianceNotice className="max-w-3xl" compact />
+      <section className="compliance-band" aria-label="Ważna informacja medyczna">
+        <div className="site-shell compliance-band__inner">
+          <span className="compliance-band__label">Ważne przed kontaktem</span>
+          <ComplianceNotice compact className="compliance-band__notice" />
         </div>
-      </div>
+      </section>
 
-      <section className="process-section px-5 py-14 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-9 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <p className="eyebrow">Przebieg wizyty</p>
-            <SectionHeading
-              description="Cztery etapy organizacyjne. Decyzja medyczna pozostaje indywidualna i należy do lekarza."
-              title="Od kontaktu do zaleceń"
-            />
-            <ClinicalOrbit />
+      <section className="home-section process-section" id="proces">
+        <div className="site-shell process-layout">
+          <div className="process-intro">
+            <Reveal>
+              <p className="eyebrow">Przebieg wizyty</p>
+              <h2 className="display-heading section-title">Od kontaktu do zaleceń</h2>
+              <p className="section-lede">
+                Cztery etapy organizacyjne. Decyzja medyczna pozostaje
+                indywidualna i należy do lekarza.
+              </p>
+            </Reveal>
+            <Reveal className="process-scene" delay={120} distance={10}>
+              <div className="process-scene__topline">
+                <span>Przebieg konsultacji</span>
+                <span aria-hidden="true">01—04</span>
+              </div>
+              <ClinicalPathway variant="process" />
+              <p className="process-scene__note">
+                Wizualizacja porządkuje przebieg konsultacji. Nie jest wynikiem
+                automatycznej kwalifikacji ani diagnozy.
+              </p>
+            </Reveal>
           </div>
-          <div className="process-steps-wrap">
+          <div className="process-list">
+            <div className="process-list__intro">
+              <span className="section-index">01</span>
+              <p>Cztery etapy wizyty</p>
+            </div>
             <ProcessSteps />
           </div>
         </div>
       </section>
 
-      <section className="section-wash px-5 py-14 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-          <div>
+      <section className="home-section price-section" id="cennik">
+        <div className="site-shell price-layout">
+          <Reveal className="price-intro">
             <p className="eyebrow">Przejrzyste warunki</p>
-            <SectionHeading
-              description="Stawki za pierwszą i kontrolną konsultację, z jasno opisanym zakresem wizyty."
-              title="Cennik konsultacji"
-            />
+            <h2 className="display-heading section-title">Cennik konsultacji</h2>
+            <p className="section-lede">
+              Stawki dotyczą czasu lekarza, badania i rozmowy podczas wizyty.
+              Nie są opłatą za określony wynik decyzji medycznej.
+            </p>
             <CTAButton href="/cennik" variant="secondary">
-              Zobacz cennik
+              Zobacz pełny cennik
             </CTAButton>
-          </div>
-          <PriceTable />
+          </Reveal>
+          <Reveal className="price-table-wrap" delay={120} distance={12}>
+            <PriceTable />
+          </Reveal>
         </div>
       </section>
 
-      <section className="border-t border-slate-200 bg-white px-5 py-14 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.12fr_0.88fr]">
-          <div>
-            <p className="eyebrow">Najczęstsze pytania</p>
-            <SectionHeading
-              description="Odpowiedzi o organizacji wizyty, formularzu i decyzji lekarza."
-              title="Ważne informacje przed kontaktem"
-            />
-            <FAQ limit={4} />
-            <CTAButton className="mt-6" href="/faq" variant="secondary">
-              Zobacz wszystkie odpowiedzi
-            </CTAButton>
+      <section className="home-section faq-contact-section" id="faq">
+        <div className="site-shell faq-contact-layout">
+          <div className="faq-column">
+            <Reveal>
+              <p className="eyebrow">Najczęstsze pytania</p>
+              <h2 className="display-heading section-title">
+                Ważne informacje przed kontaktem
+              </h2>
+              <p className="section-lede">
+                Odpowiedzi o organizacji wizyty, formularzu i roli decyzji
+                lekarza.
+              </p>
+            </Reveal>
+            <Reveal delay={120}>
+              <FAQ limit={4} />
+              <CTAButton className="section-link" href="/faq" variant="secondary">
+                Zobacz wszystkie odpowiedzi
+              </CTAButton>
+            </Reveal>
           </div>
-          <div className="contact-panel p-6 md:p-8">
+
+          <Reveal className="contact-panel" delay={170} distance={12}>
             <p className="eyebrow">Kontakt</p>
-            <h2 className="display-heading mt-4 text-3xl font-semibold text-navy-950">
-              Termin bez danych medycznych
+            <h2 className="display-heading contact-panel__title">
+              Skontaktuj się w sprawie terminu
             </h2>
-            <p className="mt-4 text-sm leading-6 text-slate-600">
-              Kontakt na stronie służy wyłącznie sprawom organizacyjnym.
-              Informacje medyczne są omawiane podczas wizyty lub przez
-              zabezpieczony system dokumentacji medycznej.
+            <p className="contact-panel__text">
+              Kontakt przez stronę służy wyłącznie sprawom organizacyjnym.
+              Informacje medyczne są omawiane podczas wizyty albo przekazywane
+              przez zabezpieczony system dokumentacji medycznej.
             </p>
-            <CTAButton className="mt-6" href="/kontakt">
-              Przejdź do kontaktu
-            </CTAButton>
-            <ComplianceNotice className="mt-7" compact />
-          </div>
+            <div className="contact-panel__actions">
+              <CTAButton href="/kontakt">Przejdź do kontaktu</CTAButton>
+              <CTAButton href={phoneHref} variant="secondary">
+                {companyConfig.phone}
+              </CTAButton>
+            </div>
+            <ComplianceNotice compact className="contact-panel__notice" />
+          </Reveal>
         </div>
       </section>
-      <section className="section-wash border-t border-slate-200 px-5 py-14 md:py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
-            <div>
+
+      <section className="home-section knowledge-section" id="wiedza">
+        <div className="site-shell">
+          <div className="knowledge-heading">
+            <Reveal>
               <p className="eyebrow">Wiedza dla pacjenta</p>
-              <SectionHeading
-                description="Materiały o konsultacji, bezpieczeństwie i źródłach naukowych."
-                title="Informacja oparta na źródłach"
-              />
-            </div>
-            <p className="max-w-2xl text-sm leading-6 text-slate-600 lg:justify-self-end">
-              Materiały pomagają przygotować pytania do rozmowy z lekarzem. Nie
-              zastępują osobistego badania ani indywidualnej decyzji medycznej.
-            </p>
+              <h2 className="display-heading section-title">
+                Informacja oparta na źródłach
+              </h2>
+            </Reveal>
+            <Reveal delay={110}>
+              <p className="section-lede">
+                Materiały pomagają przygotować pytania do rozmowy z lekarzem.
+                Nie zastępują osobistego badania ani indywidualnej decyzji
+                medycznej.
+              </p>
+            </Reveal>
           </div>
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          <StaggerGroup className="knowledge-grid" step={100}>
             {knowledgeArticles.slice(0, 3).map((article) => (
               <KnowledgeCard article={article} key={article.slug} />
             ))}
-          </div>
-          <CTAButton className="mt-8" href="/wiedza" variant="secondary">
-            Zobacz wszystkie materiały
-          </CTAButton>
+          </StaggerGroup>
+          <Reveal delay={160}>
+            <CTAButton className="section-link" href="/wiedza" variant="secondary">
+              Zobacz wszystkie materiały
+            </CTAButton>
+          </Reveal>
         </div>
       </section>
-    </>
+    </div>
   );
 }

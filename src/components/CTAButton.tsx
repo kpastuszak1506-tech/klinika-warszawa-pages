@@ -1,11 +1,12 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
 
 type CTAButtonProps = {
   href: string;
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost";
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 const variantClasses = {
@@ -22,9 +23,10 @@ export function CTAButton({
   children,
   variant = "primary",
   className = "",
+  onClick,
 }: CTAButtonProps) {
   const classes = [
-    "group inline-flex min-h-12 items-center justify-center gap-3 rounded-md border px-5 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green",
+    "cta-button group inline-flex min-h-12 items-center justify-center gap-3 rounded-md border px-5 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green",
     variantClasses[variant],
     className,
   ]
@@ -41,9 +43,10 @@ export function CTAButton({
         href={href}
         rel={opensNewTab ? "noreferrer" : undefined}
         target={opensNewTab ? "_blank" : undefined}
+        onClick={onClick}
       >
-        <span>{children}</span>
-        <span aria-hidden="true" className="transition group-hover:translate-x-1">
+        <span className="cta-button__label">{children}</span>
+        <span aria-hidden="true" className="cta-button__arrow">
           →
         </span>
       </a>
@@ -51,9 +54,9 @@ export function CTAButton({
   }
 
   return (
-    <Link className={classes} href={href}>
-      <span>{children}</span>
-      <span aria-hidden="true" className="transition group-hover:translate-x-1">
+    <Link className={classes} href={href} onClick={onClick}>
+      <span className="cta-button__label">{children}</span>
+      <span aria-hidden="true" className="cta-button__arrow">
         →
       </span>
     </Link>

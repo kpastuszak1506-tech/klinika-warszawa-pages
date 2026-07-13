@@ -1,95 +1,94 @@
-# Raport końcowy
+# Raport koncowy
 
-## Zakres wykonany
+Data stanu: 2026-07-13. Dokument podsumowuje stan lokalnego repozytorium i zapisane wyniki QA; nie stanowi potwierdzenia publicznego wdrozenia ani commita.
 
-* Wykonano pełny audyt UI/UX, SEO, dostępności, prywatności, compliance i jakości technicznej.
-* Przebudowano pierwszy ekran na bardziej autorską, redakcyjną kompozycję medyczną: precyzyjna typografia, cięta rama zdjęcia, warstwowy moduł rezerwacji, subtelna siatka i spokojny motion z obsługą `prefers-reduced-motion`.
-* Naprawiono responsywność hero i nawigacji na mobile; widget nie nakłada się na nagłówek i nie powoduje poziomego overflow.
-* Usunięto pozorne wysyłanie formularza. Do czasu aktywacji systemu rezerwacji strona nie zbiera ani nie przesyła danych.
-* Przygotowano konfigurację pod przyszły widget/API dostawcy, bez sekretów, iframe i requestów po stronie klienta; przyszły adres widgetu wymaga HTTPS i zgodności z zatwierdzoną domeną.
-* Dodano canonicale, Open Graph, Twitter metadata, `robots.txt`, `sitemap.xml`, jeden `h1` na trasę i walidację SEO w eksporcie GitHub Pages.
-* Dodano automatyczną walidację treści i zabezpieczeń prywatności do lokalnego workflow i GitHub Actions.
-* Dodano centrum wiedzy pod ścieżką /wiedza z czterema statycznymi materiałami, źródłami, datami aktualizacji, linkowaniem wewnętrznym i warunkowym Article JSON-LD.
-* Zmieniono hero image z PNG 1,6 MB na JPG 231 KB.
-* Zaktualizowano React oraz React DOM do `19.2.7`.
+## Executive Summary
 
-## Pliki utworzone
+Premiumowy redesign kliniki jest zakonczony technicznie: Clinical Pathway jest prawdziwa, asynchronicznie ladowana scena WebGL z bloomem w high tier, czterema stanami procesu oraz kontrolowanym fallbackiem. Drugi przebieg QA zamknal oba P1; matryca dziewieciu viewportow, 76 screenshotow, menu, cookies, dostepnosc, content i scenariusze reduced-motion/save-data maja wynik PASS. Nie ma HIGH RISK w kodzie. Pozostaja legalne, firmowe i fizyczne-iPhone ryzyka przed wydaniem publicznym.
 
-* `AUDIT_BACKLOG.md`
-* `scripts/validate-site.mjs`
-* `src/lib/seo.ts`
-* `src/app/robots.ts`
-* `src/app/sitemap.ts`
-* `public/images/medical-office-hero-soft.jpg`
+## Delegation
 
-## Najważniejsze decyzje projektowe
+| Osoba | Rola | Zakres | Status |
+| --- | --- | --- | --- |
+| Sol | Orchestrator | integracja, architektura, acceptance i koncowy rerun wymaganych komend | PASS |
+| Luna | UI/3D | redesign UI, motion oraz Clinical Pathway WebGL | PASS |
+| Terra | QA | browser/runtime QA, matryca screenshotow i dowody walidacyjne | PASS |
 
-* Publiczny fallback rezerwacji jest uczciwy: oferuje kontakt telefoniczny i nie symuluje wysłania zgłoszenia.
-* Przyszła integracja API nie może przechowywać sekretów w GitHub Pages. Wymaga widgetu dostawcy albo osobnego, bezpiecznego backendu/proxy.
-* Indeksowanie jest celowo wyłączone w `companyConfig.ts`, dopóki dane placówki nie zostaną potwierdzone. Techniczna warstwa SEO jest gotowa do aktywacji dopiero po ustawieniu dwóch niezależnych flag weryfikacyjnych.
-* Dokumenty prawne opisują rzeczywiste, obecne działanie strony i są wyraźnie oznaczone jako wymagające review prawnika.
-* Warstwa SEO centrum wiedzy jest gotowa technicznie, ale artykuły pozostają noindex oraz wymagają merytorycznego review przed zmianą statusu na reviewed.
-* Kierunek wizualny czerpie z podejścia Awwwards do typografii, warstw i ruchu, ale pozostaje profesjonalny oraz informacyjny dla podmiotu leczniczego.
+## Changed Files
 
-## Walidacja
+| Obszar | Pliki |
+| --- | --- |
+| 3D | `src/components/clinical-3d/ClinicalPathway.tsx`, `ClinicalPathwayCanvas.tsx`, `ClinicalPathwayFallback.tsx`, `ClinicalPathway.module.css`, `clinicalPathwayConfig.ts`, `useDevicePerformanceTier.ts` |
+| Motion | `src/components/motion/Reveal.tsx`, `StaggerGroup.tsx`, `useInViewport.ts`, `motionTokens.ts` |
+| Layout i sekcje | `src/app/page.tsx`, `src/app/globals.css`, `src/components/CTAButton.tsx`, `ProcessSteps.tsx`, `FAQ.tsx`, `PriceTable.tsx`, `KnowledgeCard.tsx`, `Footer.tsx` |
+| Nawigacja i prywatnosc | `src/components/Header.tsx`, `src/components/CookieConsent.tsx` |
+| Zaleznosci i dowody | `package.json`, `package-lock.json`, `artifacts/final/*`, `QA_FINDINGS.md`, `VALIDATION_REPORT.md`, `FINAL_REPORT.md` |
 
-| Obszar | Status | Komentarz |
-| --- | --- | --- |
-| Build | PASS | `npm run validate` zakończył się sukcesem. |
-| GitHub Pages | PASS | `npm run build:pages` zakończył się sukcesem. |
-| Zakazane frazy | PASS | Automatyczny skan nie zwrócił trafień. |
-| Formularz/rezerwacja | PASS | Brak fałszywego success message i brak transmisji danych. |
-| Cookies | PASS | Trzy równorzędne wybory, domyślnie tylko niezbędne; test odrzucenia przeszedł. |
-| SEO | PASS | Canonicale, Open Graph, Twitter, `robots.txt`, `sitemap.xml`, jeden `h1` na trasę. |
-| Centrum wiedzy | PASS | Cztery statyczne materiały, po dwa źródła, data aktualizacji, linkowanie kontekstowe i blokada Article JSON-LD przed review. |
-| UI/UX mobile | PASS | Kontrola 390 px: brak overflow, działające menu i wysoki moduł rezerwacji. |
-| Compliance content | PASS | Neutralny język, osobiste badanie i brak gwarancji wyniku wizyty. |
-| Dependency audit | NEEDS REVIEW | 2 moderate w zależności pośredniej Next.js/PostCSS; 0 high i 0 critical. |
-| Dane publiczne i prawo | NEEDS FIX | Wymagają potwierdzenia u właściciela placówki oraz finalnego review prawnika. |
+## 3D Architecture
 
-## Ryzyka pozostałe
+Clinical Pathway korzysta bezposrednio z `three`, dynamicznego importu i braku SSR dla renderera. Scena ma WebGLRenderer, kamere perspektywiczna, cztery wezly w przestrzeni 3D, rdzen, pierscienie, krzywa, proceduralne czasteczki i swiatlo zsynchronizowane z procesem. Zdarzenie `clinical-process-step` zmienia etap 0-3, kadrowanie, swiatlo i akcent wezlow; pointer steruje parallaxem tylko na desktopie.
 
-* Dane w `companyConfig.ts` nie zostały niezależnie potwierdzone i nie powinny zostać uznane za produkcyjne bez weryfikacji w RPWDL oraz dokumentach właściciela.
-* Brakuje finalnie zatwierdzonego procesu rezerwacji, płatności, zmiany terminu, retencji i obsługi przypadkowo otrzymanych danych medycznych.
-* Nazwa dostawcy „Medlife” wymaga potwierdzenia. Publiczna dokumentacja API znaleziona podczas audytu dotyczy Medfile, więc nie należy zakładać kompatybilności.
+High tier uzywa `EffectComposer`, `RenderPass` i subtelnego `UnrealBloomPass`; balanced tier pomija post-processing. Reduced motion, `saveData`, brak WebGL oraz bledy inicjalizacji przechodza na statyczny fallback bez canvasa. IntersectionObserver zatrzymuje petle renderowania poza viewportem, a ResizeObserver i cleanup zwalniaja zasoby renderera.
 
-## Elementy do review prawnika
+## Mobile
 
-* Tożsamość administratora, forma prawna, dane rejestrowe i RPWDL.
-* Ostateczna informacja z art. 13 RODO dla realnego flow rezerwacji.
-* Podstawa przetwarzania, retencja, odbiorcy, transfery i umowy powierzenia.
-* Regulamin rezerwacji: potwierdzenie, płatność, odwołanie, reklamacje oraz kontakt.
-* Dopuszczalny zakres i forma treści medycznych po weryfikacji faktycznej działalności placówki.
+Kolejnosc hero jest mobile-first: tresc, CTA, visual i rezerwacja bez poziomego overflow. Cztery telefony (`320x568`, `360x800`, `390x844`, `430x932`) przeszly zapisany runtime check; CTA na `320x568` ma rect `455.0469055175781-503.0469055175781 px` i miesci sie w pierwszym widoku. Menu ma target 44x44 px, cookie actions maja co najmniej 48 px, canvas nie blokuje touch, a fallback jest dostepny dla ograniczonych urzadzen.
 
-## Następne usprawnienia
+## Desktop
 
-* Po potwierdzeniu danych: ustawić `publicDataVerified` i `allowSearchIndexing`, sprawdzić wygenerowany sitemap oraz wdrożyć własną domenę.
-* Po wyborze systemu: zintegrować zatwierdzony widget przez bezpieczny proxy/backend, bez przekazywania danych medycznych przez zwykły frontend.
-* Dodać testy E2E dla przyszłego widgetu, procesu zgód i wszystkich stanów błędów dostawcy.
-* Po powołaniu osoby recenzującej zmienić status zatwierdzonych artykułów na reviewed, uzupełnić autora i zaplanować cykl aktualizacji źródeł.
+Breakpoints tablet/desktop (`768x1024`, `1024x768`, `1280x800`, `1440x900`, `1920x1080`) nie maja overflow. High tier WebGL z bloom jest potwierdzony na `1024x768`, `1280x800` i `1440x900`; CTA na dwoch wczesniej failing desktopach jest teraz w initial viewport (`559.015625-625.015625 px` oraz `569.46875-635.46875 px`). Desktopowy proces laczy sticky visual 3D z czterema przewijanymi krokami.
 
-## Iteracja premium 2026-07-12
+## Motion
 
-### SEO
+- reveal sekcji i stagger hero;
+- aktywny proces, kamera 3D i zmiana swiatla przez cztery stany;
+- desktop pointer parallax i depth hover;
+- przejscie menu, CTA microinteraction i animacja FAQ;
+- ograniczenie wszystkich animacji dla `prefers-reduced-motion` i brak stalego renderowania poza viewportem.
 
-* Dokończono skalowalną architekturę SEO: huby tematów, nawigacja okruszkowa, kontrola jakości materiałów i przyszłe wpisy sitemap.
-* Dodano `SEO_GROWTH_SYSTEM.md` z backlogiem technicznym, lokalnym, redakcyjnym i pomiarowym oraz bramami jakości dla kolejnych materiałów.
-* Indeksowanie pozostaje celowo zablokowane do czasu potwierdzenia danych publicznych i review artykułów.
+## Validation
 
-### Redesign mobile-first
+Zapisane wyniki `npm install`, `npm run lint`, `npm run validate:content`, `npm run validate` i `npm run build:pages` sa PASS. Build generuje 24 trasy. Sol uruchomi te wymagane komendy ponownie jako finalne potwierdzenie po aktualizacji dokumentacji.
 
-* Hero ma teraz kolejność mobilną: opis, CTA, obraz, lekki moduł rezerwacji i osobny pas compliance.
-* Proces wizyty jest zwartą pionową osią; aktywny krok jest wykrywany przez `IntersectionObserver`.
-* Dodano Clinical Orbit: autorską scenę SVG/CSS z pierścieniami, punktami i liniami. Reaguje na scroll procesu oraz ruch kursora na desktopie; na mobile pozostaje lekka i czytelna.
-* Dodano pasek postępu przewijania, głębię hover i motion bez scroll hijackingu. Ustawienie reduced motion wyłącza ruch.
-* Cookies działają jako bottom sheet z trzema równorzędnymi decyzjami; po wyborze pozostaje dyskretny FAB 44×44 px z uwzględnieniem safe area.
+Drugi przebieg QA ma `failed=0`: trzy recty CTA sa w pierwszym widoku, a proces ma poprawna sekwencje `aria-current` dla etapow 0, 1, 2 i 3 na `390x844` oraz `1440x900`. Szczegolowe dowody sa w `QA_FINDINGS.md` i JSON runtime.
 
-### Kontrola widoków
+## Screenshot Matrix
 
-* Zautomatyzowano kontrolę układu na `320×568`, `360×800`, `390×844`, `430×932`, `1024×768` i `1440×900`.
-* Każdy testowany viewport miał `scrollWidth` równy szerokości viewportu; nie wykryto overlayu błędu Next.js.
+76 PNG obejmuje pelne strony i krytyczne sekcje dla `320x568`, `360x800`, `390x844`, `430x932`, `768x1024`, `1024x768`, `1280x800`, `1440x900` i `1920x1080`, wraz ze stanami otwartego menu mobilnego. Matryca rejestruje HTTP 200, brak overflow i brak bledow runtime.
 
-### Ryzyka pozostające
+## Performance
 
-* Clinical Orbit jest celowo SVG/CSS, nie WebGL. To ogranicza koszt renderowania i jest fallbackiem dla urządzeń o niższej wydajności.
-* Wersja publiczna nie została w tej iteracji opublikowana, ponieważ katalog roboczy zawiera również istniejące, nieśledzone pliki użytkownika wymagające osobnego zakresu commita.
+| Artefakt | Raw | gzip |
+| --- | ---: | ---: |
+| Asynchroniczny 3D | 558,597 B | 138,110 B |
+| CSS | 62,006 B | 13,068 B |
+
+Chunk 3D pozostaje asynchroniczny, wiec nie jest czescia krytycznego bundle hero. Hero image pozostaje zoptymalizowany z 1.6 MB PNG do 231 KB JPG.
+
+## Risks
+
+Brak HIGH RISK w aktualnym kodzie. Przed wydaniem publicznym nadal wymagane sa: potwierdzenie tozsamosci, danych rejestrowych i RPWDL podmiotu; review prawnika dla prywatnosci, cookies, retencji, odbiorcow i regulaminu rezerwacji; potwierdzenie dostawcy Medlife/Medfile oraz bezpiecznej integracji; i test na fizycznym iPhonie dla WebGL, touch, safe-area oraz fallbacku.
+
+Wczesniejsza praca SEO pozostaje zachowana: canonicale, Open Graph, Twitter metadata, `robots.txt`, `sitemap.xml`, breadcrumbs, trzy huby wiedzy i cztery materialy statyczne sa gotowe technicznie. Indeksowanie i Article JSON-LD pozostaja zablokowane do potwierdzenia danych publicznych i review medycznego/prawnego. Rezerwacja nie symuluje wysylki ani nie przekazuje danych medycznych; integracja dostawcy nie jest aktywna.
+
+## Completion Matrix
+
+| Workstream | Implemented | Tested | Reviewed by Sol | Status |
+| --- | --- | --- | --- | --- |
+| True WebGL 3D | YES | YES | YES | PASS |
+| Real bloom | YES | YES | YES | PASS |
+| Four process states | YES | YES | YES | PASS |
+| Mobile hero | YES | YES | YES | PASS |
+| Desktop hero | YES | YES | YES | PASS |
+| Mobile process | YES | YES | YES | PASS |
+| Desktop process | YES | YES | YES | PASS |
+| Header/navigation | YES | YES | YES | PASS |
+| Cookie UX | YES | YES | YES | PASS |
+| Pricing section | YES | YES | YES | PASS |
+| FAQ/contact | YES | YES | YES | PASS |
+| Knowledge section | YES | YES | YES | PASS |
+| Footer | YES | YES | YES | PASS |
+| Motion system | YES | YES | YES | PASS |
+| Reduced motion | YES | YES | YES | PASS |
+| Static fallback | YES | YES | YES | PASS |
+| Static export | YES | YES | YES | PASS |

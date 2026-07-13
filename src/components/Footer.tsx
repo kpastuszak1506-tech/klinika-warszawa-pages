@@ -1,79 +1,92 @@
+"use client";
+
 import Link from "next/link";
 import { companyConfig } from "@/config/companyConfig";
-import { legalNavItems, navItems } from "@/lib/siteContent";
+import { cookieSettingsEvent } from "./CookieConsent";
+import { footerNavItems, legalNavItems } from "@/lib/siteContent";
 
 const phoneHref = `tel:${companyConfig.phone.replace(/[^+\d]/g, "")}`;
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
-        <div>
-          <p className="text-sm font-bold text-navy-950">
-            KLINIKA WARSZAWA
-          </p>
-          <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600">
+    <footer className="site-footer" id="footer">
+      <div className="site-footer__top">
+        <div className="site-footer__brand">
+          <div className="footer-wordmark">
+            <span aria-hidden="true" className="brand-mark brand-mark--dark">
+              <svg
+                className="size-5"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 4v16" />
+                <path d="M4 12h16" />
+              </svg>
+            </span>
+            <span>
+              <strong>KLINIKA WARSZAWA</strong>
+              <small>Gabinety lekarskie</small>
+            </span>
+          </div>
+          <p>
             Stacjonarne konsultacje lekarskie w Warszawie w zakresie oceny
             wskazań do terapii kannabinoidowej.
           </p>
+          <Link className="footer-primary-link" href="/kontakt">
+            Umów konsultację <span aria-hidden="true">→</span>
+          </Link>
         </div>
-        <div>
-          <h2 className="text-sm font-semibold text-navy-950">Kontakt</h2>
-          <address className="mt-3 not-italic text-sm leading-6 text-slate-600">
-            <span className="block">{companyConfig.medicalOfficeAddress}</span>
-            <a
-              className="block rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
-              href={phoneHref}
-            >
-              {companyConfig.phone}
-            </a>
-            <a
-              className="block rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
-              href={`mailto:${companyConfig.email}`}
-            >
-              {companyConfig.email}
-            </a>
+
+        <div className="site-footer__column">
+          <h2>Kontakt</h2>
+          <address>
+            <span>{companyConfig.medicalOfficeAddress}</span>
+            <a href={phoneHref}>{companyConfig.phone}</a>
+            <a href={`mailto:${companyConfig.email}`}>{companyConfig.email}</a>
           </address>
         </div>
-        <div>
-          <h2 className="text-sm font-semibold text-navy-950">Strony</h2>
-          <ul className="mt-3 space-y-2 text-sm text-slate-600">
-            {navItems.map((item) => (
+
+        <div className="site-footer__column">
+          <h2>Przejdź dalej</h2>
+          <ul>
+            {footerNavItems.map((item) => (
               <li key={item.href}>
-                <Link
-                  className="rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
-                  href={item.href}
-                >
-                  {item.label}
-                </Link>
+                <Link href={item.href}>{item.label}</Link>
               </li>
             ))}
           </ul>
         </div>
-        <div>
-          <h2 className="text-sm font-semibold text-navy-950">
-            Informacje prawne
-          </h2>
-          <ul className="mt-3 space-y-2 text-sm text-slate-600">
+
+        <div className="site-footer__column">
+          <h2>Informacje prawne</h2>
+          <ul>
             {legalNavItems.map((item) => (
               <li key={item.href}>
-                <Link
-                  className="rounded-sm hover:text-medical-green-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-medical-green"
-                  href={item.href}
-                >
-                  {item.label}
-                </Link>
+                <Link href={item.href}>{item.label}</Link>
               </li>
             ))}
           </ul>
+          <button
+            className="footer-cookie-button"
+            onClick={() => window.dispatchEvent(new Event(cookieSettingsEvent))}
+            type="button"
+          >
+            Ustawienia cookies
+          </button>
         </div>
       </div>
-      <div className="border-t border-slate-200 bg-slate-50">
-        <p className="mx-auto max-w-7xl px-5 py-5 text-xs leading-6 text-slate-600">
+
+      <div className="site-footer__bottom">
+        <p>
           {companyConfig.companyName}, {companyConfig.legalForm},{" "}
           {companyConfig.registeredOfficeAddress}. NIP: {companyConfig.nip},
           REGON: {companyConfig.regon}, RPWDL: {companyConfig.rpwdlNumber}.
         </p>
+        <span>Informacja organizacyjna · Warszawa</span>
       </div>
     </footer>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { processSteps } from "@/lib/siteContent";
+import { useInViewport } from "./motion/useInViewport";
 
 function StepIcon({ index }: { index: number }) {
   return (
@@ -43,38 +44,93 @@ function StepIcon({ index }: { index: number }) {
 
 export function ProcessSteps() {
   const [activeStep, setActiveStep] = useState(0);
+  const activeStepRef = useRef(0);
   const stepRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const {
+    hasMounted,
+    isInView,
+    reducedMotion,
+    ref: stepsRef,
+  } = useInViewport<HTMLOListElement>({ rootMargin: "0px 0px -12% 0px" });
 
   useEffect(() => {
     const nodes = stepRefs.current.filter(
       (node): node is HTMLLIElement => node !== null,
     );
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+    let animationFrame = 0;
 
-        if (!visible) {
-          return;
+    const selectStep = (index: number) => {
+      if (activeStepRef.current === index) {
+        return;
+      }
+
+      activeStepRef.current = index;
+      setActiveStep(index);
+      window.dispatchEvent(
+        new CustomEvent("clinical-process-step", { detail: index }),
+      );
+    };
+
+    const measureClosestStep = () => {
+      animationFrame = 0;
+      const viewportTarget = window.innerHeight * 0.48;
+      let closestIndex = activeStepRef.current;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      nodes.forEach((node) => {
+        const bounds = node.getBoundingClientRect();
+        const center = bounds.top + bounds.height / 2;
+        const distance = Math.abs(center - viewportTarget);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = Number(node.dataset.stepIndex);
         }
+      });
 
-        const index = Number(visible.target.getAttribute("data-step-index"));
-        setActiveStep(index);
-        window.dispatchEvent(
-          new CustomEvent("clinical-process-step", { detail: index }),
-        );
-      },
+      if (Number.isInteger(closestIndex)) {
+        selectStep(closestIndex);
+      }
+    };
+
+    const scheduleMeasurement = () => {
+      if (animationFrame !== 0) {
+        return;
+      }
+
+      animationFrame = window.requestAnimationFrame(measureClosestStep);
+    };
+
+    const observer = new IntersectionObserver(
+      scheduleMeasurement,
       { rootMargin: "-28% 0px -48% 0px", threshold: [0.2, 0.5, 0.8] },
     );
 
     nodes.forEach((node) => observer.observe(node));
+    window.addEventListener("scroll", scheduleMeasurement, { passive: true });
+    window.addEventListener("resize", scheduleMeasurement, { passive: true });
+    scheduleMeasurement();
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", scheduleMeasurement);
+      window.removeEventListener("resize", scheduleMeasurement);
+
+      if (animationFrame !== 0) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
   }, []);
 
   return (
-    <ol className="process-steps" aria-label="Etapy wizyty">
+    <ol
+      aria-label="Etapy wizyty"
+      className="process-steps"
+      data-motion-enabled={hasMounted ? "true" : "false"}
+      data-motion-reduced={reducedMotion ? "true" : "false"}
+      data-motion-state={isInView || reducedMotion ? "visible" : "pending"}
+      ref={stepsRef}
+    >
       {processSteps.map((step, index) => (
         <li
           aria-current={activeStep === index ? "step" : undefined}

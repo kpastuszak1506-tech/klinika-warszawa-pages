@@ -1,0 +1,1633 @@
+{
+  "created": "2026-07-12T21:09:18.925Z",
+  "viewports": {
+    "320x568": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 320,
+        "viewportWidth": 320,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": false,
+          "rect": {
+            "x": 20,
+            "y": 576.453125,
+            "width": 280,
+            "height": 48,
+            "top": 576.453125,
+            "bottom": 624.453125
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 252.609375,
+            "y": 24,
+            "width": 44,
+            "height": 44,
+            "top": 24,
+            "bottom": 68
+          },
+          "cookies": [
+            {
+              "x": 17,
+              "y": 396.8125,
+              "width": 286,
+              "height": 48,
+              "top": 396.8125,
+              "bottom": 444.8125
+            },
+            {
+              "x": 17,
+              "y": 450.40625,
+              "width": 286,
+              "height": 48,
+              "top": 450.40625,
+              "bottom": 498.40625
+            },
+            {
+              "x": 17,
+              "y": 504,
+              "width": 286,
+              "height": 48,
+              "top": 504,
+              "bottom": 552
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 164.21875,
+            "y": 933.671875,
+            "width": 108.390625,
+            "height": 201.203125,
+            "top": 933.671875,
+            "bottom": 1134.875
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 320,
+            "height": 1294.90625,
+            "top": 80,
+            "bottom": 1374.90625
+          },
+          "#proces": {
+            "x": 0,
+            "y": 1532.171875,
+            "width": 320,
+            "height": 1764.421875,
+            "top": 1532.171875,
+            "bottom": 3296.59375
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 3296.59375,
+            "width": 320,
+            "height": 1216.65625,
+            "top": 3296.59375,
+            "bottom": 4513.25
+          },
+          "#faq": {
+            "x": 0,
+            "y": 4513.25,
+            "width": 320,
+            "height": 1566.53125,
+            "top": 4513.25,
+            "bottom": 6079.78125
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 6079.78125,
+            "width": 320,
+            "height": 1530.9375,
+            "top": 6079.78125,
+            "bottom": 7610.71875
+          },
+          "#footer": {
+            "x": 0,
+            "y": 7610.71875,
+            "width": 320,
+            "height": 1055.078125,
+            "top": 7610.71875,
+            "bottom": 8665.796875
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "360x800": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 360,
+        "viewportWidth": 360,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": true,
+          "rect": {
+            "x": 20,
+            "y": 533.5625,
+            "width": 320,
+            "height": 48,
+            "top": 533.5625,
+            "bottom": 581.5625
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 292.609375,
+            "y": 24,
+            "width": 44,
+            "height": 44,
+            "top": 24,
+            "bottom": 68
+          },
+          "cookies": [
+            {
+              "x": 17,
+              "y": 628.8125,
+              "width": 326,
+              "height": 48,
+              "top": 628.8125,
+              "bottom": 676.8125
+            },
+            {
+              "x": 17,
+              "y": 682.40625,
+              "width": 326,
+              "height": 48,
+              "top": 682.40625,
+              "bottom": 730.40625
+            },
+            {
+              "x": 17,
+              "y": 736,
+              "width": 326,
+              "height": 48,
+              "top": 736,
+              "bottom": 784
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 185.015625,
+            "y": 904.78125,
+            "width": 127.59375,
+            "height": 201.203125,
+            "top": 904.78125,
+            "bottom": 1105.984375
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 360,
+            "height": 1246.59375,
+            "top": 80,
+            "bottom": 1326.59375
+          },
+          "#proces": {
+            "x": 0,
+            "y": 1459.859375,
+            "width": 360,
+            "height": 1620.828125,
+            "top": 1459.859375,
+            "bottom": 3080.6875
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 3080.6875,
+            "width": 360,
+            "height": 1092.96875,
+            "top": 3080.6875,
+            "bottom": 4173.65625
+          },
+          "#faq": {
+            "x": 0,
+            "y": 4173.65625,
+            "width": 360,
+            "height": 1455.21875,
+            "top": 4173.65625,
+            "bottom": 5628.875
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 5628.875,
+            "width": 360,
+            "height": 1428.1875,
+            "top": 5628.875,
+            "bottom": 7057.0625
+          },
+          "#footer": {
+            "x": 0,
+            "y": 7057.0625,
+            "width": 360,
+            "height": 1055.078125,
+            "top": 7057.0625,
+            "bottom": 8112.140625
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "390x844": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 390,
+        "viewportWidth": 390,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": true,
+          "rect": {
+            "x": 20,
+            "y": 533.5625,
+            "width": 350,
+            "height": 48,
+            "top": 533.5625,
+            "bottom": 581.5625
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 322.609375,
+            "y": 24,
+            "width": 44,
+            "height": 44,
+            "top": 24,
+            "bottom": 68
+          },
+          "cookies": [
+            {
+              "x": 17,
+              "y": 672.8125,
+              "width": 356,
+              "height": 48,
+              "top": 672.8125,
+              "bottom": 720.8125
+            },
+            {
+              "x": 17,
+              "y": 726.40625,
+              "width": 356,
+              "height": 48,
+              "top": 726.40625,
+              "bottom": 774.40625
+            },
+            {
+              "x": 17,
+              "y": 780,
+              "width": 356,
+              "height": 48,
+              "top": 780,
+              "bottom": 828
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 200.609375,
+            "y": 886.0625,
+            "width": 142,
+            "height": 201.203125,
+            "top": 886.0625,
+            "bottom": 1087.265625
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 390,
+            "height": 1227.875,
+            "top": 80,
+            "bottom": 1307.875
+          },
+          "#proces": {
+            "x": 0,
+            "y": 1441.140625,
+            "width": 390,
+            "height": 1543.109375,
+            "top": 1441.140625,
+            "bottom": 2984.25
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 2984.25,
+            "width": 390,
+            "height": 1055.296875,
+            "top": 2984.25,
+            "bottom": 4039.546875
+          },
+          "#faq": {
+            "x": 0,
+            "y": 4039.546875,
+            "width": 390,
+            "height": 1431.21875,
+            "top": 4039.546875,
+            "bottom": 5470.765625
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 5470.765625,
+            "width": 390,
+            "height": 1349.8125,
+            "top": 5470.765625,
+            "bottom": 6820.578125
+          },
+          "#footer": {
+            "x": 0,
+            "y": 6820.578125,
+            "width": 390,
+            "height": 1031.3125,
+            "top": 6820.578125,
+            "bottom": 7851.890625
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "430x932": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 430,
+        "viewportWidth": 430,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": true,
+          "rect": {
+            "x": 20,
+            "y": 504.671875,
+            "width": 390,
+            "height": 48,
+            "top": 504.671875,
+            "bottom": 552.671875
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 362.609375,
+            "y": 24,
+            "width": 44,
+            "height": 44,
+            "top": 24,
+            "bottom": 68
+          },
+          "cookies": [
+            {
+              "x": 17,
+              "y": 760.8125,
+              "width": 396,
+              "height": 48,
+              "top": 760.8125,
+              "bottom": 808.8125
+            },
+            {
+              "x": 17,
+              "y": 814.40625,
+              "width": 396,
+              "height": 48,
+              "top": 814.40625,
+              "bottom": 862.40625
+            },
+            {
+              "x": 17,
+              "y": 868,
+              "width": 396,
+              "height": 48,
+              "top": 868,
+              "bottom": 916
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 221.421875,
+            "y": 845.171875,
+            "width": 161.1875,
+            "height": 201.203125,
+            "top": 845.171875,
+            "bottom": 1046.375
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "false",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "balanced",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 430,
+            "height": 1198.984375,
+            "top": 80,
+            "bottom": 1278.984375
+          },
+          "#proces": {
+            "x": 0,
+            "y": 1388.25,
+            "width": 430,
+            "height": 1517.84375,
+            "top": 1388.25,
+            "bottom": 2906.09375
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 2906.09375,
+            "width": 430,
+            "height": 986.390625,
+            "top": 2906.09375,
+            "bottom": 3892.484375
+          },
+          "#faq": {
+            "x": 0,
+            "y": 3892.484375,
+            "width": 430,
+            "height": 1407.21875,
+            "top": 3892.484375,
+            "bottom": 5299.703125
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 5299.703125,
+            "width": 430,
+            "height": 1349.8125,
+            "top": 5299.703125,
+            "bottom": 6649.515625
+          },
+          "#footer": {
+            "x": 0,
+            "y": 6649.515625,
+            "width": 430,
+            "height": 1013.953125,
+            "top": 6649.515625,
+            "bottom": 7663.46875
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "768x1024": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 768,
+        "viewportWidth": 768,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": true,
+          "rect": {
+            "x": 32,
+            "y": 514.125,
+            "width": 272.3125,
+            "height": 48,
+            "top": 514.125,
+            "bottom": 562.125
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 700.609375,
+            "y": 24,
+            "width": 44,
+            "height": 44,
+            "top": 24,
+            "bottom": 68
+          },
+          "cookies": [
+            {
+              "x": 212.15625,
+              "y": 895.078125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 895.078125,
+              "bottom": 943.078125
+            },
+            {
+              "x": 386.4375,
+              "y": 895.078125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 895.078125,
+              "bottom": 943.078125
+            },
+            {
+              "x": 560.71875,
+              "y": 895.078125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 895.078125,
+              "bottom": 943.078125
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 494.609375,
+            "y": 795.4375,
+            "width": 214,
+            "height": 201.203125,
+            "top": 795.4375,
+            "bottom": 996.640625
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 768,
+            "height": 1215.625,
+            "top": 80,
+            "bottom": 1295.625
+          },
+          "#proces": {
+            "x": 0,
+            "y": 1390.890625,
+            "width": 768,
+            "height": 1298.453125,
+            "top": 1390.890625,
+            "bottom": 2689.34375
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 2689.34375,
+            "width": 768,
+            "height": 875.59375,
+            "top": 2689.34375,
+            "bottom": 3564.9375
+          },
+          "#faq": {
+            "x": 0,
+            "y": 3564.9375,
+            "width": 768,
+            "height": 1303.625,
+            "top": 3564.9375,
+            "bottom": 4868.5625
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 4868.5625,
+            "width": 768,
+            "height": 826.53125,
+            "top": 4868.5625,
+            "bottom": 5695.09375
+          },
+          "#footer": {
+            "x": 0,
+            "y": 5695.09375,
+            "width": 768,
+            "height": 470.078125,
+            "top": 5695.09375,
+            "bottom": 6165.171875
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "1024x768": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 1024,
+        "viewportWidth": 1024,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": false,
+          "rect": {
+            "x": 32,
+            "y": 739.7311401367188,
+            "width": 204.21875,
+            "height": 66,
+            "top": 739.7311401367188,
+            "bottom": 805.7311401367188
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "cookies": [
+            {
+              "x": 468.15625,
+              "y": 681.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 681.578125,
+              "bottom": 729.578125
+            },
+            {
+              "x": 642.4375,
+              "y": 681.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 681.578125,
+              "bottom": 729.578125
+            },
+            {
+              "x": 816.71875,
+              "y": 681.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 681.578125,
+              "bottom": 729.578125
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 831.515625,
+            "y": 481.5,
+            "width": 246,
+            "height": 249.203125,
+            "top": 481.5,
+            "bottom": 730.703125
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 1024,
+            "height": 837.765625,
+            "top": 80,
+            "bottom": 917.765625
+          },
+          "#proces": {
+            "x": 0,
+            "y": 992.140625,
+            "width": 1024,
+            "height": 815.1875,
+            "top": 992.140625,
+            "bottom": 1807.328125
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 1807.328125,
+            "width": 1024,
+            "height": 645.15625,
+            "top": 1807.328125,
+            "bottom": 2452.484375
+          },
+          "#faq": {
+            "x": 0,
+            "y": 2452.484375,
+            "width": 1024,
+            "height": 886.390625,
+            "top": 2452.484375,
+            "bottom": 3338.875
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 3338.875,
+            "width": 1024,
+            "height": 776.9375,
+            "top": 3338.875,
+            "bottom": 4115.8125
+          },
+          "#footer": {
+            "x": 0,
+            "y": 4115.8125,
+            "width": 1024,
+            "height": 395.5625,
+            "top": 4115.8125,
+            "bottom": 4511.375
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "1280x800": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 1280,
+        "viewportWidth": 1280,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": false,
+          "rect": {
+            "x": 32,
+            "y": 753.21533203125,
+            "width": 259.59375,
+            "height": 66,
+            "top": 753.21533203125,
+            "bottom": 819.21533203125
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "cookies": [
+            {
+              "x": 724.15625,
+              "y": 713.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 713.578125,
+              "bottom": 761.578125
+            },
+            {
+              "x": 898.4375,
+              "y": 713.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 713.578125,
+              "bottom": 761.578125
+            },
+            {
+              "x": 1072.71875,
+              "y": 713.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 713.578125,
+              "bottom": 761.578125
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 971.40625,
+            "y": 501.828125,
+            "width": 246,
+            "height": 249.203125,
+            "top": 501.828125,
+            "bottom": 751.03125
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 1280,
+            "height": 850.6875,
+            "top": 80,
+            "bottom": 930.6875
+          },
+          "#proces": {
+            "x": 0,
+            "y": 1005.0625,
+            "width": 1280,
+            "height": 815.1875,
+            "top": 1005.0625,
+            "bottom": 1820.25
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 1820.25,
+            "width": 1280,
+            "height": 645.15625,
+            "top": 1820.25,
+            "bottom": 2465.40625
+          },
+          "#faq": {
+            "x": 0,
+            "y": 2465.40625,
+            "width": 1280,
+            "height": 813.3125,
+            "top": 2465.40625,
+            "bottom": 3278.71875
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 3278.71875,
+            "width": 1280,
+            "height": 737.0625,
+            "top": 3278.71875,
+            "bottom": 4015.78125
+          },
+          "#footer": {
+            "x": 0,
+            "y": 4015.78125,
+            "width": 1280,
+            "height": 395.5625,
+            "top": 4015.78125,
+            "bottom": 4411.34375
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "1440x900": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 1440,
+        "viewportWidth": 1440,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": true,
+          "rect": {
+            "x": 80,
+            "y": 694.28125,
+            "width": 272.3125,
+            "height": 48,
+            "top": 694.28125,
+            "bottom": 742.28125
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "cookies": [
+            {
+              "x": 821.15625,
+              "y": 813.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 813.578125,
+              "bottom": 861.578125
+            },
+            {
+              "x": 995.4375,
+              "y": 813.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 813.578125,
+              "bottom": 861.578125
+            },
+            {
+              "x": 1169.71875,
+              "y": 813.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 813.578125,
+              "bottom": 861.578125
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 1083.40625,
+            "y": 507.203125,
+            "width": 246,
+            "height": 249.203125,
+            "top": 507.203125,
+            "bottom": 756.40625
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 1440,
+            "height": 828.578125,
+            "top": 80,
+            "bottom": 908.578125
+          },
+          "#proces": {
+            "x": 0,
+            "y": 982.953125,
+            "width": 1440,
+            "height": 815.1875,
+            "top": 982.953125,
+            "bottom": 1798.140625
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 1798.140625,
+            "width": 1440,
+            "height": 645.15625,
+            "top": 1798.140625,
+            "bottom": 2443.296875
+          },
+          "#faq": {
+            "x": 0,
+            "y": 2443.296875,
+            "width": 1440,
+            "height": 813.3125,
+            "top": 2443.296875,
+            "bottom": 3256.609375
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 3256.609375,
+            "width": 1440,
+            "height": 737.0625,
+            "top": 3256.609375,
+            "bottom": 3993.671875
+          },
+          "#footer": {
+            "x": 0,
+            "y": 3993.671875,
+            "width": 1440,
+            "height": 395.5625,
+            "top": 3993.671875,
+            "bottom": 4389.234375
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    },
+    "1920x1080": {
+      "status": 200,
+      "metrics": {
+        "scrollWidth": 1920,
+        "viewportWidth": 1920,
+        "bodyFontPx": 16,
+        "cta": {
+          "exists": true,
+          "visible": true,
+          "rect": {
+            "x": 320,
+            "y": 694.28125,
+            "width": 272.3125,
+            "height": 48,
+            "top": 694.28125,
+            "bottom": 742.28125
+          }
+        },
+        "touch": {
+          "menu": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "bottom": 0
+          },
+          "cookies": [
+            {
+              "x": 1061.15625,
+              "y": 993.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 993.578125,
+              "bottom": 1041.578125
+            },
+            {
+              "x": 1235.4375,
+              "y": 993.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 993.578125,
+              "bottom": 1041.578125
+            },
+            {
+              "x": 1409.71875,
+              "y": 993.578125,
+              "width": 166.28125,
+              "height": 48,
+              "top": 993.578125,
+              "bottom": 1041.578125
+            }
+          ]
+        },
+        "canvas": {
+          "exists": true,
+          "pointerEvents": "none",
+          "touchAction": "auto",
+          "rect": {
+            "x": 1323.40625,
+            "y": 507.203125,
+            "width": 246,
+            "height": 249.203125,
+            "top": 507.203125,
+            "bottom": 756.40625
+          }
+        },
+        "nextOverlay": true,
+        "wrappers": [
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "hero",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          },
+          {
+            "data-bloom": "true",
+            "data-clinical-pathway": "true",
+            "data-clinical-pathway-status": "ready",
+            "data-clinical-pathway-variant": "process",
+            "data-quality-tier": "high",
+            "data-renderer": "webgl",
+            "data-stage": "0"
+          }
+        ],
+        "rects": {
+          "#hero": {
+            "x": 0,
+            "y": 80,
+            "width": 1920,
+            "height": 828.578125,
+            "top": 80,
+            "bottom": 908.578125
+          },
+          "#proces": {
+            "x": 0,
+            "y": 982.953125,
+            "width": 1920,
+            "height": 815.1875,
+            "top": 982.953125,
+            "bottom": 1798.140625
+          },
+          "#cennik": {
+            "x": 0,
+            "y": 1798.140625,
+            "width": 1920,
+            "height": 645.15625,
+            "top": 1798.140625,
+            "bottom": 2443.296875
+          },
+          "#faq": {
+            "x": 0,
+            "y": 2443.296875,
+            "width": 1920,
+            "height": 813.3125,
+            "top": 2443.296875,
+            "bottom": 3256.609375
+          },
+          "#wiedza": {
+            "x": 0,
+            "y": 3256.609375,
+            "width": 1920,
+            "height": 737.0625,
+            "top": 3256.609375,
+            "bottom": 3993.671875
+          },
+          "#footer": {
+            "x": 0,
+            "y": 3993.671875,
+            "width": 1920,
+            "height": 395.5625,
+            "top": 3993.671875,
+            "bottom": 4389.234375
+          }
+        },
+        "chunks": [
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathway_module_01vgx-d.css",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_globals_162hn9o.css",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/_1anvha4._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/turbopack-_01_ro95._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_18je_q-._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_layout_tsx_007e4b2._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_1_n60qq._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1rq7avj._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_app_page_tsx_1p_1igp._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_02xspzk._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_1p_1igp.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_next_dist_0t9mxq6._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_core_18d0oq6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_build_three_module_03rsyo6.js",
+          "http://127.0.0.1:3004/_next/static/chunks/node_modules_three_examples_jsm_1jfkntn._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_0kbzgh3._.js",
+          "http://127.0.0.1:3004/_next/static/chunks/src_components_clinical-3d_ClinicalPathwayCanvas_tsx_1pbi4zq._.js"
+        ]
+      },
+      "errors": []
+    }
+  },
+  "checks": {
+    "cookiesMenu": {
+      "initial": 1,
+      "stored": "{\"necessary\":true,\"analytics\":false,\"marketing\":false}",
+      "persisted": true,
+      "footer": true,
+      "reopened": true,
+      "open": true,
+      "trap": true,
+      "esc": true,
+      "back": true,
+      "link": true,
+      "errors": []
+    },
+    "scene": {
+      "normal": {
+        "wrapper": {
+          "data-bloom": "true",
+          "data-clinical-pathway": "true",
+          "data-clinical-pathway-status": "ready",
+          "data-clinical-pathway-variant": "hero",
+          "data-quality-tier": "high",
+          "data-renderer": "webgl",
+          "data-stage": "0"
+        },
+        "canvas": {
+          "width": 246,
+          "height": 249,
+          "nonBlank": false
+        },
+        "host": {
+          "data-bloom": "true",
+          "data-clinical-pathway-canvas": "true",
+          "data-quality-tier": "high",
+          "data-renderer": "webgl",
+          "data-stage": "0",
+          "data-performance-tier": "high",
+          "data-reduced-motion": "false",
+          "data-save-data": "false"
+        }
+      },
+      "stage": {
+        "before": "0",
+        "after": "3"
+      },
+      "pointer": {
+        "host": true,
+        "canvas": true,
+        "stage": "3"
+      }
+    },
+    "reduced": [
+      {
+        "renderer": "static",
+        "canvas": false
+      },
+      {
+        "renderer": "static",
+        "canvas": false
+      }
+    ],
+    "saveData": [
+      {
+        "renderer": "static",
+        "canvas": false
+      },
+      {
+        "renderer": "static",
+        "canvas": false
+      }
+    ],
+    "processAria": [
+      [
+        "step",
+        null,
+        null,
+        null
+      ],
+      [
+        "step",
+        null,
+        null,
+        null
+      ],
+      [
+        "step",
+        null,
+        null,
+        null
+      ],
+      [
+        "step",
+        null,
+        null,
+        null
+      ]
+    ]
+  }
+}

@@ -1,0 +1,394 @@
+{
+  "created": "2026-07-13T07:37:18.771Z",
+  "target": "http://127.0.0.1:3004",
+  "runner": "playwright-core 1.56.1 / installed Google Chrome",
+  "contexts": {
+    "320x568": {
+      "httpStatus": 200,
+      "overflow": {
+        "scrollWidth": 320,
+        "viewportWidth": 320,
+        "pass": true
+      },
+      "wrappers": [
+        {
+          "variant": "hero",
+          "tier": "balanced",
+          "bloom": "false",
+          "status": "fallback"
+        },
+        {
+          "variant": "process",
+          "tier": "balanced",
+          "bloom": "false",
+          "status": "fallback"
+        }
+      ],
+      "errors": [],
+      "cta": {
+        "rect": {
+          "top": 453.65625,
+          "bottom": 501.65625,
+          "left": 20,
+          "right": 300,
+          "width": 280,
+          "height": 48,
+          "viewportHeight": 568
+        },
+        "computed": {
+          "grid": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "32px",
+            "paddingBottom": "35.2px",
+            "maxWidth": "none"
+          },
+          "copy": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "none"
+          },
+          "title": {
+            "fontSize": "48px",
+            "lineHeight": "45.6px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "285.234px"
+          },
+          "lede": {
+            "fontSize": "16px",
+            "lineHeight": "24.8px",
+            "marginTop": "13.6px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "592px"
+          },
+          "actions": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "16px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "none"
+          }
+        },
+        "pass": true
+      },
+      "pass": true
+    },
+    "1024x768": {
+      "httpStatus": 200,
+      "overflow": {
+        "scrollWidth": 1024,
+        "viewportWidth": 1024,
+        "pass": true
+      },
+      "wrappers": [
+        {
+          "variant": "hero",
+          "tier": "high",
+          "bloom": "true",
+          "status": "ready"
+        },
+        {
+          "variant": "process",
+          "tier": "high",
+          "bloom": "true",
+          "status": "ready"
+        }
+      ],
+      "errors": [],
+      "cta": {
+        "rect": {
+          "top": 559.015625,
+          "bottom": 625.015625,
+          "left": 32,
+          "right": 236.21875,
+          "width": 204.21875,
+          "height": 66,
+          "viewportHeight": 768
+        },
+        "computed": {
+          "grid": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "40px",
+            "paddingBottom": "48px",
+            "maxWidth": "none"
+          },
+          "copy": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "16px",
+            "paddingBottom": "0px",
+            "maxWidth": "none"
+          },
+          "title": {
+            "fontSize": "56px",
+            "lineHeight": "52.64px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "399.328px"
+          },
+          "lede": {
+            "fontSize": "18.4px",
+            "lineHeight": "29.44px",
+            "marginTop": "16px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "592px"
+          },
+          "actions": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "16px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "none"
+          }
+        },
+        "pass": true
+      },
+      "pass": true
+    },
+    "1280x800": {
+      "httpStatus": 200,
+      "overflow": {
+        "scrollWidth": 1280,
+        "viewportWidth": 1280,
+        "pass": true
+      },
+      "wrappers": [
+        {
+          "variant": "hero",
+          "tier": "high",
+          "bloom": "true",
+          "status": "ready"
+        },
+        {
+          "variant": "process",
+          "tier": "high",
+          "bloom": "true",
+          "status": "ready"
+        }
+      ],
+      "errors": [],
+      "cta": {
+        "rect": {
+          "top": 569.46875,
+          "bottom": 635.46875,
+          "left": 32,
+          "right": 291.59375,
+          "width": 259.59375,
+          "height": 66,
+          "viewportHeight": 800
+        },
+        "computed": {
+          "grid": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "40px",
+            "paddingBottom": "48px",
+            "maxWidth": "none"
+          },
+          "copy": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "16px",
+            "paddingBottom": "0px",
+            "maxWidth": "none"
+          },
+          "title": {
+            "fontSize": "64px",
+            "lineHeight": "60.16px",
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "456.375px"
+          },
+          "lede": {
+            "fontSize": "18.4px",
+            "lineHeight": "29.44px",
+            "marginTop": "16px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "592px"
+          },
+          "actions": {
+            "fontSize": "16px",
+            "lineHeight": "24px",
+            "marginTop": "16px",
+            "marginBottom": "0px",
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "maxWidth": "none"
+          }
+        },
+        "pass": true
+      },
+      "pass": true
+    },
+    "390x844": {
+      "httpStatus": 200,
+      "overflow": {
+        "scrollWidth": 390,
+        "viewportWidth": 390,
+        "pass": true
+      },
+      "wrappers": [
+        {
+          "variant": "hero",
+          "tier": "balanced",
+          "bloom": "false",
+          "status": "ready"
+        },
+        {
+          "variant": "process",
+          "tier": "balanced",
+          "bloom": "false",
+          "status": "ready"
+        }
+      ],
+      "errors": [],
+      "process": {
+        "sequence": [
+          {
+            "target": 0,
+            "current": [
+              "step",
+              null,
+              null,
+              null
+            ],
+            "pass": true
+          },
+          {
+            "target": 1,
+            "current": [
+              null,
+              "step",
+              null,
+              null
+            ],
+            "pass": true
+          },
+          {
+            "target": 2,
+            "current": [
+              null,
+              null,
+              "step",
+              null
+            ],
+            "pass": true
+          },
+          {
+            "target": 3,
+            "current": [
+              null,
+              null,
+              null,
+              "step"
+            ],
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      "pass": true
+    },
+    "1440x900": {
+      "httpStatus": 200,
+      "overflow": {
+        "scrollWidth": 1440,
+        "viewportWidth": 1440,
+        "pass": true
+      },
+      "wrappers": [
+        {
+          "variant": "hero",
+          "tier": "high",
+          "bloom": "true",
+          "status": "ready"
+        },
+        {
+          "variant": "process",
+          "tier": "high",
+          "bloom": "true",
+          "status": "ready"
+        }
+      ],
+      "errors": [],
+      "process": {
+        "sequence": [
+          {
+            "target": 0,
+            "current": [
+              "step",
+              null,
+              null,
+              null
+            ],
+            "pass": true
+          },
+          {
+            "target": 1,
+            "current": [
+              null,
+              "step",
+              null,
+              null
+            ],
+            "pass": true
+          },
+          {
+            "target": 2,
+            "current": [
+              null,
+              null,
+              "step",
+              null
+            ],
+            "pass": true
+          },
+          {
+            "target": 3,
+            "current": [
+              null,
+              null,
+              null,
+              "step"
+            ],
+            "pass": true
+          }
+        ],
+        "pass": true
+      },
+      "pass": true
+    }
+  }
+}
