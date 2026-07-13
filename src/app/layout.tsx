@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { companyConfig } from "@/config/companyConfig";
+import { companyConfig, isPublicReleaseReady } from "@/config/companyConfig";
 import { absoluteSiteUrl } from "@/lib/seo";
 import { siteDescription, siteTitle } from "@/lib/siteContent";
 import "./globals.css";
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
     images: [absoluteSiteUrl("/images/medical-office-hero-soft.jpg")],
   },
   robots: {
-    index: companyConfig.allowSearchIndexing,
-    follow: companyConfig.allowSearchIndexing,
+    index: isPublicReleaseReady,
+    follow: isPublicReleaseReady,
   },
 };
 
@@ -68,7 +68,7 @@ export default function RootLayout({
   return (
     <html lang="pl" className="h-full antialiased">
       <body className="flex min-h-full flex-col">
-        {companyConfig.allowSearchIndexing ? (
+        {isPublicReleaseReady ? (
           <script
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(websiteSchema).replace(/</g, "\\u003c"),

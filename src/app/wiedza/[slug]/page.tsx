@@ -8,6 +8,7 @@ type KnowledgeArticlePageProps = {
 };
 
 export const dynamicParams = false;
+export const dynamic = "force-static";
 
 export function generateStaticParams() {
   return knowledgeArticles.map((article) => ({ slug: article.slug }));
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps) {
     path: "/wiedza/" + article.slug,
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
+    indexable: article.reviewStatus === "reviewed",
   });
 }
 

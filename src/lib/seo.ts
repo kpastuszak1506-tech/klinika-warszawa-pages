@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { companyConfig } from "@/config/companyConfig";
-import { siteTitle } from "@/lib/siteContent";
+import { companyConfig, isPublicReleaseReady } from "@/config/companyConfig";
 
 type PageMetadataInput = {
   title: string;
   description: string;
   path: string;
+  indexable?: boolean;
 };
 
 type ArticleMetadataInput = PageMetadataInput & {
@@ -30,21 +30,30 @@ export function createPageMetadata({
   title,
   description,
   path,
+  indexable,
 }: PageMetadataInput): Metadata {
   const url = absoluteSiteUrl(path);
+  const pageTitle = `${title} | ${companyConfig.shortName}`;
+  const shouldIndex = indexable ?? isPublicReleaseReady;
 
   return {
-    title,
+    title: {
+      absolute: pageTitle,
+    },
     description,
     alternates: {
       canonical: url,
+    },
+    robots: {
+      index: shouldIndex,
+      follow: isPublicReleaseReady,
     },
     openGraph: {
       type: "website",
       locale: "pl_PL",
       url,
       siteName: companyConfig.shortName,
-      title: `${title} | ${siteTitle}`,
+      title: pageTitle,
       description,
       images: [
         {
@@ -57,7 +66,7 @@ export function createPageMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${siteTitle}`,
+      title: pageTitle,
       description,
       images: [absoluteSiteUrl("/images/medical-office-hero-soft.jpg")],
     },
@@ -71,17 +80,23 @@ export function createArticleMetadata({
   path,
   publishedAt,
   updatedAt,
+  indexable,
 }: ArticleMetadataInput): Metadata {
   const url = absoluteSiteUrl(path);
 
   return {
-    ...createPageMetadata({ title, description, path }),
+    ...createPageMetadata({
+      title,
+      description,
+      path,
+      indexable,
+    }),
     openGraph: {
       type: "article",
       locale: "pl_PL",
       url,
       siteName: companyConfig.shortName,
-      title: title + " | " + siteTitle,
+      title: `${title} | ${companyConfig.shortName}`,
       description,
       publishedTime: publishedAt,
       modifiedTime: updatedAt,

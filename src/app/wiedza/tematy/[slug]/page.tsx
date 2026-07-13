@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { KnowledgeCard } from "@/components/KnowledgeCard";
+import { isPublicReleaseReady } from "@/config/companyConfig";
 import {
   getArticlesForTopic,
   getKnowledgeTopic,
@@ -14,6 +15,7 @@ type KnowledgeTopicPageProps = {
 };
 
 export const dynamicParams = false;
+export const dynamic = "force-static";
 
 export function generateStaticParams() {
   return knowledgeTopics.map((topic) => ({ slug: topic.slug }));
@@ -27,10 +29,17 @@ export async function generateMetadata({ params }: KnowledgeTopicPageProps) {
     return {};
   }
 
+  const articles = getArticlesForTopic(topic);
+  const isTopicIndexable =
+    isPublicReleaseReady &&
+    articles.length > 0 &&
+    articles.every((article) => article.reviewStatus === "reviewed");
+
   return createPageMetadata({
     title: topic.label,
     description: topic.description,
     path: "/wiedza/tematy/" + topic.slug,
+    indexable: isTopicIndexable,
   });
 }
 

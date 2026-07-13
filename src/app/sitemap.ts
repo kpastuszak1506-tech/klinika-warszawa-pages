@@ -12,7 +12,6 @@ const publicPaths = [
   "/dla-kogo",
   "/cennik",
   "/faq",
-  "/wiedza",
   "/kontakt",
   "/polityka-prywatnosci",
   "/polityka-cookies",
@@ -20,29 +19,34 @@ const publicPaths = [
   "/informacja-dla-pacjenta",
 ];
 
+const reviewedKnowledgeArticles = knowledgeArticles.filter(
+  (article) => article.reviewStatus === "reviewed",
+);
+const reviewedArticleSlugs = new Set(
+  reviewedKnowledgeArticles.map((article) => article.slug),
+);
+const indexableKnowledgeTopics = knowledgeTopics.filter(
+  (topic) =>
+    topic.articleSlugs.length > 0 &&
+    topic.articleSlugs.every((slug) => reviewedArticleSlugs.has(slug)),
+);
+const isKnowledgeHubIndexable =
+  reviewedKnowledgeArticles.length === knowledgeArticles.length;
+
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!isPublicReleaseReady) {
     return [];
   }
 
   return [
-    ...publicPaths.map((path) => ({
-      url: absoluteSiteUrl(path),
-      lastModified: new Date("2026-07-11"),
-      changeFrequency: "monthly" as const,
-      priority: path === "/" ? 1 : 0.7,
-    })),
-    ...knowledgeArticles.map((article) => ({
+    ...publicPaths.map((path) => ({ url: absoluteSiteUrl(path) })),
+    ...(isKnowledgeHubIndexable ? [{ url: absoluteSiteUrl("/wiedza") }] : []),
+    ...reviewedKnowledgeArticles.map((article) => ({
       url: absoluteSiteUrl("/wiedza/" + article.slug),
-      lastModified: new Date(article.updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.65,
+      lastModified: new Date(`${article.updatedAt}T00:00:00.000Z`),
     })),
-    ...knowledgeTopics.map((topic) => ({
+    ...indexableKnowledgeTopics.map((topic) => ({
       url: absoluteSiteUrl("/wiedza/tematy/" + topic.slug),
-      lastModified: new Date("2026-07-11"),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
     })),
   ];
 }

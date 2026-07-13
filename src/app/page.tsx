@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { BookingWidgetSlot } from "@/components/BookingWidgetSlot";
-import { ClinicalPathway } from "@/components/clinical-3d/ClinicalPathway";
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { FAQ } from "@/components/FAQ";
 import { KnowledgeCard } from "@/components/KnowledgeCard";
 import { PriceTable } from "@/components/PriceTable";
-import { ProcessSteps } from "@/components/ProcessSteps";
+import { ProcessSlider } from "@/components/ProcessSlider";
 import { Reveal } from "@/components/motion/Reveal";
 import { StaggerGroup } from "@/components/motion/StaggerGroup";
 import { companyConfig } from "@/config/companyConfig";
@@ -67,9 +66,6 @@ export default function Home() {
                   <span>Gabinet</span>
                   Konsultacja na miejscu
                 </div>
-                <div aria-hidden="true" className="hero-pathway">
-                  <ClinicalPathway variant="hero" />
-                </div>
                 <p className="hero-media__caption">
                   Przestrzeń przygotowana do spokojnej rozmowy z lekarzem
                 </p>
@@ -89,38 +85,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="home-section process-section" id="proces">
-        <div className="site-shell process-layout">
-          <div className="process-intro">
-            <Reveal>
-              <p className="eyebrow">Przebieg wizyty</p>
-              <h2 className="display-heading section-title">Od kontaktu do zaleceń</h2>
-              <p className="section-lede">
-                Cztery etapy organizacyjne. Decyzja medyczna pozostaje
-                indywidualna i należy do lekarza.
-              </p>
-            </Reveal>
-            <Reveal className="process-scene" delay={120} distance={10}>
-              <div className="process-scene__topline">
-                <span>Przebieg konsultacji</span>
-                <span aria-hidden="true">01—04</span>
-              </div>
-              <ClinicalPathway variant="process" />
-              <p className="process-scene__note">
-                Wizualizacja porządkuje przebieg konsultacji. Nie jest wynikiem
-                automatycznej kwalifikacji ani diagnozy.
-              </p>
-            </Reveal>
-          </div>
-          <div className="process-list">
-            <div className="process-list__intro">
-              <span className="section-index">01</span>
-              <p>Cztery etapy wizyty</p>
-            </div>
-            <ProcessSteps />
-          </div>
-        </div>
-      </section>
+      <ProcessSlider />
 
       <section className="home-section price-section" id="cennik">
         <div className="site-shell price-layout">

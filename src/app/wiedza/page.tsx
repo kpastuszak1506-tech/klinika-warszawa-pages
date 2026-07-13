@@ -1,15 +1,23 @@
 import { KnowledgeCard } from "@/components/KnowledgeCard";
 import { KnowledgeTopicCard } from "@/components/KnowledgeTopicCard";
 import { SectionHeading } from "@/components/SectionHeading";
+import { isPublicReleaseReady } from "@/config/companyConfig";
 import { knowledgeArticles, knowledgeTopics } from "@/lib/knowledge";
 import { createPageMetadata } from "@/lib/seo";
+
+const isKnowledgeHubIndexable =
+  isPublicReleaseReady &&
+  knowledgeArticles.every((article) => article.reviewStatus === "reviewed");
 
 export const metadata = createPageMetadata({
   title: "Wiedza dla pacjenta",
   description:
     "Źródłowe materiały informacyjne o konsultacji, bezpieczeństwie i indywidualnej ocenie terapii kannabinoidowej.",
   path: "/wiedza",
+  indexable: isKnowledgeHubIndexable,
 });
+
+export const dynamic = "force-static";
 
 export default function KnowledgePage() {
   return (

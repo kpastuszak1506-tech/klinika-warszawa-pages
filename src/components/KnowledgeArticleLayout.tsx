@@ -10,6 +10,12 @@ type KnowledgeArticleLayoutProps = {
   relatedArticles: KnowledgeArticle[];
 };
 
+function formatKnowledgeDate(date: string) {
+  return new Intl.DateTimeFormat("pl-PL", {
+    dateStyle: "long",
+  }).format(new Date(date + "T12:00:00"));
+}
+
 export function KnowledgeArticleLayout({
   article,
   relatedArticles,
@@ -20,23 +26,53 @@ export function KnowledgeArticleLayout({
   const articleTopics = article.topics
     .map((topicSlug) => getKnowledgeTopic(topicSlug))
     .filter((topic) => topic !== undefined);
+  const websiteUrl = absoluteSiteUrl("/");
+  const organizationId = `${websiteUrl}#organization`;
+  const medicalWebPageId = `${articleUrl}#medical-webpage`;
   const articleSchema = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.description,
-    datePublished: article.publishedAt,
-    dateModified: article.updatedAt,
-    mainEntityOfPage: articleUrl,
-    author: {
-      "@type": "Organization",
-      name: companyConfig.companyName,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: companyConfig.companyName,
-    },
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        name: companyConfig.companyName,
+        url: websiteUrl,
+      },
+      {
+        "@type": "MedicalWebPage",
+        "@id": medicalWebPageId,
+        url: articleUrl,
+        name: article.title,
+        description: article.description,
+        inLanguage: "pl-PL",
+        mainEntity: {
+          "@id": `${articleUrl}#article`,
+        },
+      },
+      {
+        "@type": "Article",
+        "@id": `${articleUrl}#article`,
+        headline: article.title,
+        description: article.description,
+        datePublished: article.publishedAt,
+        dateModified: article.updatedAt,
+        inLanguage: "pl-PL",
+        mainEntityOfPage: {
+          "@id": medicalWebPageId,
+        },
+        author: {
+          "@id": organizationId,
+        },
+        publisher: {
+          "@id": organizationId,
+        },
+      },
+    ],
   };
+  const reviewStatusMessage =
+    article.reviewStatus === "reviewed"
+      ? "Materiał został zweryfikowany merytorycznie. Nie stanowi indywidualnej porady lekarskiej."
+      : "Materiał oczekuje na weryfikację merytoryczną i nie jest przeznaczony do indeksowania. Nie stanowi indywidualnej porady lekarskiej.";
 
   return (
     <>
@@ -66,11 +102,11 @@ export function KnowledgeArticleLayout({
               {article.description}
             </p>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 border-y border-slate-200 py-4 text-sm text-slate-600">
+              <time dateTime={article.publishedAt}>
+                Publikacja: {formatKnowledgeDate(article.publishedAt)}
+              </time>
               <time dateTime={article.updatedAt}>
-                Aktualizacja:{" "}
-                {new Intl.DateTimeFormat("pl-PL", {
-                  dateStyle: "long",
-                }).format(new Date(article.updatedAt + "T12:00:00"))}
+                Aktualizacja: {formatKnowledgeDate(article.updatedAt)}
               </time>
               <span>{article.readingTime}</span>
             </div>
@@ -113,14 +149,11 @@ export function KnowledgeArticleLayout({
           <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
             <section className="border-l-2 border-medical-green bg-medical-green-soft p-5 text-sm leading-6 text-navy-900">
               <p className="font-semibold">Status merytoryczny</p>
-              <p className="mt-2">
-                Materiał przygotowany do weryfikacji merytorycznej przed
-                uruchomieniem indeksowania. Nie stanowi porady lekarskiej.
-              </p>
+              <p className="mt-2">{reviewStatusMessage}</p>
             </section>
-            <section aria-labelledby="article-sources" className="border-t border-slate-200 pt-5">
-              <h2 className="text-sm font-semibold text-navy-950" id="article-sources">
-                Źródła
+            <section aria-labelledby="sources" className="border-t border-slate-200 pt-5">
+              <h2 className="text-sm font-semibold text-navy-950" id="sources">
+                Źródła i cytowania
               </h2>
               <ol className="mt-4 space-y-4 text-sm leading-6 text-slate-600">
                 {article.sources.map((source) => {
@@ -131,10 +164,10 @@ export function KnowledgeArticleLayout({
                       <a
                         className="font-semibold text-medical-green underline underline-offset-2 hover:text-medical-green-dark"
                         href={source.href}
-                        rel={isInternal ? undefined : "noreferrer"}
+                        rel={isInternal ? undefined : "noopener noreferrer"}
                         target={isInternal ? undefined : "_blank"}
                       >
-                        {source.title}
+                        <cite>{source.title}</cite>
                       </a>
                       <span className="block text-xs text-slate-500">
                         {source.publisher}
