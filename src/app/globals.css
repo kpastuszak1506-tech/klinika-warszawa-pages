@@ -1870,46 +1870,6 @@ body.menu-open {
   line-height: 1.55;
 }
 
-.process-slider__toolbar {
-  display: block;
-  margin-bottom: 1.25rem;
-  opacity: 1;
-  position: relative;
-  visibility: visible;
-  z-index: 4;
-}
-
-.process-slider__progress {
-  display: grid;
-  gap: 0.6rem;
-  max-width: 25rem;
-}
-
-.process-slider__progress-label {
-  color: #7fafc4;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.process-slider__progress-rail {
-  display: grid;
-  gap: 0.3rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.process-slider__progress-rail > span {
-  background: rgba(244, 248, 246, 0.2);
-  height: 2px;
-  transition: background-color 320ms ease;
-}
-
-.process-slider__progress-rail > .is-reached {
-  background: #7cc7b0;
-}
-
 .process-slider__sr-status {
   height: 1px;
   margin: -1px;
@@ -2169,11 +2129,6 @@ body.menu-open {
   overflow: hidden;
 }
 
-.process-slider__toolbar {
-  display: block;
-  margin-bottom: 1.25rem;
-}
-
 .process-slider__navigation {
   display: none;
 }
@@ -2381,10 +2336,6 @@ body.menu-open {
     font-size: 4.35rem;
   }
 
-  .process-slider__toolbar {
-    margin-bottom: 1.5rem;
-  }
-
   .process-slide__content {
     padding: 3rem;
     width: 58%;
@@ -2448,25 +2399,6 @@ body.menu-open {
     font-size: 0.92rem;
     line-height: 1.48;
     max-width: 30rem;
-  }
-
-  .process-slider__toolbar {
-    display: block;
-    margin-bottom: 0.8rem;
-  }
-
-  .process-slider__progress {
-    gap: 0.45rem;
-    max-width: none;
-  }
-
-  .process-slider__progress-label {
-    display: block;
-    font-size: 0.62rem;
-  }
-
-  .process-slider__progress-rail {
-    gap: 0.22rem;
   }
 
   .process-slider__navigation {
@@ -3870,15 +3802,6 @@ body.menu-open {
   max-width: 42rem;
 }
 
-.process-slider__toolbar {
-  margin-bottom: 0.9rem;
-}
-
-.process-slider__progress {
-  gap: 0.45rem;
-  max-width: none;
-}
-
 .process-slider__track {
   display: block;
   list-style: none;
@@ -4191,10 +4114,6 @@ body.menu-open {
   .process-editorial__intro {
     gap: 0.55rem;
     margin-bottom: 0.75rem;
-  }
-
-  .process-slider__toolbar {
-    margin-bottom: 0.65rem;
   }
 
   .process-slider__track {

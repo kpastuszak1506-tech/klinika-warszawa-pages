@@ -148,27 +148,13 @@ export function ProcessSlider({ medicalNotice }: ProcessSliderProps) {
         <div className="process-editorial__medical-note">{medicalNotice}</div>
       </div>
 
-      <div className="site-shell process-slider__toolbar">
-        <div aria-hidden="true" className="process-slider__progress">
-          <span className="process-slider__progress-label">Etapy wizyty</span>
-          <span className="process-slider__progress-rail">
-            {processSteps.map((step, index) => (
-              <span
-                className={index <= activeIndex ? "is-reached" : undefined}
-                key={step.title}
-              />
-            ))}
-          </span>
-        </div>
-
-        <p
-          aria-atomic="true"
-          aria-live="polite"
-          className="process-slider__sr-status"
-        >
-          Etap {activeIndex + 1} z {totalSteps}: {processSteps[activeIndex].title}
-        </p>
-      </div>
+      <p
+        aria-atomic="true"
+        aria-live="polite"
+        className="process-slider__sr-status"
+      >
+        Etap {activeIndex + 1} z {totalSteps}: {processSteps[activeIndex].title}
+      </p>
 
       <ol aria-label="Etapy wizyty" className="process-slider__track" ref={trackRef}>
         {processSteps.map((step, index) => {
