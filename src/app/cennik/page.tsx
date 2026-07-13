@@ -1,12 +1,12 @@
-import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { CTAButton } from "@/components/CTAButton";
 import { PriceTable } from "@/components/PriceTable";
+import { isPublicDataVerified } from "@/config/companyConfig";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "Cennik",
   description:
-    "Cennik stacjonarnych konsultacji lekarskich w Warszawie.",
+    "Zakres pierwszej konsultacji i wizyty kontrolnej w gabinecie w Warszawie.",
   path: "/cennik",
 });
 
@@ -18,17 +18,29 @@ export default function PricingPage() {
           Cennik konsultacji
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-          Stawki obejmują wizytę lekarską w gabinecie w Warszawie. Szczegóły
-          organizacyjne potwierdzamy przed terminem konsultacji.
+          Konsultacje odbywają się stacjonarnie. Zakres wizyty zależy od tego,
+          czy jest to pierwsza rozmowa z lekarzem, czy wizyta kontrolna.
         </p>
-        <ComplianceNotice className="mt-8" />
       </section>
-      <section className="border-y border-slate-200 bg-slate-50 px-5 py-16">
-        <div className="mx-auto max-w-4xl">
-          <PriceTable />
-          <CTAButton className="mt-8" href="/kontakt">
-            Zarezerwuj wizytę stacjonarną
-          </CTAButton>
+
+      <section className="home-section price-section">
+        <div className="site-shell price-layout">
+          <div className="price-intro">
+            <p className="eyebrow">Informacje organizacyjne</p>
+            <h2 className="display-heading section-title">Cennik konsultacji</h2>
+            <p className="section-lede">
+              Informacje dotyczą stacjonarnych konsultacji lekarskich i ich
+              zakresu organizacyjnego.
+            </p>
+            {isPublicDataVerified ? (
+              <CTAButton href="/kontakt" variant="secondary">
+                Kontakt w sprawie terminu
+              </CTAButton>
+            ) : null}
+          </div>
+          <div className="price-table-wrap">
+            <PriceTable />
+          </div>
         </div>
       </section>
     </div>

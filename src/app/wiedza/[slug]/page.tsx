@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import { KnowledgeArticleLayout } from "@/components/KnowledgeArticleLayout";
-import { getKnowledgeArticle, knowledgeArticles } from "@/lib/knowledge";
+import { isLocalDemoPreview } from "@/config/companyConfig";
+import {
+  getVisibleKnowledgeArticle,
+  isIndexableKnowledgeArticle,
+  visibleKnowledgeArticles,
+} from "@/lib/knowledge";
 import { createArticleMetadata } from "@/lib/seo";
 
 type KnowledgeArticlePageProps = {
@@ -10,13 +15,17 @@ type KnowledgeArticlePageProps = {
 export const dynamicParams = false;
 export const dynamic = "force-static";
 
+const unavailableArticleSlug = "__unpublished-article__";
+
 export function generateStaticParams() {
-  return knowledgeArticles.map((article) => ({ slug: article.slug }));
+  return visibleKnowledgeArticles.length > 0
+    ? visibleKnowledgeArticles.map((article) => ({ slug: article.slug }))
+    : [{ slug: unavailableArticleSlug }];
 }
 
 export async function generateMetadata({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
-  const article = getKnowledgeArticle(slug);
+  const article = getVisibleKnowledgeArticle(slug);
 
   if (!article) {
     return {};
@@ -28,7 +37,7 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps) {
     path: "/wiedza/" + article.slug,
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
-    indexable: article.reviewStatus === "reviewed",
+    indexable: isLocalDemoPreview ? false : isIndexableKnowledgeArticle(article),
   });
 }
 
@@ -36,13 +45,13 @@ export default async function KnowledgeArticlePage({
   params,
 }: KnowledgeArticlePageProps) {
   const { slug } = await params;
-  const article = getKnowledgeArticle(slug);
+  const article = getVisibleKnowledgeArticle(slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = knowledgeArticles.filter((candidate) =>
+  const relatedArticles = visibleKnowledgeArticles.filter((candidate) =>
     article.relatedSlugs.includes(candidate.slug),
   );
 

@@ -1,11 +1,16 @@
 import Link from "next/link";
-import type { KnowledgeArticle } from "@/lib/knowledge";
+import { isPublicKnowledgeArticle, type KnowledgeArticle } from "@/lib/knowledge";
 
 type KnowledgeCardProps = {
   article: KnowledgeArticle;
+  preview?: boolean;
 };
 
-export function KnowledgeCard({ article }: KnowledgeCardProps) {
+export function KnowledgeCard({ article, preview = false }: KnowledgeCardProps) {
+  if (!preview && !isPublicKnowledgeArticle(article)) {
+    return null;
+  }
+
   return (
     <article className="knowledge-card">
       <div className="knowledge-card__meta">
@@ -18,7 +23,7 @@ export function KnowledgeCard({ article }: KnowledgeCardProps) {
       </h3>
       <p className="knowledge-card__excerpt">{article.excerpt}</p>
       <div className="knowledge-card__footer">
-        <span className="knowledge-card__status">Materiał informacyjny</span>
+        <span className="knowledge-card__status">Do przeczytania przed wizytą</span>
         <Link className="knowledge-card__link" href={`/wiedza/${article.slug}`}>
           Czytaj artykuł
           <span aria-hidden="true">→</span>

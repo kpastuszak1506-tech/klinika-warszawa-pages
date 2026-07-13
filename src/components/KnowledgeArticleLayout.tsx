@@ -1,8 +1,14 @@
-import { companyConfig, isPublicReleaseReady } from "@/config/companyConfig";
-import { getKnowledgeTopic, type KnowledgeArticle } from "@/lib/knowledge";
+import { companyConfig } from "@/config/companyConfig";
+import {
+  getKnowledgeTopic,
+  isIndexableKnowledgeArticle,
+  isPublicKnowledgeArticle,
+  isPublicKnowledgeTopic,
+  type KnowledgeArticle,
+  type KnowledgeTopic,
+} from "@/lib/knowledge";
 import { absoluteSiteUrl } from "@/lib/seo";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { ComplianceNotice } from "./ComplianceNotice";
 import { KnowledgeCard } from "./KnowledgeCard";
 
 type KnowledgeArticleLayoutProps = {
@@ -16,67 +22,191 @@ function formatKnowledgeDate(date: string) {
   }).format(new Date(date + "T12:00:00"));
 }
 
+function TableOfContents({ article }: { article: KnowledgeArticle }) {
+  return (
+    <nav aria-label="Spis treści artykułu" className="knowledge-article__toc">
+      <ol>
+        {article.sections.map((section, index) => (
+          <li key={`${section.heading}-${index}`}>
+            <a href={`#section-${index + 1}`}>
+              <span aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              {section.heading}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+function SourceReferences({
+  article,
+  citationIds,
+}: {
+  article: KnowledgeArticle;
+  citationIds?: string[];
+}) {
+  const sourceNumbers = new Map(
+    article.sources.map((source, index) => [source.id, index + 1]),
+  );
+  const references = [...new Set(citationIds ?? [])].filter((citationId) =>
+    sourceNumbers.has(citationId),
+  );
+
+  if (references.length === 0) {
+    return null;
+  }
+
+  return (
+    <span aria-label="Źródła tego akapitu" className="knowledge-article__references">
+      {references.map((citationId) => {
+        const sourceNumber = sourceNumbers.get(citationId);
+        const source = article.sources.find((item) => item.id === citationId);
+
+        if (!sourceNumber || !source) {
+          return null;
+        }
+
+        return (
+          <a
+            aria-label={`Źródło ${sourceNumber}: ${source.title}`}
+            href={`#source-${source.id}`}
+            key={source.id}
+            title={source.title}
+          >
+            [{sourceNumber}]
+          </a>
+        );
+      })}
+    </span>
+  );
+}
+
+function Sources({ article }: { article: KnowledgeArticle }) {
+  return (
+    <section
+      aria-labelledby="knowledge-article-sources"
+      className="knowledge-article__sources"
+    >
+      <h2 id="knowledge-article-sources">Bibliografia</h2>
+      <ol>
+        {article.sources.map((source, index) => {
+          const sourceNumber = index + 1;
+
+          return (
+            <li id={`source-${source.id}`} key={source.id}>
+              <span aria-hidden="true" className="knowledge-article__source-number">
+                [{sourceNumber}]
+              </span>
+              <a
+                aria-label={`[${sourceNumber}] ${source.title} (otwiera się w nowej karcie)`}
+                className="knowledge-article__source-link"
+                href={source.href}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <cite>{source.title}</cite>
+                <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (otwiera się w nowej karcie)</span>
+              </a>
+              <span className="knowledge-article__source-meta">
+                {source.publisher}
+                {source.publicationDate ? (
+                  <>
+                    <span aria-hidden="true"> · </span>
+                    <time dateTime={source.publicationDate}>
+                      {formatKnowledgeDate(source.publicationDate)}
+                    </time>
+                  </>
+                ) : null}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
 export function KnowledgeArticleLayout({
   article,
   relatedArticles,
 }: KnowledgeArticleLayoutProps) {
-  const canPublishArticleSchema =
-    isPublicReleaseReady && article.reviewStatus === "reviewed";
+  const isPublicArticle = isPublicKnowledgeArticle(article);
+  const canPublishArticleSchema = isIndexableKnowledgeArticle(article);
   const articleUrl = absoluteSiteUrl("/wiedza/" + article.slug);
   const articleTopics = article.topics
     .map((topicSlug) => getKnowledgeTopic(topicSlug))
-    .filter((topic) => topic !== undefined);
+    .filter(
+      (topic): topic is KnowledgeTopic =>
+        topic !== undefined && isPublicKnowledgeTopic(topic),
+    );
   const websiteUrl = absoluteSiteUrl("/");
   const organizationId = `${websiteUrl}#organization`;
   const medicalWebPageId = `${articleUrl}#medical-webpage`;
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "@id": organizationId,
-        name: companyConfig.companyName,
-        url: websiteUrl,
-      },
-      {
-        "@type": "MedicalWebPage",
-        "@id": medicalWebPageId,
-        url: articleUrl,
-        name: article.title,
-        description: article.description,
-        inLanguage: "pl-PL",
-        mainEntity: {
-          "@id": `${articleUrl}#article`,
-        },
-      },
-      {
-        "@type": "Article",
-        "@id": `${articleUrl}#article`,
-        headline: article.title,
-        description: article.description,
-        datePublished: article.publishedAt,
-        dateModified: article.updatedAt,
-        inLanguage: "pl-PL",
-        mainEntityOfPage: {
-          "@id": medicalWebPageId,
-        },
-        author: {
-          "@id": organizationId,
-        },
-        publisher: {
-          "@id": organizationId,
-        },
-      },
-    ],
-  };
-  const reviewStatusMessage =
-    article.reviewStatus === "reviewed"
-      ? "Materiał został zweryfikowany merytorycznie. Nie stanowi indywidualnej porady lekarskiej."
-      : "Materiał oczekuje na weryfikację merytoryczną i nie jest przeznaczony do indeksowania. Nie stanowi indywidualnej porady lekarskiej.";
+  const articleSchema =
+    canPublishArticleSchema &&
+    article.authorName &&
+    article.medicalReviewer &&
+    article.reviewedAt
+      ? {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": organizationId,
+              name: companyConfig.companyName,
+              url: websiteUrl,
+            },
+            {
+              "@type": "MedicalWebPage",
+              "@id": medicalWebPageId,
+              url: articleUrl,
+              name: article.title,
+              description: article.description,
+              inLanguage: "pl-PL",
+              mainEntity: {
+                "@id": `${articleUrl}#article`,
+              },
+            },
+            {
+              "@type": "Article",
+              "@id": `${articleUrl}#article`,
+              headline: article.title,
+              description: article.description,
+              datePublished: article.publishedAt,
+              dateModified: article.updatedAt,
+              inLanguage: "pl-PL",
+              mainEntityOfPage: {
+                "@id": medicalWebPageId,
+              },
+              author: {
+                "@type": "Person",
+                name: article.authorName,
+              },
+              reviewedBy: {
+                "@type": "Person",
+                name: article.medicalReviewer.name,
+                jobTitle: article.medicalReviewer.role,
+                hasCredential: article.medicalReviewer.qualifications,
+                ...(article.medicalReviewer.professionalId
+                  ? { identifier: article.medicalReviewer.professionalId }
+                  : {}),
+              },
+              dateReviewed: article.reviewedAt,
+              publisher: {
+                "@id": organizationId,
+              },
+            },
+          ],
+        }
+      : null;
 
   return (
     <>
-      {canPublishArticleSchema ? (
+      {articleSchema ? (
         <script
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(articleSchema).replace(/</g, "\\u003c"),
@@ -84,9 +214,10 @@ export function KnowledgeArticleLayout({
           type="application/ld+json"
         />
       ) : null}
-      <article className="bg-white">
-        <header className="knowledge-hero border-b border-slate-200 px-5 pb-14 pt-14 md:pb-20 md:pt-20">
-          <div className="mx-auto max-w-5xl">
+
+      <article className="knowledge-article">
+        <header className="knowledge-article__hero">
+          <div className="knowledge-article__hero-inner">
             <Breadcrumbs
               items={[
                 { label: "Strona główna", href: "/" },
@@ -94,90 +225,154 @@ export function KnowledgeArticleLayout({
                 { label: article.title },
               ]}
             />
-            <p className="eyebrow mt-8">Materiały informacyjne</p>
-            <h1 className="display-heading max-w-4xl text-balance text-4xl font-semibold leading-tight text-navy-950 md:text-6xl">
-              {article.title}
-            </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-              {article.description}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 border-y border-slate-200 py-4 text-sm text-slate-600">
-              <time dateTime={article.publishedAt}>
-                Publikacja: {formatKnowledgeDate(article.publishedAt)}
-              </time>
-              <time dateTime={article.updatedAt}>
-                Aktualizacja: {formatKnowledgeDate(article.updatedAt)}
-              </time>
-              <span>{article.readingTime}</span>
-            </div>
+            <p className="knowledge-article__eyebrow">Materiał informacyjny</p>
+            <h1>{article.title}</h1>
+            <p className="knowledge-article__lead">{article.description}</p>
+
+            {isPublicArticle ? (
+              <dl className="knowledge-article__metadata">
+                <div>
+                  <dt>Autor</dt>
+                  <dd>{article.authorName}</dd>
+                </div>
+                <div>
+                  <dt>Weryfikacja merytoryczna</dt>
+                  <dd>
+                    {article.medicalReviewer?.name}, {article.medicalReviewer?.role}
+                  </dd>
+                </div>
+                <div>
+                  <dt>Kwalifikacje</dt>
+                  <dd>{article.medicalReviewer?.qualifications}</dd>
+                </div>
+                <div>
+                  <dt>Aktualizacja</dt>
+                  <dd>
+                    <time dateTime={article.updatedAt}>
+                      {formatKnowledgeDate(article.updatedAt)}
+                    </time>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Weryfikacja</dt>
+                  <dd>
+                    <time dateTime={article.reviewedAt}>
+                      {formatKnowledgeDate(article.reviewedAt ?? "")}
+                    </time>
+                  </dd>
+                </div>
+                {article.nextReviewAt ? (
+                  <div>
+                    <dt>Następna weryfikacja</dt>
+                    <dd>
+                      <time dateTime={article.nextReviewAt}>
+                        {formatKnowledgeDate(article.nextReviewAt)}
+                      </time>
+                    </dd>
+                  </div>
+                ) : null}
+                {article.readingTime ? (
+                  <div>
+                    <dt>Czas czytania</dt>
+                    <dd>{article.readingTime}</dd>
+                  </div>
+                ) : null}
+                <div>
+                  <dt>Liczba źródeł</dt>
+                  <dd>{article.sources.length}</dd>
+                </div>
+              </dl>
+            ) : null}
+
             {articleTopics.length > 0 ? (
-              <div className="mt-5 flex flex-wrap gap-2">
+              <nav aria-label="Tematy artykułu" className="knowledge-article__topics">
                 {articleTopics.map((topic) => (
-                  <a
-                    className="rounded-full border border-medical-green/25 bg-white px-3 py-1 text-xs font-semibold text-medical-green transition hover:border-medical-green hover:text-medical-green-dark"
-                    href={"/wiedza/tematy/" + topic.slug}
-                    key={topic.slug}
-                  >
+                  <a href={`/wiedza/tematy/${topic.slug}`} key={topic.slug}>
                     {topic.label}
                   </a>
                 ))}
-              </div>
+              </nav>
             ) : null}
           </div>
         </header>
 
-        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-14 lg:grid-cols-[minmax(0,1fr)_290px] lg:py-20">
-          <div className="knowledge-prose min-w-0">
-            {article.sections.map((section) => (
-              <section key={section.heading}>
-                <h2>{section.heading}</h2>
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-                {section.bullets ? (
-                  <ul>
-                    {section.bullets.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </section>
-            ))}
-            <ComplianceNotice className="mt-10" />
+        <div className="knowledge-article__body">
+          <section
+            aria-labelledby="knowledge-article-summary"
+            className="knowledge-article__summary"
+          >
+            <p className="knowledge-article__summary-kicker">Najważniejsze informacje</p>
+            <h2 id="knowledge-article-summary">W skrócie</h2>
+            <ul>
+              {article.keyPoints.slice(0, 3).map((keyPoint, index) => (
+                <li key={`${keyPoint}-${index}`}>
+                  <span aria-hidden="true">{index + 1}</span>
+                  <p>{keyPoint}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <details className="knowledge-article__mobile-toc">
+            <summary>
+              <span>Spis treści</span>
+              <span aria-hidden="true">+</span>
+            </summary>
+            <TableOfContents article={article} />
+          </details>
+
+          <div className="knowledge-article__layout">
+            <div className="knowledge-article__prose">
+              {article.sections.map((section, sectionIndex) => (
+                <section
+                  className={`knowledge-article__section knowledge-article__section--${section.kind ?? "overview"}`}
+                  id={`section-${sectionIndex + 1}`}
+                  key={`${section.heading}-${sectionIndex}`}
+                >
+                  <div className="knowledge-article__section-heading">
+                    <span aria-hidden="true">
+                      {String(sectionIndex + 1).padStart(2, "0")}
+                    </span>
+                    <h2>{section.heading}</h2>
+                  </div>
+
+                  {section.paragraphs.map((paragraph, paragraphIndex) => (
+                    <p key={`${paragraph.text}-${paragraphIndex}`}>
+                      {paragraph.text}
+                      <SourceReferences
+                        article={article}
+                        citationIds={paragraph.citationIds}
+                      />
+                    </p>
+                  ))}
+
+                  {section.bullets ? (
+                    <ul className="knowledge-article__list">
+                      {section.bullets.map((item, itemIndex) => (
+                        <li key={`${item}-${itemIndex}`}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </section>
+              ))}
+
+              <footer className="knowledge-article__editorial-note">
+                <p>
+                  <strong>Nota redakcyjna.</strong> Materiał ma charakter edukacyjny i
+                  nie zastępuje konsultacji lekarskiej. Decyzję dotyczącą postępowania
+                  podejmuje lekarz po osobistym badaniu pacjenta.
+                </p>
+              </footer>
+            </div>
+
+            <aside aria-label="Nawigacja i źródła artykułu" className="knowledge-article__rail">
+              <div className="knowledge-article__desktop-toc">
+                <p className="knowledge-article__rail-label">W tym materiale</p>
+                <TableOfContents article={article} />
+              </div>
+              <Sources article={article} />
+            </aside>
           </div>
-
-          <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-            <section className="border-l-2 border-medical-green bg-medical-green-soft p-5 text-sm leading-6 text-navy-900">
-              <p className="font-semibold">Status merytoryczny</p>
-              <p className="mt-2">{reviewStatusMessage}</p>
-            </section>
-            <section aria-labelledby="sources" className="border-t border-slate-200 pt-5">
-              <h2 className="text-sm font-semibold text-navy-950" id="sources">
-                Źródła i cytowania
-              </h2>
-              <ol className="mt-4 space-y-4 text-sm leading-6 text-slate-600">
-                {article.sources.map((source) => {
-                  const isInternal = source.href.startsWith("/");
-
-                  return (
-                    <li key={source.href}>
-                      <a
-                        className="font-semibold text-medical-green underline underline-offset-2 hover:text-medical-green-dark"
-                        href={source.href}
-                        rel={isInternal ? undefined : "noopener noreferrer"}
-                        target={isInternal ? undefined : "_blank"}
-                      >
-                        <cite>{source.title}</cite>
-                      </a>
-                      <span className="block text-xs text-slate-500">
-                        {source.publisher}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ol>
-            </section>
-          </aside>
         </div>
       </article>
 

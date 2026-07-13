@@ -2,20 +2,32 @@ import type { Metadata, Viewport } from "next";
 import { CookieConsent } from "@/components/CookieConsent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { companyConfig, isPublicReleaseReady } from "@/config/companyConfig";
+import {
+  companyConfig,
+  isPublicDataVerified,
+  isPublicReleaseReady,
+} from "@/config/companyConfig";
 import { absoluteSiteUrl } from "@/lib/seo";
 import { siteDescription, siteTitle } from "@/lib/siteContent";
 import "./globals.css";
 
 const homeUrl = absoluteSiteUrl("/");
+const siteName = isPublicDataVerified && companyConfig.shortName.trim()
+  ? companyConfig.shortName
+  : "Konsultacje lekarskie | Warszawa";
+const metadataTitle = isPublicDataVerified
+  ? siteTitle
+  : "Konsultacje lekarskie w Warszawie";
 
 export const metadata: Metadata = {
   metadataBase: new URL(companyConfig.websiteUrl),
   title: {
-    default: siteTitle,
+    default: metadataTitle,
     template: "%s | Konsultacje lekarskie Warszawa",
   },
-  description: siteDescription,
+  description: isPublicDataVerified
+    ? siteDescription
+    : "Informacje o stacjonarnych konsultacjach lekarskich w Warszawie.",
   alternates: {
     canonical: homeUrl,
   },
@@ -23,9 +35,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pl_PL",
     url: homeUrl,
-    siteName: companyConfig.shortName,
-    title: siteTitle,
-    description: siteDescription,
+    siteName,
+    title: metadataTitle,
+    description: isPublicDataVerified
+      ? siteDescription
+      : "Informacje o stacjonarnych konsultacjach lekarskich w Warszawie.",
     images: [
       {
         url: absoluteSiteUrl("/images/medical-office-hero-soft.jpg"),
@@ -37,8 +51,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
+    title: metadataTitle,
+    description: isPublicDataVerified
+      ? siteDescription
+      : "Informacje o stacjonarnych konsultacjach lekarskich w Warszawie.",
     images: [absoluteSiteUrl("/images/medical-office-hero-soft.jpg")],
   },
   robots: {
@@ -60,7 +76,7 @@ export default function RootLayout({
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: companyConfig.shortName,
+    name: siteName,
     url: homeUrl,
     inLanguage: "pl-PL",
   };

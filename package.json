@@ -5,16 +5,22 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:pages": "GITHUB_PAGES=true next build",
+    "build:pages": "GITHUB_PAGES=true next build && node scripts/validate-export.mjs",
     "start": "next start",
     "lint": "eslint",
     "validate:content": "node scripts/validate-site.mjs",
+    "validate:export": "node scripts/validate-export.mjs",
     "validate": "npm run lint && npm run validate:content && npm run build"
   },
   "dependencies": {
     "next": "16.2.10",
     "react": "19.2.7",
     "react-dom": "19.2.7"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.19"
+    }
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

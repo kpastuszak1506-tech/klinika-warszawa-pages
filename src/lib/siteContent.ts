@@ -1,8 +1,8 @@
 export const siteTitle =
-  "Konsultacje lekarskie - kwalifikacja do terapii kannabinoidowej | Warszawa";
+  "Konsultacja lekarska w Warszawie | Terapia kannabinoidowa";
 
 export const siteDescription =
-  "Stacjonarne konsultacje lekarskie w Warszawie w zakresie oceny wskazań do terapii kannabinoidowej. Decyzję terapeutyczną podejmuje lekarz po osobistym badaniu pacjenta.";
+  "Stacjonarna konsultacja lekarska w Warszawie dotycząca oceny zasadności i bezpieczeństwa terapii kannabinoidowej.";
 
 export const navItems = [
   { href: "/konsultacja", label: "Konsultacja" },
@@ -17,7 +17,6 @@ export const legalNavItems = [
   { href: "/polityka-prywatnosci", label: "Polityka prywatności" },
   { href: "/polityka-cookies", label: "Polityka cookies" },
   { href: "/regulamin-rezerwacji", label: "Regulamin rezerwacji" },
-  { href: "/informacja-dla-pacjenta", label: "Informacja dla pacjenta" },
 ];
 
 export const footerNavItems = [
@@ -26,88 +25,118 @@ export const footerNavItems = [
 ];
 
 export const complianceText =
-  "Decyzję o wdrożeniu leczenia, kontynuacji terapii lub wystawieniu recepty podejmuje wyłącznie lekarz po osobistym badaniu pacjenta oraz analizie wskazań i przeciwwskazań medycznych. Sama rezerwacja wizyty nie oznacza gwarancji otrzymania recepty.";
+  "Lekarz przeprowadza badanie w zakresie dostosowanym do sytuacji. O zasadności terapii i dalszym postępowaniu decyduje po ocenie medycznej. Samo umówienie wizyty nie przesądza o decyzji lekarza ani o wystawieniu recepty.";
 
 export const shortComplianceText =
-  "Decyzję podejmuje lekarz po osobistym badaniu. Rezerwacja wizyty nie gwarantuje otrzymania recepty.";
+  "Lekarz przeprowadza badanie w zakresie dostosowanym do sytuacji. O dalszym postępowaniu decyduje po ocenie medycznej.";
 
 export const formMedicalDataNotice =
-  "Strona i przyszły widget rezerwacji służą wyłącznie do kontaktu organizacyjnego i rezerwacji wizyty. Nie należy wpisywać w nich informacji o stanie zdrowia, rozpoznaniach, przyjmowanych lekach ani wynikach badań. Informacje medyczne są omawiane wyłącznie podczas wizyty z lekarzem lub przekazywane przez zabezpieczony system dokumentacji medycznej.";
+  "Nie wpisuj w formularzu rozpoznań, wyników badań, listy leków ani opisu stanu zdrowia. Służy on wyłącznie sprawom organizacyjnym.";
 
 export const processSteps = [
   {
     title: "Rezerwacja terminu",
     description:
-      "Pacjent wybiera dogodny termin kontaktu i otrzymuje informacje organizacyjne dotyczące wizyty w gabinecie.",
+      "Wybierz termin konsultacji stacjonarnej lub skorzystaj z danych placówki.",
+    utilityItems: [],
+    utilityLink: {
+      href: "/kontakt",
+      label: "Kontakt i dane placówki",
+    },
   },
   {
-    title: "Wizyta w gabinecie",
+    title: "Przygotowanie do wizyty",
     description:
-      "Konsultacja odbywa się stacjonarnie. Lekarz przeprowadza rozmowę, badanie oraz analizuje dostępną dokumentację.",
+      "Przygotuj informacje i dokumenty, które mogą ułatwić rozmowę podczas wizyty.",
+    utilityItems: [
+      "Dokument tożsamości",
+      "Posiadana dokumentacja",
+      "Lista leków, suplementów i pytań",
+    ],
+    utilityLink: {
+      href: "/jak-wyglada-wizyta",
+      label: "Pełna lista przed wizytą",
+    },
   },
   {
-    title: "Ocena medyczna",
+    title: "Ocena podczas konsultacji",
     description:
-      "Lekarz ocenia wskazania, przeciwwskazania i bezpieczeństwo rozważanej terapii dla konkretnego pacjenta.",
+      "Lekarz omawia informacje istotne dla oceny podczas osobistej konsultacji.",
+    utilityItems: [
+      "Rozmowa i wywiad",
+      "Dokumentacja i dotychczasowe leczenie",
+      "Bezpieczeństwo, interakcje i przeciwwskazania",
+    ],
+    utilityLink: {
+      href: "/konsultacja",
+      label: "Co lekarz ocenia",
+    },
   },
   {
-    title: "Zalecenia",
+    title: "Zalecenia i dalsze kroki",
     description:
-      "Po badaniu pacjent otrzymuje informacje o decyzji lekarza oraz dalszym postępowaniu, jeśli jest ono zasadne.",
+      "Po konsultacji lekarz omawia dalsze postępowanie odpowiednie do jej przebiegu.",
+    utilityItems: [
+      "Omówienie wyniku konsultacji",
+      "Zalecenia odpowiednie do przebiegu wizyty",
+      "Plan kontroli lub dalszej diagnostyki, jeśli potrzebny",
+    ],
+    utilityLink: {
+      href: "/wiedza",
+      label: "Przejdź do bazy wiedzy",
+    },
   },
 ];
 
 export const faqItems = [
   {
-    question: "Czy rezerwacja wizyty oznacza otrzymanie recepty?",
+    question: "Jak przygotować się do wizyty?",
     answer:
-      "Nie. Rezerwacja oznacza umówienie konsultacji lekarskiej. Decyzję podejmuje lekarz po osobistym badaniu pacjenta oraz analizie wskazań i przeciwwskazań.",
+      "Weź dokument tożsamości, posiadaną dokumentację oraz listę leków, suplementów, alergii i pytań do lekarza.",
+  },
+  {
+    question: "Czy mam przynieść dokumentację medyczną?",
+    answer:
+      "Jeśli masz dokumentację, którą chcesz omówić z lekarzem, przynieś ją na wizytę.",
   },
   {
     question: "Czy konsultacja odbywa się stacjonarnie?",
-    answer:
-      "Tak. Konsultacje odbywają się stacjonarnie w gabinecie w Warszawie. Informacje medyczne są omawiane podczas wizyty z lekarzem.",
+    answer: "Tak. Konsultacja odbywa się osobiście w gabinecie w Warszawie.",
   },
   {
-    question: "Co zabrać na wizytę?",
+    question: "Czy po konsultacji może zostać wystawiona recepta?",
     answer:
-      "Warto zabrać dokument tożsamości oraz posiadaną dokumentację medyczną, jeżeli pacjent ją ma. Nie należy przesyłać danych medycznych przez zwykły formularz kontaktowy.",
+      "Ewentualna recepta jest możliwa tylko wtedy, gdy lekarz uzna ją za medycznie zasadną po ocenie podczas wizyty.",
   },
   {
-    question: "Czy lekarz może odmówić wystawienia recepty?",
+    question: "Co, jeśli lekarz nie rekomenduje terapii?",
     answer:
-      "Tak. Lekarz może odmówić, jeżeli nie stwierdzi wskazań medycznych, rozpozna przeciwwskazania albo uzna, że dane postępowanie nie jest bezpieczne dla pacjenta.",
+      "Lekarz może wyjaśnić brak rekomendacji terapii i omówić inne dalsze kroki, w tym potrzebę innej konsultacji lub diagnostyki.",
   },
   {
-    question: "Czego dotyczy opłata za wizytę?",
+    question: "Czym różni się pierwsza wizyta od kontrolnej?",
     answer:
-      "Opłata dotyczy konsultacji lekarskiej, czyli czasu lekarza, badania, analizy informacji i przekazania zaleceń. Nie jest opłatą za określony wynik decyzji medycznej.",
+      "Pierwsza wizyta służy ocenie sytuacji i omówieniu możliwego postępowania. Wizyta kontrolna dotyczy dalszego postępowania po wcześniejszej konsultacji.",
   },
   {
-    question: "Czy placówka sprzedaje produkty lecznicze?",
+    question: "Czy mogę przesłać dokumentację przez formularz?",
     answer:
-      "Nie. Placówka nie prowadzi apteki, nie sprzedaje produktów leczniczych i nie przechowuje produktów przeznaczonych dla pacjentów.",
+      "Nie. Formularz służy wyłącznie kontaktowi organizacyjnemu. Dokumentację należy przekazywać wyłącznie kanałem wskazanym przez placówkę.",
   },
   {
-    question: "Czy mogę opisać stan zdrowia w formularzu?",
+    question: "Jak chronione są dane przekazywane przez stronę?",
     answer:
-      "Nie. Kontakt przez stronę służy wyłącznie sprawom organizacyjnym. Dane medyczne należy omawiać podczas wizyty albo przekazywać przez zabezpieczony system dokumentacji medycznej.",
+      "Strona nie służy do przekazywania danych medycznych. Informacje o przetwarzaniu danych znajdują się w Polityce prywatności.",
   },
 ];
 
 export const patientPreparationItems = [
-  "Dokument tożsamości potrzebny do potwierdzenia danych pacjenta.",
-  "Posiadana dokumentacja medyczna, jeżeli pacjent chce ją omówić podczas wizyty.",
-  "Lista pytań organizacyjnych lub terapeutycznych do lekarza.",
-  "Informacja o dotychczasowym leczeniu omawiana bezpośrednio podczas wizyty, nie przez formularz kontaktowy.",
-];
-
-export const noMedicalFormFields = [
-  "Obecna strona nie udostępnia pola opisu sprawy ani załączników.",
-  "Nie przesyłaj przez stronę dokumentacji medycznej ani wyników badań.",
-  "Przyszły widget rezerwacji nie będzie służył do oceny stanu zdrowia przed wizytą.",
-  "Informacje medyczne omawiaj podczas wizyty lub przekaż wyłącznie wskazanym, zabezpieczonym kanałem.",
+  "Dokument tożsamości.",
+  "Posiadana dokumentacja medyczna.",
+  "Lista leków, suplementów i alergii.",
+  "Krótka historia dotychczasowego leczenia.",
+  "Pytania, które chcesz zadać lekarzowi.",
 ];
 
 export const legalReviewNotice =
-  "To jest wersja robocza dokumentu. Przed uruchomieniem rezerwacji online, włączeniem indeksowania lub publikacją produkcyjną prawnik powinien potwierdzić dane administratora, proces rezerwacji, retencję, odbiorców danych i warunki współpracy z dostawcą systemu.";
+  "To jest wersja robocza dokumentu. Przed publikacją musi go sprawdzić prawnik, w szczególności pod kątem danych administratora, procesu rezerwacji, okresów przechowywania danych, odbiorców danych i warunków współpracy z dostawcą systemu.";

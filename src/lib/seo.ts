@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { companyConfig, isPublicReleaseReady } from "@/config/companyConfig";
+import {
+  companyConfig,
+  isPublicDataVerified,
+  isPublicReleaseReady,
+} from "@/config/companyConfig";
 
 type PageMetadataInput = {
   title: string;
@@ -14,6 +18,13 @@ type ArticleMetadataInput = PageMetadataInput & {
 };
 
 const baseUrl = companyConfig.websiteUrl.replace(/\/$/, "");
+const neutralSiteName = "Konsultacje lekarskie | Warszawa";
+
+function getSiteName() {
+  return isPublicDataVerified && companyConfig.shortName.trim()
+    ? companyConfig.shortName
+    : neutralSiteName;
+}
 
 export function absoluteSiteUrl(path = "/") {
   if (path === "/") {
@@ -33,8 +44,9 @@ export function createPageMetadata({
   indexable,
 }: PageMetadataInput): Metadata {
   const url = absoluteSiteUrl(path);
-  const pageTitle = `${title} | ${companyConfig.shortName}`;
-  const shouldIndex = indexable ?? isPublicReleaseReady;
+  const siteName = getSiteName();
+  const pageTitle = `${title} | ${siteName}`;
+  const shouldIndex = isPublicDataVerified && (indexable ?? isPublicReleaseReady);
 
   return {
     title: {
@@ -52,7 +64,7 @@ export function createPageMetadata({
       type: "website",
       locale: "pl_PL",
       url,
-      siteName: companyConfig.shortName,
+      siteName,
       title: pageTitle,
       description,
       images: [
@@ -83,6 +95,7 @@ export function createArticleMetadata({
   indexable,
 }: ArticleMetadataInput): Metadata {
   const url = absoluteSiteUrl(path);
+  const siteName = getSiteName();
 
   return {
     ...createPageMetadata({
@@ -95,8 +108,8 @@ export function createArticleMetadata({
       type: "article",
       locale: "pl_PL",
       url,
-      siteName: companyConfig.shortName,
-      title: `${title} | ${companyConfig.shortName}`,
+      siteName,
+      title: `${title} | ${siteName}`,
       description,
       publishedTime: publishedAt,
       modifiedTime: updatedAt,

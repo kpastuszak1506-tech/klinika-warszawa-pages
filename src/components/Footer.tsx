@@ -1,54 +1,63 @@
 "use client";
 
 import Link from "next/link";
-import { companyConfig } from "@/config/companyConfig";
+import { displayCompanyData, isPublicDataVerified } from "@/config/companyConfig";
 import { cookieSettingsEvent } from "./CookieConsent";
 import { footerNavItems, legalNavItems } from "@/lib/siteContent";
 
-const phoneHref = `tel:${companyConfig.phone.replace(/[^+\d]/g, "")}`;
+function RegistryLine({
+  data,
+}: {
+  data: NonNullable<typeof displayCompanyData>;
+}) {
+  return (
+    <>
+      {data.companyName}, {data.legalForm}, {data.registeredOfficeAddress}. NIP: {data.nip},
+      {" "}REGON: {data.regon}, REGON zakładu leczniczego: {data.medicalRegon}, RPWDL:
+      {" "}{data.rpwdlNumber}.
+    </>
+  );
+}
 
 export function Footer() {
+  const contactData = displayCompanyData;
+  const isDemoData = Boolean(contactData && !isPublicDataVerified);
+
   return (
     <footer className="site-footer" id="footer">
       <div className="site-footer__top">
         <div className="site-footer__brand">
           <div className="footer-wordmark">
-            <span aria-hidden="true" className="brand-mark brand-mark--dark">
-              <svg
-                className="size-5"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.8"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 4v16" />
-                <path d="M4 12h16" />
-              </svg>
-            </span>
             <span>
-              <strong>KLINIKA WARSZAWA</strong>
-              <small>Gabinety lekarskie</small>
+              <strong>Konsultacje lekarskie</strong>
+              <small>Warszawa</small>
             </span>
           </div>
-          <p>
-            Stacjonarne konsultacje lekarskie w Warszawie w zakresie oceny
-            wskazań do terapii kannabinoidowej.
-          </p>
-          <Link className="footer-primary-link" href="/kontakt">
-            Umów konsultację <span aria-hidden="true">→</span>
-          </Link>
+          <p>Stacjonarne konsultacje lekarskie w Warszawie.</p>
+          {contactData ? (
+            <Link className="footer-primary-link" href="/kontakt">
+              Kontakt i rezerwacja <span aria-hidden="true">→</span>
+            </Link>
+          ) : null}
         </div>
 
-        <div className="site-footer__column">
-          <h2>Kontakt</h2>
-          <address>
-            <span>{companyConfig.medicalOfficeAddress}</span>
-            <a href={phoneHref}>{companyConfig.phone}</a>
-            <a href={`mailto:${companyConfig.email}`}>{companyConfig.email}</a>
-          </address>
-        </div>
+        {contactData ? (
+          <div className="site-footer__column site-footer__contact">
+            <h2>
+              Kontakt
+              {isDemoData ? (
+                <span className="footer-demo-badge">Dane demonstracyjne</span>
+              ) : null}
+            </h2>
+            <address>
+              <span>{contactData.medicalOfficeAddress}</span>
+              <a href={`tel:${contactData.phone.replace(/[^+\d]/g, "")}`}>
+                {contactData.phone}
+              </a>
+              <a href={`mailto:${contactData.email}`}>{contactData.email}</a>
+            </address>
+          </div>
+        ) : null}
 
         <div className="site-footer__column">
           <h2>Przejdź dalej</h2>
@@ -81,10 +90,12 @@ export function Footer() {
       </div>
 
       <div className="site-footer__bottom">
-        <p>
-          {companyConfig.companyName}, {companyConfig.legalForm},{" "}
-          {companyConfig.registeredOfficeAddress}. NIP: {companyConfig.nip},
-          REGON: {companyConfig.regon}, RPWDL: {companyConfig.rpwdlNumber}.
+        <p className={isDemoData ? "footer-registry footer-registry--demo" : "footer-registry"}>
+          {contactData ? (
+            <RegistryLine data={contactData} />
+          ) : (
+            "Dane kontaktowe zostaną opublikowane przed uruchomieniem placówki."
+          )}
         </p>
         <span>Informacja organizacyjna · Warszawa</span>
       </div>

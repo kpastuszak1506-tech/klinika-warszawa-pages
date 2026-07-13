@@ -1,94 +1,47 @@
 # Raport koncowy
 
-Data stanu: 2026-07-13. Dokument podsumowuje stan lokalnego repozytorium i zapisane wyniki QA; nie stanowi potwierdzenia publicznego wdrozenia ani commita.
+Data stanu: 2026-07-13. Raport opisuje rozdzielenie lokalnego demo i eksportu produkcyjnego. Nie oznacza publikacji ani pushu do GitHub. Finalny rerun walidacji zakonczyl sie PASS.
 
-## Executive Summary
+## Podsumowanie
 
-Premiumowy redesign kliniki jest zakonczony technicznie: Clinical Pathway jest prawdziwa, asynchronicznie ladowana scena WebGL z bloomem w high tier, czterema stanami procesu oraz kontrolowanym fallbackiem. Drugi przebieg QA zamknal oba P1; matryca dziewieciu viewportow, 76 screenshotow, menu, cookies, dostepnosc, content i scenariusze reduced-motion/save-data maja wynik PASS. Nie ma HIGH RISK w kodzie. Pozostaja legalne, firmowe i fizyczne-iPhone ryzyka przed wydaniem publicznym.
+- Lokalny demo pokazuje ceny 300/200 oraz podglady wszystkich 7 roboczych artykulow edukacyjnych. Jest przeznaczony wylacznie do developmentu.
+- Eksport produkcyjny/static ukrywa ceny i drafty; nie generuje draft schema, draft sitemap ani indeksowania wiedzy.
+- `publicDataVerified=false`, `legalDocumentsReviewed=false`, `allowSearchIndexing=false`; produkcyjna publikacja pozostaje zablokowana.
+- Zachowano neutralny jezyk medyczny i informacje, ze decyzje podejmuje lekarz po osobistym badaniu pacjenta.
+- Booking pozostaje wylaczony. Pelny fallback brzmi: "Rezerwacja online zostanie udostepniona przed rozpoczeciem przyjmowania pacjentow."
+- `/informacja-dla-pacjenta` przekierowuje do `/jak-wyglada-wizyta`; huby tematow sa ukryte w eksporcie.
 
-## Delegation
+## Routing i QA
 
-| Osoba | Rola | Zakres | Status |
-| --- | --- | --- | --- |
-| Sol | Orchestrator | integracja, architektura, acceptance i koncowy rerun wymaganych komend | PASS |
-| Luna | UI/3D | redesign UI, motion oraz Clinical Pathway WebGL | PASS |
-| Terra | QA | browser/runtime QA, matryca screenshotow i dowody walidacyjne | PASS |
+Sprawdzono 23 kombinacje route/viewport dla 320, 390, 1024 i 1440: zero failures, brak overflow, placeholderow `tel:`/`mailto:` i bledow runtime. Lokalne ceny i karty draftow byly obecne. Lokalny draft route zwraca 200 i nie zawiera schema `Article`. W eksporcie `publicKnowledgeArticles=0`, `publicKnowledgeTopics=0`, brak draft schema/sitemap/indexing, a robots ma `Disallow: /`.
 
-## Changed Files
+Hero korzysta z nieoprawionego asymetrycznego kadrowania obrazu oraz subtelnego wewnetrznego parallaxu z obsluga reduced motion.
 
-| Obszar | Pliki |
-| --- | --- |
-| 3D | `src/components/clinical-3d/ClinicalPathway.tsx`, `ClinicalPathwayCanvas.tsx`, `ClinicalPathwayFallback.tsx`, `ClinicalPathway.module.css`, `clinicalPathwayConfig.ts`, `useDevicePerformanceTier.ts` |
-| Motion | `src/components/motion/Reveal.tsx`, `StaggerGroup.tsx`, `useInViewport.ts`, `motionTokens.ts` |
-| Layout i sekcje | `src/app/page.tsx`, `src/app/globals.css`, `src/components/CTAButton.tsx`, `ProcessSteps.tsx`, `FAQ.tsx`, `PriceTable.tsx`, `KnowledgeCard.tsx`, `Footer.tsx` |
-| Nawigacja i prywatnosc | `src/components/Header.tsx`, `src/components/CookieConsent.tsx` |
-| Zaleznosci i dowody | `package.json`, `package-lock.json`, `artifacts/final/*`, `QA_FINDINGS.md`, `VALIDATION_REPORT.md`, `FINAL_REPORT.md` |
+## Audyt artykulow
 
-## 3D Architecture
+W repozytorium pozostaje 7 rekordow `review-required`, kazdy z 4 zrodlami: razem 28 zrodel i 111 rozwiazywalnych strukturalnie `citationIds`. Wszystkie wymagaja rzeczywistego review medycznego, autora, recenzenta, dat zrodel i dat review oraz sprawdzenia dopasowania zrodlo-twierdzenie. Decyzje audytowe: MERGE `jak-wyglada-konsultacja-kwalifikacyjna`, `przygotowanie-do-wizyty-stacjonarnej`, `prawo-do-informacji-i-dokumentacji`; KEEP DRAFT pozostalych czterech. Lokalne podglady nie sa publikacja.
 
-Clinical Pathway korzysta bezposrednio z `three`, dynamicznego importu i braku SSR dla renderera. Scena ma WebGLRenderer, kamere perspektywiczna, cztery wezly w przestrzeni 3D, rdzen, pierscienie, krzywa, proceduralne czasteczki i swiatlo zsynchronizowane z procesem. Zdarzenie `clinical-process-step` zmienia etap 0-3, kadrowanie, swiatlo i akcent wezlow; pointer steruje parallaxem tylko na desktopie.
+## Walidacja
 
-High tier uzywa `EffectComposer`, `RenderPass` i subtelnego `UnrealBloomPass`; balanced tier pomija post-processing. Reduced motion, `saveData`, brak WebGL oraz bledy inicjalizacji przechodza na statyczny fallback bez canvasa. IntersectionObserver zatrzymuje petle renderowania poza viewportem, a ResizeObserver i cleanup zwalniaja zasoby renderera.
+Finalna walidacja: `npm install` PASS, up to date; `npm run lint` PASS; `npm run validate:content` PASS; `npm run validate` PASS z production Next build generujacym 19 stron statycznych; `npm run build:pages` PASS; `validate-export` PASS dla HTML, redirect, canonical, robots i linkow `basePath`; `node /tmp/clinic-browser-qa.mjs` PASS, 23 checked i zero failures; `node /tmp/clinic-cookie-qa.mjs` PASS, zero failures; `git diff --check` PASS.
 
-## Mobile
+Pierwsza nieuprzywilejowana proba `npm run validate` nie mogla zbindowac portu Turbopack z powodu sandboxa. Dozwolony rerun przeszedl; nie jest to defekt produktu.
 
-Kolejnosc hero jest mobile-first: tresc, CTA, visual i rezerwacja bez poziomego overflow. Cztery telefony (`320x568`, `360x800`, `390x844`, `430x932`) przeszly zapisany runtime check; CTA na `320x568` ma rect `455.0469055175781-503.0469055175781 px` i miesci sie w pierwszym widoku. Menu ma target 44x44 px, cookie actions maja co najmniej 48 px, canvas nie blokuje touch, a fallback jest dostepny dla ograniczonych urzadzen.
+## Pozostale blokery
 
-## Desktop
+Brakuje potwierdzonych danych spolki, adresu, telefonu, e-maila, RPWDL, lekarza, cen produkcyjnych, czasu wizyty, polityki anulowania, bookingu i EDM. Dokumenty prywatnosci, cookies i regulamin rezerwacji sa robocze i wymagaja review prawnika. Booking wymaga ustalenia dostawcy, zakresu danych i bezpiecznego procesu. Brak publicznego HIGH RISK, ale publikacja wymaga uzupelnienia danych oraz review prawnego i medycznego.
 
-Breakpoints tablet/desktop (`768x1024`, `1024x768`, `1280x800`, `1440x900`, `1920x1080`) nie maja overflow. High tier WebGL z bloom jest potwierdzony na `1024x768`, `1280x800` i `1440x900`; CTA na dwoch wczesniej failing desktopach jest teraz w initial viewport (`559.015625-625.015625 px` oraz `569.46875-635.46875 px`). Desktopowy proces laczy sticky visual 3D z czterema przewijanymi krokami.
+## Nota biezacej iteracji
 
-## Motion
+- Copy procesu zmieniono na „Od rezerwacji do zalecen” i dodano nowy, naturalny lede.
+- Scentralizowane lokalne dane demonstracyjne firmy, kontaktu i rejestru sa renderowane w stopce oraz na `/kontakt`, z jawnym badge demo. Przy niezweryfikowanym eksporcie produkcyjnym dane przyjmuja `null`, bez linkow `tel:`/`mailto:`.
+- Potwierdzona nazwa oprogramowania to Medfile. Konfiguracja akceptuje wylacznie publiczny adres HTTPS na `medfile.pl` lub subdomenie; gotowosc wymaga rowniez `publicDataVerified`. Po stronie klienta nie jest przechowywany token ani sekret API. Adapter/slot jest przygotowany i oczekuje na publiczny URL rezerwacji; widget Medfile nie jest aktywny. Slot pozostaje wysoko w hero i w pelnym ukladzie na `/kontakt`.
+- Browser QA: 23 kombinacje route/viewport dla 320, 390, 1024 i 1440, PASS, bez overflow i bledow; oczekiwany jest jeden lokalny link telefonu i jeden lokalny link e-mail.
+- `npm run lint` PASS, `npm run validate:content` PASS, `npm run validate` PASS (19 stron statycznych), `npm run build:pages` PASS, `validate-export` PASS oraz `git diff --check` PASS.
 
-- reveal sekcji i stagger hero;
-- aktywny proces, kamera 3D i zmiana swiatla przez cztery stany;
-- desktop pointer parallax i depth hover;
-- przejscie menu, CTA microinteraction i animacja FAQ;
-- ograniczenie wszystkich animacji dla `prefers-reduced-motion` i brak stalego renderowania poza viewportem.
+### Iteracja: pionowy stos folderow
 
-## Validation
-
-Zapisane wyniki `npm install`, `npm run lint`, `npm run validate:content`, `npm run validate` i `npm run build:pages` sa PASS. Build generuje 24 trasy. Sol uruchomi te wymagane komendy ponownie jako finalne potwierdzenie po aktualizacji dokumentacji.
-
-Drugi przebieg QA ma `failed=0`: trzy recty CTA sa w pierwszym widoku, a proces ma poprawna sekwencje `aria-current` dla etapow 0, 1, 2 i 3 na `390x844` oraz `1440x900`. Szczegolowe dowody sa w `QA_FINDINGS.md` i JSON runtime.
-
-## Screenshot Matrix
-
-76 PNG obejmuje pelne strony i krytyczne sekcje dla `320x568`, `360x800`, `390x844`, `430x932`, `768x1024`, `1024x768`, `1280x800`, `1440x900` i `1920x1080`, wraz ze stanami otwartego menu mobilnego. Matryca rejestruje HTTP 200, brak overflow i brak bledow runtime.
-
-## Performance
-
-| Artefakt | Raw | gzip |
-| --- | ---: | ---: |
-| Asynchroniczny 3D | 558,597 B | 138,110 B |
-| CSS | 62,006 B | 13,068 B |
-
-Chunk 3D pozostaje asynchroniczny, wiec nie jest czescia krytycznego bundle hero. Hero image pozostaje zoptymalizowany z 1.6 MB PNG do 231 KB JPG.
-
-## Risks
-
-Brak HIGH RISK w aktualnym kodzie. Przed wydaniem publicznym nadal wymagane sa: potwierdzenie tozsamosci, danych rejestrowych i RPWDL podmiotu; review prawnika dla prywatnosci, cookies, retencji, odbiorcow i regulaminu rezerwacji; potwierdzenie dostawcy Medlife/Medfile oraz bezpiecznej integracji; i test na fizycznym iPhonie dla WebGL, touch, safe-area oraz fallbacku.
-
-Wczesniejsza praca SEO pozostaje zachowana: canonicale, Open Graph, Twitter metadata, `robots.txt`, `sitemap.xml`, breadcrumbs, trzy huby wiedzy i cztery materialy statyczne sa gotowe technicznie. Indeksowanie i Article JSON-LD pozostaja zablokowane do potwierdzenia danych publicznych i review medycznego/prawnego. Rezerwacja nie symuluje wysylki ani nie przekazuje danych medycznych; integracja dostawcy nie jest aktywna.
-
-## Completion Matrix
-
-| Workstream | Implemented | Tested | Reviewed by Sol | Status |
-| --- | --- | --- | --- | --- |
-| True WebGL 3D | YES | YES | YES | PASS |
-| Real bloom | YES | YES | YES | PASS |
-| Four process states | YES | YES | YES | PASS |
-| Mobile hero | YES | YES | YES | PASS |
-| Desktop hero | YES | YES | YES | PASS |
-| Mobile process | YES | YES | YES | PASS |
-| Desktop process | YES | YES | YES | PASS |
-| Header/navigation | YES | YES | YES | PASS |
-| Cookie UX | YES | YES | YES | PASS |
-| Pricing section | YES | YES | YES | PASS |
-| FAQ/contact | YES | YES | YES | PASS |
-| Knowledge section | YES | YES | YES | PASS |
-| Footer | YES | YES | YES | PASS |
-| Motion system | YES | YES | YES | PASS |
-| Reduced motion | YES | YES | YES | PASS |
-| Static fallback | YES | YES | YES | PASS |
-| Static export | YES | YES | YES | PASS |
+- Pionowy stos folderow jest funkcjonalny: slot rezerwacji znajduje sie w `01`, checklista przygotowania w `02`, checklista oceny w `03`, a sciezka po wizycie/wiedzy w `04`.
+- Usunieto booking overlay z hero; aktywny folder jest podnoszony, aby linki pozostawaly klikalne; skorygowano offset podpisu hero.
+- Folder structural QA: PASS dla 320/360/390/430/1024/1440; scroll/occlusion QA: PASS dla 12 stanow aktywnego folderu.
+- Pelna regresja browserowa: 23 checks PASS. `npm run lint`: PASS. `validate:content`: PASS. `build:pages` i export validator: PASS.

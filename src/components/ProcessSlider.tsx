@@ -1,75 +1,22 @@
 "use client";
 
-import Image from "next/image";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { BookingWidgetSlot } from "@/components/BookingWidgetSlot";
+import { companyConfig, isLocalDemoPreview } from "@/config/companyConfig";
 import { processSteps } from "@/lib/siteContent";
 
-const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const openingTitle = isLocalDemoPreview
+  ? "Klinika Warszawa"
+  : companyConfig.shortName ||
+    companyConfig.companyName ||
+    "Konsultacje lekarskie w Warszawie";
 
-function StepIcon({ index }: { index: number }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.7"
-      viewBox="0 0 24 24"
-    >
-      {index === 0 ? (
-        <>
-          <path d="M7 3v4" />
-          <path d="M17 3v4" />
-          <path d="M4 9h16" />
-          <rect height="17" rx="2" width="16" x="4" y="5" />
-        </>
-      ) : index === 1 ? (
-        <>
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 21a8 8 0 0 1 16 0" />
-        </>
-      ) : index === 2 ? (
-        <>
-          <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Z" />
-          <path d="M14 2v5h5" />
-          <path d="M9 15h6" />
-          <path d="M9 11h2" />
-        </>
-      ) : (
-        <path d="M20 6 9 17l-5-5" />
-      )}
-    </svg>
-  );
-}
+type ProcessSliderProps = {
+  medicalNotice: ReactNode;
+};
 
-function ArrowIcon({ direction }: { direction: "left" | "right" }) {
-  return (
-    <svg
-      aria-hidden="true"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.8"
-      viewBox="0 0 24 24"
-    >
-      {direction === "left" ? (
-        <>
-          <path d="m15 18-6-6 6-6" />
-          <path d="M9 12h10" />
-        </>
-      ) : (
-        <>
-          <path d="m9 18 6-6-6-6" />
-          <path d="M5 12h10" />
-        </>
-      )}
-    </svg>
-  );
-}
-
-export function ProcessSlider() {
+export function ProcessSlider({ medicalNotice }: ProcessSliderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const sliderRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLOListElement>(null);
@@ -90,21 +37,12 @@ export function ProcessSlider() {
 
     const measureActiveSlide = () => {
       animationFrame = 0;
-      const trackBounds = track.getBoundingClientRect();
-      const viewportCenter = trackBounds.left + track.clientWidth / 2;
+      const trackTop = track.getBoundingClientRect().top + window.scrollY;
+      const readingLine = window.scrollY + window.innerHeight * 0.38;
       let closestIndex = 0;
-      let closestDistance = Number.POSITIVE_INFINITY;
 
       slideRefs.current.forEach((slide, index) => {
-        if (!slide) {
-          return;
-        }
-
-        const bounds = slide.getBoundingClientRect();
-        const distance = Math.abs(bounds.left + bounds.width / 2 - viewportCenter);
-
-        if (distance < closestDistance) {
-          closestDistance = distance;
+        if (slide && trackTop + slide.offsetTop <= readingLine) {
           closestIndex = index;
         }
       });
@@ -122,13 +60,13 @@ export function ProcessSlider() {
       animationFrame = window.requestAnimationFrame(measureActiveSlide);
     };
 
-    track.addEventListener("scroll", scheduleMeasurement, { passive: true });
+    window.addEventListener("scroll", scheduleMeasurement, { passive: true });
     window.addEventListener("resize", scheduleMeasurement, { passive: true });
     scheduleMeasurement();
 
     return () => {
       slider?.removeAttribute("data-slider-ready");
-      track.removeEventListener("scroll", scheduleMeasurement);
+      window.removeEventListener("scroll", scheduleMeasurement);
       window.removeEventListener("resize", scheduleMeasurement);
 
       if (animationFrame !== 0) {
@@ -148,40 +86,46 @@ export function ProcessSlider() {
       return;
     }
 
-    const trackBounds = track.getBoundingClientRect();
-    const slideBounds = slide.getBoundingClientRect();
+    const trackTop = track.getBoundingClientRect().top + window.scrollY;
     const trackStyles = window.getComputedStyle(track);
-    const paddingLeft = Number.parseFloat(trackStyles.paddingLeft) || 0;
-    const left = slideBounds.left - trackBounds.left + track.scrollLeft - paddingLeft;
+    const scrollPaddingTop = Number.parseFloat(trackStyles.scrollPaddingTop) || 0;
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    track.scrollTo({
+    window.scrollTo({
       behavior: reducedMotion ? "auto" : "smooth",
-      left,
+      top: Math.max(0, trackTop + slide.offsetTop - scrollPaddingTop),
     });
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    if (event.key === "ArrowLeft") {
+    if (event.key === "ArrowUp") {
       event.preventDefault();
       scrollToStep(activeIndex - 1);
     }
 
-    if (event.key === "ArrowRight") {
+    if (event.key === "ArrowDown") {
       event.preventDefault();
       scrollToStep(activeIndex + 1);
     }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      scrollToStep(0);
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      scrollToStep(totalSteps - 1);
+    }
   };
 
-  const currentNumber = (activeIndex + 1).toString().padStart(2, "0");
   const totalNumber = totalSteps.toString().padStart(2, "0");
 
   return (
     <section
       aria-labelledby="process-title"
-      aria-roledescription="karuzela"
       className="home-section process-section process-editorial"
       id="proces"
       onKeyDown={handleKeyDown}
@@ -191,15 +135,16 @@ export function ProcessSlider() {
     >
       <div className="site-shell process-editorial__intro">
         <div className="process-editorial__heading">
-          <p className="eyebrow">Przebieg wizyty</p>
-          <h2 className="process-editorial__title" id="process-title">
-            Od kontaktu do zaleceń
-          </h2>
+          <p className="eyebrow">Konsultacje stacjonarne · Warszawa</p>
+          <h1 className="process-editorial__title" id="process-title">
+            {openingTitle}
+          </h1>
+          <p className="process-editorial__lede process-editorial__lede--opening">
+            Stacjonarne konsultacje lekarskie poświęcone ocenie zasadności i
+            bezpieczeństwa terapii kannabinoidowej.
+          </p>
         </div>
-        <p className="process-editorial__lede">
-          Cztery etapy organizacyjne. Decyzja medyczna pozostaje indywidualna
-          i należy do lekarza.
-        </p>
+        <div className="process-editorial__medical-note">{medicalNotice}</div>
       </div>
 
       <div className="site-shell process-slider__toolbar">
@@ -215,32 +160,6 @@ export function ProcessSlider() {
           </span>
         </div>
 
-        <div className="process-slider__navigation">
-          <span aria-hidden="true" className="process-slider__counter">
-            <strong>{currentNumber}</strong>
-            <span>/ {totalNumber}</span>
-          </span>
-          <button
-            aria-label="Poprzedni etap"
-            className="process-slider__button"
-            disabled={activeIndex === 0}
-            onClick={() => scrollToStep(activeIndex - 1)}
-            title="Poprzedni etap"
-            type="button"
-          >
-            <ArrowIcon direction="left" />
-          </button>
-          <button
-            aria-label="Następny etap"
-            className="process-slider__button"
-            disabled={activeIndex === totalSteps - 1}
-            onClick={() => scrollToStep(activeIndex + 1)}
-            title="Następny etap"
-            type="button"
-          >
-            <ArrowIcon direction="right" />
-          </button>
-        </div>
         <p
           aria-atomic="true"
           aria-live="polite"
@@ -268,48 +187,40 @@ export function ProcessSlider() {
                 slideRefs.current[index] = node;
               }}
             >
+              <div aria-hidden="true" className="process-slide__folder-tab">
+                <span>{stepNumber}</span>
+                <span>{step.title}</span>
+              </div>
               <article
                 aria-labelledby={"process-slide-title-" + (index + 1)}
                 className="process-slide__surface"
               >
-                {index === 1 ? (
-                  <div className="process-slide__image">
-                    <Image
-                      alt="Jasny gabinet lekarski przygotowany do konsultacji stacjonarnej"
-                      className="object-cover"
-                      fill
-                      sizes="(min-width: 1024px) 36vw, 100vw"
-                      src={publicBasePath + "/images/medical-office-hero-soft.jpg"}
-                    />
-                  </div>
-                ) : null}
-
-                <div aria-hidden="true" className="process-slide__folio">
-                  <span>{stepNumber}</span>
-                  <small>/ {totalNumber}</small>
-                </div>
-
-                <div aria-hidden="true" className="process-slide__markers">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-
-                <div className="process-slide__content">
-                  <div className="process-slide__meta">
-                    <span>Etap</span>
-                    <span>
-                      {stepNumber} / {totalNumber}
-                    </span>
-                  </div>
-                  <div className="process-slide__icon">
-                    <StepIcon index={index} />
-                  </div>
-                  <div className="process-slide__reveal">
+                <div className="process-slide__workspace">
+                  <div className="process-slide__identity">
+                    <p className="process-slide__meta">
+                      <span>Etap {stepNumber}</span>
+                      <span>{totalNumber}</span>
+                    </p>
                     <h3 id={"process-slide-title-" + (index + 1)}>{step.title}</h3>
+                    <p className="process-slide__copy">{step.description}</p>
                   </div>
-                  <div className="process-slide__copy">
-                    <p>{step.description}</p>
+                  <div className="process-slide__utility">
+                    {index === 0 ? <BookingWidgetSlot compact /> : null}
+                    {step.utilityItems.length > 0 ? (
+                      <ul className="process-utility-list">
+                        {step.utilityItems.map((item, itemIndex) => (
+                          <li key={item}>
+                            <span aria-hidden="true">
+                              {String(itemIndex + 1).padStart(2, "0")}
+                            </span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    <Link className="process-slide__utility-link" href={step.utilityLink.href}>
+                      {step.utilityLink.label}
+                    </Link>
                   </div>
                 </div>
               </article>

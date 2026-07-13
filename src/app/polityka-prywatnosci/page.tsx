@@ -1,6 +1,10 @@
 import { CompanyDetails } from "@/components/CompanyDetails";
 import { LegalPageLayout } from "@/components/LegalPageLayout";
-import { companyConfig } from "@/config/companyConfig";
+import {
+  areLegalDocumentsPublic,
+  companyConfig,
+  isPublicReleaseReady,
+} from "@/config/companyConfig";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -8,6 +12,7 @@ export const metadata = createPageMetadata({
   description:
     "Polityka prywatności strony dla stacjonarnych konsultacji lekarskich.",
   path: "/polityka-prywatnosci",
+  indexable: areLegalDocumentsPublic && isPublicReleaseReady,
 });
 
 export default function PrivacyPolicyPage() {
@@ -20,8 +25,8 @@ export default function PrivacyPolicyPage() {
       <p>
         Aktualna wersja strony nie przesyła zgłoszeń kontaktowych ani danych
         rezerwacyjnych do własnego serwera lub zewnętrznego systemu. Rezerwacja
-        online zostanie uruchomiona wyłącznie po wdrożeniu zatwierdzonego
-        widgetu dostawcy i aktualizacji dokumentów wymaganych dla tego procesu.
+        online zostanie uruchomiona wyłącznie po wyborze dostawcy, wdrożeniu
+        systemu rezerwacji i aktualizacji dokumentów wymaganych dla tego procesu.
       </p>
 
       <h2>Administrator danych</h2>
@@ -51,11 +56,10 @@ export default function PrivacyPolicyPage() {
 
       <h2>Preferencje prywatności</h2>
       <p>
-        Strona zapisuje lokalnie na urządzeniu użytkownika wybór dotyczący
-        kategorii cookies pod kluczem <code>klinika-cookie-consent-v2</code>.
-        Zapis nie jest przekazywany przez stronę do systemu rezerwacji i służy
-        wyłącznie do zapamiętania wyboru. Użytkownik może go zmienić przyciskiem
-        ustawień cookies lub usunąć w ustawieniach przeglądarki.
+        Strona zapisuje w przeglądarce wybór dotyczący kategorii cookies.
+        Ustawienie nie jest przekazywane przez stronę do systemu rezerwacji i
+        służy wyłącznie do zapamiętania wyboru. Użytkownik może je zmienić
+        przyciskiem ustawień cookies lub usunąć w ustawieniach przeglądarki.
       </p>
 
       <h2>Odbiorcy i transfery</h2>
@@ -73,7 +77,7 @@ export default function PrivacyPolicyPage() {
         rezerwacyjnych. Lokalny zapis preferencji prywatności pozostaje na
         urządzeniu użytkownika do czasu zmiany wyboru albo usunięcia danych
         strony w przeglądarce. Harmonogram retencji danych rezerwacyjnych musi
-        zostać określony przed uruchomieniem widgetu.
+        zostać określony przed uruchomieniem rezerwacji online.
       </p>
 
       <h2>Prawa osoby, której dane dotyczą</h2>

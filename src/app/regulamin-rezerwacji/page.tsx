@@ -1,6 +1,10 @@
 import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { LegalPageLayout } from "@/components/LegalPageLayout";
-import { companyConfig } from "@/config/companyConfig";
+import {
+  areLegalDocumentsPublic,
+  companyConfig,
+  isPublicReleaseReady,
+} from "@/config/companyConfig";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -8,6 +12,7 @@ export const metadata = createPageMetadata({
   description:
     "Regulamin rezerwacji stacjonarnych konsultacji lekarskich.",
   path: "/regulamin-rezerwacji",
+  indexable: areLegalDocumentsPublic && isPublicReleaseReady,
 });
 
 export default function BookingRulesPage() {
@@ -21,17 +26,16 @@ export default function BookingRulesPage() {
       <h2>Charakter strony</h2>
       <p>
         Strona ma charakter informacyjny. Dotyczy stacjonarnych konsultacji
-        lekarskich w gabinecie pod adresem{" "}
-        {companyConfig.medicalOfficeAddress}. Nie jest systemem dokumentacji
-        medycznej, apteką ani narzędziem do automatycznego podejmowania decyzji
-        medycznych.
+        lekarskich w gabinecie pod adresem {companyConfig.medicalOfficeAddress}.
+        Nie jest systemem dokumentacji medycznej, apteką ani narzędziem do
+        automatycznego podejmowania decyzji medycznych.
       </p>
 
       <h2>Status rezerwacji online</h2>
       <p>
         Aktualna wersja strony nie potwierdza rezerwacji online i nie przyjmuje
         zgłoszeń przez formularz. Termin może zostać ustalony telefonicznie.
-        Zewnętrzny widget rezerwacji zostanie uruchomiony wyłącznie po
+        System rezerwacji online zostanie uruchomiony wyłącznie po
         zatwierdzeniu dostawcy, zasad przetwarzania danych i procesu
         organizacyjnego placówki.
       </p>
@@ -61,7 +65,7 @@ export default function BookingRulesPage() {
         dokumentacji medycznej.
       </p>
 
-      <h2>Warunki do zatwierdzenia przed aktywacją widgetu</h2>
+      <h2>Warunki do zatwierdzenia przed uruchomieniem rezerwacji online</h2>
       <p>
         Przed uruchomieniem rezerwacji online administrator powinien zatwierdzić
         zasady potwierdzenia, zmiany i odwołania terminu, płatności, reklamacji

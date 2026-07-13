@@ -2,30 +2,12 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { isPublicDataVerified } from "@/config/companyConfig";
 import { navItems } from "@/lib/siteContent";
 import { CTAButton } from "./CTAButton";
 
 const focusableSelector =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-function BrandMark() {
-  return (
-    <span aria-hidden="true" className="brand-mark">
-      <svg
-        className="size-5"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.8"
-        viewBox="0 0 24 24"
-      >
-        <path d="M12 4v16" />
-        <path d="M4 12h16" />
-      </svg>
-    </span>
-  );
-}
 
 function NavigationLinks({
   mobile = false,
@@ -125,22 +107,23 @@ export function Header() {
       <header className="site-header sticky top-0 z-50 px-3 pt-3">
         <div className="site-header__bar">
           <Link
-            aria-label="Klinika Warszawa - strona główna"
+            aria-label="Konsultacje lekarskie w Warszawie - strona główna"
             className="brand-lockup"
             href="/"
           >
-            <BrandMark />
             <span className="min-w-0">
-              <span className="brand-lockup__name">KLINIKA WARSZAWA</span>
-              <span className="brand-lockup__detail">Gabinety lekarskie</span>
+              <span className="brand-lockup__name">Konsultacje lekarskie</span>
+              <span className="brand-lockup__detail">Warszawa</span>
             </span>
           </Link>
 
           <div className="site-header__desktop-nav">
             <NavigationLinks />
-            <CTAButton className="header-cta" href="/kontakt">
-              Umów konsultację
-            </CTAButton>
+            {isPublicDataVerified ? (
+              <CTAButton className="header-cta" href="/kontakt">
+                Umów konsultację
+              </CTAButton>
+            ) : null}
           </div>
 
           <button
@@ -195,9 +178,11 @@ export function Header() {
                 Co chcesz sprawdzić?
               </h2>
               <NavigationLinks mobile onNavigate={closeMenu} />
-              <CTAButton className="mobile-menu__cta" href="/kontakt" onClick={closeMenu}>
-                Umów konsultację
-              </CTAButton>
+              {isPublicDataVerified ? (
+                <CTAButton className="mobile-menu__cta" href="/kontakt" onClick={closeMenu}>
+                  Umów konsultację
+                </CTAButton>
+              ) : null}
               <p className="mobile-menu__note">
                 Konsultacje odbywają się stacjonarnie w gabinecie w Warszawie.
               </p>

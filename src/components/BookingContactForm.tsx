@@ -1,9 +1,33 @@
 import Link from "next/link";
-import { companyConfig } from "@/config/companyConfig";
+import {
+  companyConfig,
+  isPublicDataVerified,
+} from "@/config/companyConfig";
 import { formMedicalDataNotice } from "@/lib/siteContent";
 import { RiskNotice } from "./RiskNotice";
 
 export function BookingContactForm() {
+  if (!isPublicDataVerified) {
+    return (
+      <section
+        aria-labelledby="booking-privacy-title"
+        className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:p-6"
+        id="rezerwacja"
+      >
+        <h2 className="text-xl font-semibold text-navy-950" id="booking-privacy-title">
+          Rezerwacja online
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-slate-600">
+          Rezerwacja online zostanie udostępniona przed rozpoczęciem przyjmowania pacjentów.
+        </p>
+      </section>
+    );
+  }
+
+  return <VerifiedBookingContactForm />;
+}
+
+function VerifiedBookingContactForm() {
   const phoneHref = `tel:${companyConfig.phone.replace(/[^+\d]/g, "")}`;
 
   return (
@@ -16,12 +40,11 @@ export function BookingContactForm() {
         Prywatność rezerwacji
       </p>
       <h2 className="mt-2 text-2xl font-semibold text-navy-950" id="booking-privacy-title">
-        Dane organizacyjne tylko w zatwierdzonym systemie
+        Ustal termin telefonicznie
       </h2>
       <p className="mt-3 text-sm leading-6 text-slate-600">
-        W aktualnej konfiguracji strona nie przyjmuje zgłoszeń ani nie przesyła
-        danych do serwera. Rezerwacja online zostanie uruchomiona razem z
-        zatwierdzonym widgetem dostawcy.
+        Rezerwacja online jest jeszcze niedostępna. Aby ustalić termin wizyty,
+        zadzwoń.
       </p>
 
       <RiskNotice className="mt-5" title="Nie przesyłaj danych medycznych">

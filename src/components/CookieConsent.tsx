@@ -103,7 +103,9 @@ export function CookieConsent() {
 
   return (
     <section
+      aria-describedby="cookie-sheet-description"
       aria-labelledby="cookie-sheet-title"
+      aria-modal="true"
       className="cookie-sheet"
       role="dialog"
     >
@@ -111,11 +113,14 @@ export function CookieConsent() {
         <div className="cookie-sheet__copy">
           <p className="cookie-sheet__kicker">Prywatność</p>
           <h2 className="text-base font-semibold text-navy-950" id="cookie-sheet-title">
-            Ustawienia cookies
+            Ustawienia plików cookie
           </h2>
-          <p className="mt-1.5 max-w-3xl text-sm leading-5 text-slate-600">
-            Niezbędne mechanizmy są aktywne. Analityka i marketing pozostają
-            wyłączone do czasu Twojej zgody. {" "}
+          <p
+            className="mt-1.5 max-w-3xl text-sm leading-5 text-slate-600"
+            id="cookie-sheet-description"
+          >
+            Niezbędne pliki cookie zapisują Twój wybór. Opcjonalne kategorie
+            pozostają wyłączone do czasu zgody. {" "}
             <Link
               className="font-semibold text-medical-green underline underline-offset-2"
               href="/polityka-cookies"
@@ -129,7 +134,7 @@ export function CookieConsent() {
                 <input checked disabled type="checkbox" />
                 <span>
                   <strong>Niezbędne</strong>
-                  Utrzymują działanie strony i zapis wyboru prywatności.
+                  Pomagają stronie działać i zapisują Twój wybór.
                 </span>
               </label>
               <label className="cookie-preference">
@@ -145,7 +150,7 @@ export function CookieConsent() {
                 />
                 <span>
                   <strong>Analityczne</strong>
-                  Opcjonalne. W obecnej wersji nie są używane.
+                  Opcjonalne. W tej wersji strony nie są używane.
                 </span>
               </label>
               <label className="cookie-preference">
@@ -161,7 +166,7 @@ export function CookieConsent() {
                 />
                 <span>
                   <strong>Marketingowe</strong>
-                  Opcjonalne. Strona nie ładuje narzędzi reklamowych.
+                  Opcjonalne. Strona nie korzysta z narzędzi reklamowych.
                 </span>
               </label>
             </div>

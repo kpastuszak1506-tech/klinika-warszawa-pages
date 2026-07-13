@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { ComplianceNotice } from "@/components/ComplianceNotice";
 import { KnowledgeCard } from "@/components/KnowledgeCard";
-import { isPublicReleaseReady } from "@/config/companyConfig";
 import {
-  getArticlesForTopic,
-  getKnowledgeTopic,
-  knowledgeTopics,
+  getPublicArticlesForTopic,
+  getPublicKnowledgeTopic,
+  isIndexableKnowledgeTopic,
+  publicKnowledgeTopics,
 } from "@/lib/knowledge";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -17,41 +16,39 @@ type KnowledgeTopicPageProps = {
 export const dynamicParams = false;
 export const dynamic = "force-static";
 
+const unavailableTopicSlug = "__unpublished-topic__";
+
 export function generateStaticParams() {
-  return knowledgeTopics.map((topic) => ({ slug: topic.slug }));
+  return publicKnowledgeTopics.length > 0
+    ? publicKnowledgeTopics.map((topic) => ({ slug: topic.slug }))
+    : [{ slug: unavailableTopicSlug }];
 }
 
 export async function generateMetadata({ params }: KnowledgeTopicPageProps) {
   const { slug } = await params;
-  const topic = getKnowledgeTopic(slug);
+  const topic = getPublicKnowledgeTopic(slug);
 
   if (!topic) {
     return {};
   }
 
-  const articles = getArticlesForTopic(topic);
-  const isTopicIndexable =
-    isPublicReleaseReady &&
-    articles.length > 0 &&
-    articles.every((article) => article.reviewStatus === "reviewed");
-
   return createPageMetadata({
     title: topic.label,
     description: topic.description,
     path: "/wiedza/tematy/" + topic.slug,
-    indexable: isTopicIndexable,
+    indexable: isIndexableKnowledgeTopic(topic),
   });
 }
 
 export default async function KnowledgeTopicPage({ params }: KnowledgeTopicPageProps) {
   const { slug } = await params;
-  const topic = getKnowledgeTopic(slug);
+  const topic = getPublicKnowledgeTopic(slug);
 
   if (!topic) {
     notFound();
   }
 
-  const articles = getArticlesForTopic(topic);
+  const articles = getPublicArticlesForTopic(topic);
 
   return (
     <div className="bg-white">
@@ -64,7 +61,7 @@ export default async function KnowledgeTopicPage({ params }: KnowledgeTopicPageP
               { label: topic.label },
             ]}
           />
-          <p className="eyebrow mt-8">Temat wiedzy</p>
+          <p className="eyebrow mt-8">Wiedza dla pacjenta</p>
           <h1 className="display-heading max-w-3xl text-4xl font-semibold leading-tight text-navy-950 md:text-6xl">
             {topic.label}
           </h1>
@@ -79,7 +76,6 @@ export default async function KnowledgeTopicPage({ params }: KnowledgeTopicPageP
             <KnowledgeCard article={article} key={article.slug} />
           ))}
         </div>
-        <ComplianceNotice className="mt-12 max-w-3xl" />
       </section>
     </div>
   );

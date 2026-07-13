@@ -1,74 +1,62 @@
 # Raport walidacyjny
 
-Data stanu: 2026-07-13
-Zakres: finalizacja dokumentacji na podstawie zapisanych wynikow walidacji i runtime QA. Ten raport nie potwierdza publicznego wdrozenia ani commita.
+Data stanu: 2026-07-13. Raport rozdziela lokalne demo od eksportu produkcyjnego. Finalny rerun zakonczony PASS.
 
-## Status wykonania
+## Rozdzielenie demo i produkcji
 
-Wymagane komendy maja zapisany wynik **PASS**; Sol wykona je ponownie jako koncowe potwierdzenie po tej aktualizacji dokumentacji.
-
-| Komenda | Zapisany wynik | Uwagi |
+| Zakres | Lokalny browser demo | Eksport produkcyjny/static |
 | --- | --- | --- |
-| `npm install` | PASS | Lockfile i zaleznosci zostaly zweryfikowane. |
-| `npm run lint` | PASS | Brak bledow i ostrzezen ESLint. |
-| `npm run validate:content` | PASS | 35 wymaganych plikow; brak zakazanych fraz, trackerow i pol medycznych w rezerwacji. |
-| `npm run validate` | PASS | Lint, walidacja tresci i produkcyjny build Next.js zakonczone powodzeniem. |
-| `npm run build:pages` | PASS | Statyczny eksport GitHub Pages zakonczony powodzeniem. |
+| Ceny | Widoczne ceny demonstracyjne: 300 i 200. | Ceny pozostaja ukryte. |
+| Wiedza | Widoczne sa podglady wszystkich 7 roboczych artykulow edukacyjnych. To tryb lokalny. | Drafty pozostaja ukryte; brak draft schema, sitemap i indeksowania. |
+| Publikacja | Brak push do GitHub i brak publikacji publicznej. | `publicDataVerified=false`, `allowSearchIndexing=false`; brak publikacji. |
 
-Build generuje **24 trasy**. Wymagane podstrony istnieja, a kazda ma dokladnie jeden `h1`.
+## Wyniki komend
 
-## Runtime i screenshoty
-
-| Obszar | Wynik | Dowod |
+| Komenda | Status | Komentarz |
 | --- | --- | --- |
-| Matryca 9 viewportow | PASS | `320x568`, `360x800`, `390x844`, `430x932`, `768x1024`, `1024x768`, `1280x800`, `1440x900`, `1920x1080`; HTTP 200 i brak poziomego overflow. |
-| CTA w pierwszym widoku | PASS | Drugi przebieg naprawil trzy wczesniejsze P1: `320x568` 455.0469055175781-503.0469055175781 px, `1024x768` 559.015625-625.015625 px, `1280x800` 569.46875-635.46875 px. |
-| Proces i dostepnosc | PASS | `aria-current` przechodzi kolejno przez wszystkie cztery kroki na `390x844` i `1440x900`. |
-| Screenshot matrix | PASS | 76 PNG w `artifacts/final`: pelne strony, sekcje i stany otwartego menu. |
-| Bledy runtime | PASS | Brak `console.error`, `pageerror`, tekstu runtime error lub dialogu bledu Next w zapisanej matrycy. |
+| `npm install` | PASS | Up to date. |
+| `npm run lint` | PASS | Brak bledow lint. |
+| `npm run validate:content` | PASS | Walidacja tresci zakonczona powodzeniem. |
+| `npm run validate` | PASS | Production Next build wygenerowal 19 stron statycznych. |
+| `npm run build:pages` | PASS | Eksport stron zakonczony powodzeniem. |
+| `validate-export` | PASS | HTML, redirect, canonical, robots i linki z `basePath` sa poprawne. |
+| `node /tmp/clinic-browser-qa.mjs` | PASS | 23 checked, zero failures. |
+| `node /tmp/clinic-cookie-qa.mjs` | PASS | Zero failures. |
+| `git diff --check` | PASS | Brak bledow bialych znakow. |
 
-## 3D, motion i fallback
+Pierwsza nieuprzywilejowana proba `npm run validate` zostala zablokowana przez sandbox przy probie zbindowania portu Turbopack. Dozwolony rerun zakonczyl sie powodzeniem; nie jest to defekt produktu.
 
-| Obszar | Wynik | Dowod |
-| --- | --- | --- |
-| Clinical Pathway | PASS | Prawdziwy renderer WebGL, cztery zsynchronizowane stany procesu i aktywna obsluga pointera na desktopie. |
-| Bloom | PASS | High tier na `1024x768`, `1280x800` i `1440x900` ma `bloom=true`; balanced tier nie wlacza bloom. |
-| Fallback | PASS | Post-fix `320x568` rejestruje status fallback; reduced motion i mock `saveData` uzywaja statycznego renderera bez canvasa. |
-| Motion | PASS | Reveal/stagger, animacja procesu, kamera 3D, pointer parallax, menu, CTA i FAQ respektuja `prefers-reduced-motion`. |
-| Lifecycle | PASS | Renderowanie 3D jest wstrzymywane poza viewportem; scena nie przechwytuje touch/pointer (`pointer-events: none`). |
+## Routing i browser QA
 
-## Interakcje i tresc
+- Sprawdzono 23 kombinacje route/viewport dla 320, 390, 1024 i 1440; zero failures.
+- Brak overflow, placeholderow `tel:`/`mailto:` i bledow error overlay.
+- Lokalne ceny i karty draftow sa obecne.
+- Lokalny draft route zwraca 200 i nie zawiera schema `Article`.
+- `publicKnowledgeArticles=0` i `publicKnowledgeTopics=0` w eksporcie produkcyjnym; brak draft schema, draft sitemap i indeksowania.
 
-| Obszar | Wynik | Dowod |
-| --- | --- | --- |
-| Cookies | PASS | Trzy rownorzedne decyzje; odrzucenie utrwala `necessary=true`, `analytics=false`, `marketing=false`; ustawienia otwieraja sie z footera. Nie pozostaje cookie FAB. |
-| Menu mobilne | PASS | Target 44x44 px, trap fokusu oraz zamykanie przez Escape, backdrop i link. |
-| Dostepnosc | PASS | Skip link, widoczne focus states, semantyczne `tel:`/`mailto:`, minimum 16 px tekstu mobilnego i prawidlowa zmiana `aria-current`. |
-| Rezerwacja i prywatnosc | PASS | Brak pozornej wysylki, danych o zdrowiu, sekretow, iframe i requestow do dostawcy przed zatwierdzona integracja. |
-| Tresc i compliance | PASS | Brak zakazanych fraz i trackerow; jezyk pozostaje neutralny, bez gwarancji efektu lub recepty. |
+## Tresc, rezerwacja i motion
 
-## Wydajnosc
+- Pelny disabled booking fallback brzmi: "Rezerwacja online zostanie udostepniona przed rozpoczeciem przyjmowania pacjentow."
+- Formularz pozostaje organizacyjny i nie zbiera danych medycznych.
+- Hero uzywa nieoprawionego, asymetrycznego kadrowania obrazu oraz subtelnego wewnetrznego parallaxu uwzgledniajacego reduced motion.
 
-| Artefakt | Raw | gzip | Ocena |
-| --- | ---: | ---: | --- |
-| Asynchroniczny chunk 3D | 558,597 B | 138,110 B | PASS; ladowany poza krytycznym bundlem. |
-| CSS | 62,006 B | 13,068 B | PASS. |
+## Walidacja wiedzy i blokery
 
-## Pozostale ryzyka i wymagane review
+Jest 7 artykulow `review-required`, po 4 zrodla na artykul, razem 28 zrodel i 111 strukturalnie rozwiazywalnych `citationIds`. To walidacja strukturalna, nie review medyczne. Wszystkie artykuly nadal wymagaja oceny lekarza, autora, recenzenta, dat review, dat zrodel i sprawdzenia dopasowania zrodlo-twierdzenie.
 
-Nie ma pozycji **HIGH RISK** w aktualnym kodzie. Pozostaja wylacznie ryzyka niezalezne od implementacji:
+`publicDataVerified=false`, `legalDocumentsReviewed=false` i `allowSearchIndexing=false` pozostaja blokadami. Dokumenty prawne sa robocze i wymagaja review prawnika. Produkcyjna publikacja, indeksacja oraz aktywacja bookingu pozostaja wstrzymane. Nie ma publicznego HIGH RISK w aktualnym stanie.
 
-1. Dane prawne, rejestrowe i kontaktowe podmiotu wymagaja potwierdzenia przez wlasciciela oraz w RPWDL przed wlaczeniem indeksowania.
-2. Polityka prywatnosci, cookies, regulamin, retencja, odbiorcy i proces rezerwacji wymagaja finalnego review prawnika dla faktycznego flow.
-3. Nalezy potwierdzic dostawce Medlife/Medfile, dokumentacje, umowe powierzenia i model bezpiecznego serwerowego posrednika przed aktywacja rezerwacji online.
-4. Test na fizycznym iPhonie pozostaje do wykonania przed wydaniem, w szczegolnosci dla WebGL, touch, safe-area i fallbacku wydajnosciowego.
+## Nota biezacej iteracji
 
-Historia SEO pozostaje aktualna: canonicale, Open Graph, Twitter metadata, `robots.txt`, `sitemap.xml`, breadcrumbs, huby wiedzy i cztery materialy statyczne sa gotowe technicznie. Indeksowanie oraz Article JSON-LD pozostaja zablokowane do potwierdzenia danych publicznych i review merytorycznego/prawnego.
+- Copy procesu zmieniono na „Od rezerwacji do zalecen” i dodano nowy, naturalny lede.
+- Scentralizowane lokalne dane demonstracyjne firmy, kontaktu i rejestru sa renderowane w stopce oraz na `/kontakt`, z jawnym badge demo. Przy niezweryfikowanym eksporcie produkcyjnym dane przyjmuja `null`, bez linkow `tel:`/`mailto:`.
+- Potwierdzona nazwa oprogramowania to Medfile. Konfiguracja akceptuje wylacznie publiczny adres HTTPS na `medfile.pl` lub subdomenie; gotowosc wymaga rowniez `publicDataVerified`. Po stronie klienta nie jest przechowywany token ani sekret API. Adapter/slot jest przygotowany i oczekuje na publiczny URL rezerwacji; widget Medfile nie jest aktywny. Slot pozostaje wysoko w hero i w pelnym ukladzie na `/kontakt`.
+- Browser QA: 23 kombinacje route/viewport dla 320, 390, 1024 i 1440, PASS, bez overflow i bledow; oczekiwany jest jeden lokalny link telefonu i jeden lokalny link e-mail.
 
-## Zrodla do review prawnego i operacyjnego
+### Iteracja: pionowy stos folderow
 
-* [Ustawa o dzialalnosci leczniczej, art. 14](https://isap.sejm.gov.pl/isap.Nsf/download.xsp/WDU20230000991/O/D20230991.pdf)
-* [RODO, art. 13](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679)
-* [Prawo komunikacji elektronicznej](https://eli.sejm.gov.pl/eli/DU/2024/1221/ogl/pol)
-* [Rejestr RPWDL](https://rpwdl2.ezdrowie.gov.pl/informacja-o-rejestrze)
-* [API rejestracji Medfile](https://www.medfile.pl/api-do-rejestracji-online) - nazwa Medlife wymaga niezaleznego potwierdzenia.
+- Pionowy stos folderow jest funkcjonalny: slot rezerwacji znajduje sie w `01`, checklista przygotowania w `02`, checklista oceny w `03`, a sciezka po wizycie/wiedzy w `04`.
+- Usunieto booking overlay z hero; aktywny folder jest podnoszony, aby linki pozostawaly klikalne; skorygowano offset podpisu hero.
+- Folder structural QA: PASS dla 320/360/390/430/1024/1440.
+- Scroll/occlusion QA: PASS dla 12 stanow aktywnego folderu.
+- Pelna regresja browserowa: 23 checks PASS. `npm run lint`: PASS. `validate:content`: PASS. `build:pages` i export validator: PASS.
